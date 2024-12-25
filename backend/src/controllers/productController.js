@@ -17,6 +17,9 @@ const addProduct = async (req, res) => {
       short_description,
       salePrice,
       stock,
+      saleStart,
+      saleEnd,
+
     } = req.body;
 
     const image1 = req.files.image1 && req.files.image1[0];
@@ -72,6 +75,8 @@ const addProduct = async (req, res) => {
       short_description,
       salePrice,
       stock,
+      saleStart,
+      saleEnd,
     };
     console.log(productData);
 

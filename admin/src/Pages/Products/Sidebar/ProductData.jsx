@@ -3,7 +3,20 @@ import { simpleProduct } from "../../../constant";
 import { ClipboardIcon, TruckIcon, WindowIcon, WrenchIcon } from "@heroicons/react/24/solid";
 
 const ProductData = ({ productData }) => {
-  const { price, setPrice, sku, setSku, salePrice, setSalePrice, stock, setStock } = productData;
+  const {
+    price,
+    setPrice,
+    sku,
+    setSku,
+    salePrice,
+    setSalePrice,
+    stock,
+    setStock,
+    saleStart,
+    setSaleStart,
+    saleEnd,
+    setSaleEnd,
+  } = productData;
   const [activeTab, setActiveTab] = useState("General");
   const [productDetails, setProductDetails] = useState({
     regularPrice: "",
@@ -68,6 +81,25 @@ const ProductData = ({ productData }) => {
                 onChange={(e) => setSalePrice(e.target.value === "" ? 0 : Number(e.target.value))}
                 className='border w-1/2 border-black rounded p-1'
               />
+            </div>
+            <div className='sale-period-form'>
+              <label>
+                Sale Start:
+                <input
+                  type='datetime-local'
+                  value={saleStart ? new Date(saleStart).toISOString().slice(0, -1) : ""}
+                  onChange={(e) => setSaleStart(new Date(e.target.value).getTime())}
+                />
+              </label>
+
+              <label>
+                Sale End:
+                <input
+                  type='datetime-local'
+                  value={saleEnd ? new Date(saleEnd).toISOString().slice(0, -1) : ""}
+                  onChange={(e) => setSaleEnd(new Date(e.target.value).getTime())}
+                />
+              </label>
             </div>
             {/* <label htmlFor='schedule' className='absolute top-40'>
               <input type='date' name='' id='schedule' />

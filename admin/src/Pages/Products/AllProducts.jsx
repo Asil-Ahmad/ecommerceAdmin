@@ -165,6 +165,7 @@ const AllProducts = () => {
                         <button
                           popovertarget='box'
                           className='text-red-700 text-[13px] font-normal cursor-pointer'
+                          onClick={() => removeProducts(_id)}
                         >
                           Delete
                         </button>
@@ -241,16 +242,17 @@ const AllProducts = () => {
                         </IconButton>
                       </Tooltip>
                     </td>
+                    <td>
                     <div
                       id='box'
                       popover='auto'
-                      className='bg-white border shadow-2xl border-gray-300 z-10 sm:w-[25%] sm:h-[25%] w-full h-full p-2 text-center  content-center '
+                      className='bg-white border shadow-2xl border-gray-300 z-10 sm:w-[25%] sm:h-[25%] w-full h-full p-2 text-center content-center'
                     >
-                      <div className='flex flex-col  gap-3 items-center justify-center '>
-                        <div className='flex items-center justify-center h-12 w-12  rounded-full'>
-                          <XCircleIcon color='red' className=' ' />
+                      <div className='flex flex-col gap-3 items-center justify-center'>
+                        <div className='flex items-center justify-center h-12 w-12 rounded-full'>
+                          <XCircleIcon color='red' />
                         </div>
-                        <p className='text-black text-xl'>Are your sure ?</p>
+                        <p className='text-black text-xl'>Are your sure?</p>
                         <div className='w-full flex justify-center gap-2'>
                           <button className='bg-gray-400 w-full py-2 px-3 rounded-lg text-white'>
                             Cancel
@@ -264,6 +266,7 @@ const AllProducts = () => {
                         </div>
                       </div>
                     </div>
+                    </td>
                   </tr>
                 );
               }

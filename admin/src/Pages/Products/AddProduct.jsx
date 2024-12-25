@@ -16,7 +16,7 @@ const AddProduct = () => {
   //!start from here
   const [name, setName] = useState("Test");
   const [description, setDescription] = useState("Testing description");
-  const [shortDescription, setShortDescription] = useState("Testing short description");
+  const [short_Description, setShortDescription] = useState("Testing short description");
   const [sku, setSku] = useState("THS-112");
 
   //-------------- Image states---------------------
@@ -38,7 +38,11 @@ const AddProduct = () => {
   const [tags, setTags] = useState("tag1");
 
   const [price, setPrice] = useState("");
+  //sale price,start end
   const [salePrice, setSalePrice] = useState(0);
+  const [saleStart, setSaleStart] = useState(null);
+  const [saleEnd, setSaleEnd] = useState(null);
+
   const [stock, setStock] = useState("");
 
   const [category, setCategory] = useState("T-shirt");
@@ -89,6 +93,11 @@ const AddProduct = () => {
 
     tags,
     setTags,
+
+    saleStart,
+    setSaleStart,
+    saleEnd,
+    setSaleEnd,
   };
   console.log(productData);
 
@@ -103,12 +112,20 @@ const AddProduct = () => {
       // Append basic details
       formData.append("name", name);
       formData.append("description", description);
+      formData.append("short_description", short_Description);
       formData.append("price", price);
       formData.append("selectedCategories", selectedCategories); // Assuming multiple categories selected
       formData.append("salePrice", salePrice);
       formData.append("stock", stock);
       formData.append("sku", sku);
       formData.append("tags", tags);
+
+      //sales
+      if (saleStart && saleEnd) {
+        formData.append("saleStart", saleStart || null); // Add saleStart
+        formData.append("saleEnd", saleEnd || null);
+      }
+
       // formData.append("subCategory", subCategory);
       // formData.append("sizes", JSON.stringify(sizes)); // Sizes should be a JSON string
       // formData.append("newCategory", newCategory); // For adding a new category

@@ -15,6 +15,9 @@ const productSchema = new mongoose.Schema({
   // sizes: { type: Array, required: true },
   createdAt: { type: Number, required: true },
   updatedAt: { type: Number, default: null },
+  //sales Start-End
+  saleStart: { type: Number, default: null }, // Timestamp when the sale starts
+  saleEnd: { type: Number, default: null },
   //images attributes,weight dimension status createdAtD,updatedAtD,slug
 });
 
