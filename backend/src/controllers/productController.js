@@ -69,7 +69,7 @@ const addProduct = async (req, res) => {
       createdAt: Date.now(),
       sku,
       tags,
-      // short_description,
+      short_description,
       salePrice,
       stock,
     };

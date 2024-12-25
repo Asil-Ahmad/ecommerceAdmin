@@ -703,7 +703,7 @@ const AddProductSidebar = ({
                       onClick={handleAddCategory}
                       className=' py-1 text-blue-500 font-semibold gap-2 underline text-sm flex items-center  cursor-pointer'
                     >
-                      <PlusIcon strokeWidth={2.5} className='w-4' /> Add Tags
+                      <PlusIcon strokeWidth={2.5} className='w-4' /> Add Brands
                     </button>
                   </div>
                 </div>

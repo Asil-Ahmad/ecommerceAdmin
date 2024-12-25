@@ -5,7 +5,7 @@ const productSchema = new mongoose.Schema({
   sku: { type: String, required: true },
   tags: [{ type: String }],
   description: { type: String, required: true },
-  // short_description: { type: String, required: true },
+  short_description: { type: String, required: true },
   price: { type: Number, required: true, min: 0 },
   salePrice: { type: Number, default: 0 },
   stock: { type: Number, required: true, min: 0 },
