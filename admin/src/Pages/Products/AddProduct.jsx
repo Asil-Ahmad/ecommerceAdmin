@@ -1,12 +1,13 @@
 import React, { useState, useRef, useContext } from "react";
 import { Card, CardHeader, Typography, CardBody } from "@material-tailwind/react";
 import TextEditor from "../../constant/TextEditor";
-import MiniSidebar from "./Sidebar/Publish";
+import MiniSidebar from "./Sidebar/AddProductSidebar";
 import axios from "axios";
 import { ShopContext } from "../../context/ShopContext";
 import { toast } from "react-toastify";
 import ProductData from "./Sidebar/ProductData";
 import Loader from "../../constant/Loader";
+import AddProductSidebar from "./Sidebar/AddProductSidebar";
 
 const AddProduct = () => {
   const { backendURL } = useContext(ShopContext);
@@ -113,7 +114,7 @@ const AddProduct = () => {
 
       if (image3) formData.append("image3", image3);
       if (image3) formData.append("altText3", altText3);
-      
+
       if (image4) formData.append("image4", image4);
       if (image4) formData.append("altText4", altText4);
 
@@ -223,11 +224,12 @@ const AddProduct = () => {
           </div>
         </CardBody>
       </Card>
-      <MiniSidebar
+      <AddProductSidebar
         handleAddProduct={handleAddProduct}
         handleAddCategory={handleAddCategory}
         handleCheckboxChange={handleCheckboxChange}
         productData={productData}
+        title='Publish'
       />
     </>
   );

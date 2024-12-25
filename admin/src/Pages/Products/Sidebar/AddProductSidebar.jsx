@@ -14,10 +14,11 @@ import { ShopContext } from "../../../context/ShopContext";
 
 import { MinusCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
 
-const MiniSidebar = ({
+const AddProductSidebar = ({
   handleAddProduct,
   handleAddCategory,
   handleCheckboxChange,
+  title,
   productData,
 }) => {
   const {
@@ -92,7 +93,7 @@ const MiniSidebar = ({
                   type='button'
                   popovertarget='box'
                   onClick={handleAddProduct}
-                  value='Publish'
+                  value={title}
                   className='bg-blue-500 py-1 text-white font-bold text-center hover:bg-blue-700 cursor-pointer'
                 />
               </List>
@@ -138,7 +139,7 @@ const MiniSidebar = ({
                 {image1 ? (
                   <div className='w-full flex justify-center border rounded-lg'>
                     <img
-                      src={URL.createObjectURL(image1)}
+                      src={typeof image1 === "string" ? image1 : URL.createObjectURL(image1)}
                       alt='Preview'
                       className='w-52 h-52 object-contain'
                     />
@@ -155,7 +156,9 @@ const MiniSidebar = ({
                   </p>
                 ) : (
                   <p
-                    onClick={() => setImage1("")}
+                    onClick={() => {
+                      setImage1(""), setAltText1("");
+                    }}
                     className='text-red-600  text-center border border-red-600 py-1 rounded-lg px-2 cursor-pointer'
                   >
                     Remove product image
@@ -270,21 +273,21 @@ const MiniSidebar = ({
                   <div className='w-full flex gap-1 justify-center py-1 border rounded-lg'>
                     {image2 && (
                       <img
-                        src={URL.createObjectURL(image2)}
+                        src={typeof image2 === "string" ? image2 : URL.createObjectURL(image2)}
                         alt='Preview'
                         className='w-12 h-12 object-contain border border-gray-500 bg-gray-200'
                       />
                     )}
                     {image3 && (
                       <img
-                        src={URL.createObjectURL(image3)}
+                        src={typeof image3 === "string" ? image3 : URL.createObjectURL(image3)}
                         alt='Preview'
                         className='w-12 h-12 object-contain border border-gray-500 bg-gray-200'
                       />
                     )}
                     {image4 && (
                       <img
-                        src={URL.createObjectURL(image4)}
+                        src={typeof image4 === "string" ? image4 : URL.createObjectURL(image4)}
                         alt='Preview'
                         className='w-12 h-12 object-contain border border-gray-500 bg-gray-300'
                       />
@@ -348,8 +351,8 @@ const MiniSidebar = ({
                           <p>Alt Text</p>
                           <input
                             type='text'
-                            value={altText1}
-                            onChange={(e) => setAltText1(e.target.value)}
+                            value={altText2}
+                            onChange={(e) => setAltText2(e.target.value)}
                             className='w-full border border-black outline-none p-1 rounded-lg'
                           />
                         </div>
@@ -407,8 +410,8 @@ const MiniSidebar = ({
                           <p>Alt Text</p>
                           <input
                             type='text'
-                            value={altText1}
-                            onChange={(e) => setAltText1(e.target.value)}
+                            value={altText3}
+                            onChange={(e) => setAltText3(e.target.value)}
                             className='w-full border border-black outline-none p-1 rounded-lg'
                           />
                         </div>
@@ -459,8 +462,8 @@ const MiniSidebar = ({
                           <p>Alt Text</p>
                           <input
                             type='text'
-                            value={altText1}
-                            onChange={(e) => setAltText1(e.target.value)}
+                            value={altText4}
+                            onChange={(e) => setAltText4(e.target.value)}
                             className='w-full border border-black outline-none p-1 rounded-lg'
                           />
                         </div>
@@ -566,4 +569,4 @@ const MiniSidebar = ({
   );
 };
 
-export default MiniSidebar;
+export default AddProductSidebar;

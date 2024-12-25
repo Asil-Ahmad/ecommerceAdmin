@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { ChevronUpDownIcon, PencilIcon } from "@heroicons/react/24/solid";
 import { ArrowDownTrayIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
@@ -16,11 +16,13 @@ import {
   Input,
 } from "@material-tailwind/react";
 import { toast } from "react-toastify";
+import { ShopContext } from "../../context/ShopContext";
 
 const TABLE_HEAD = ["Image", "Name", "SKU", "Stock", "Price", "Categories", "Tags", "Date", "Edit"];
 
 const AllProducts = () => {
   const [allProducts, setAllProducts] = useState([]);
+  const { navigate } = useContext(ShopContext);
 
   const fetchProducts = async () => {
     const response = await axios.get("http://localhost:4000/api/product/list-products");
@@ -30,7 +32,7 @@ const AllProducts = () => {
   };
 
   //set Date
-  function formatTimestamp(timestamp) {
+  const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
 
     // Extract date components
@@ -45,7 +47,7 @@ const AllProducts = () => {
     hours = hours % 12 || 12; // Convert to 12-hour format
 
     return `${year}/${month}/${day} at ${hours}:${minutes} ${ampm}`;
-  }
+  };
 
   const removeProducts = async (id) => {
     try {
@@ -164,12 +166,14 @@ const AllProducts = () => {
                     {/* todo Stock */}
                     <td className={classes}>
                       <div className='w-max flex items-baseline'>
-                        {stock > 5 ? (
+                        {stock === 0 ? (
+                          <p className='text-sm font-semibold text-gray-900'>Out of Stock</p>
+                        ) : stock > 5 ? (
                           <p className='text-sm font-semibold text-green-500'>In Stock</p>
                         ) : (
                           <p className='text-sm font-semibold text-red-600'>Low In Stock</p>
                         )}
-                        <p className='text-sm '>({stock})</p>
+                        {stock === 0 ? "" : <p className='text-sm '>({stock})</p>}
                       </div>
                     </td>
                     <td className={classes}>
@@ -218,8 +222,8 @@ const AllProducts = () => {
                     </td>
                     <td className={classes}>
                       <Tooltip content='Edit User'>
-                        <IconButton variant='text'>
-                          <PencilIcon className='h-4 w-4' onClick={() => removeProducts(_id)} />
+                        <IconButton variant='text' onClick={() => navigate(`/edit_product/${_id}`)}>
+                          <PencilIcon className='h-4 w-4' />
                         </IconButton>
                       </Tooltip>
                     </td>

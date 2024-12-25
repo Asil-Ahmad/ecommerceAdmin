@@ -1,21 +1,24 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { Card, CardHeader, Typography, CardBody } from "@material-tailwind/react";
 import TextEditor from "../../constant/TextEditor";
-import MiniSidebar from "./Sidebar/Publish";
+import MiniSidebar from "./Sidebar/AddProductSidebar";
 import axios from "axios";
 import { ShopContext } from "../../context/ShopContext";
 import { toast } from "react-toastify";
 import ProductData from "./Sidebar/ProductData";
 import Loader from "../../constant/Loader";
+import { useParams } from "react-router-dom";
+
 
 const EditProduct = () => {
   const { backendURL } = useContext(ShopContext);
+  const { _id } = useParams();
   //TextEditor
   const editor = useRef(null);
   //!start from here
-  const [name, setName] = useState("Test");
-  const [description, setDescription] = useState("Testing description");
-  const [sku, setSku] = useState("THS-112");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [sku, setSku] = useState("");
 
   //-------------- Image states---------------------
   const [image1, setImage1] = useState("");
@@ -34,24 +37,36 @@ const EditProduct = () => {
   const [price, setPrice] = useState("");
   const [salePrice, setSalePrice] = useState("");
   const [stock, setStock] = useState("");
-  const [subCategory, setSubCategory] = useState("T-shirt");
-  const [category, setCategory] = useState("T-shirt");
+  const [subCategory, setSubCategory] = useState("");
+  const [category, setCategory] = useState("");
   const [sizes, setSizes] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchProduct = async (id) => {
+  const fetchProduct = async () => {
     try {
-      const response = await axios.post(
-        backendURL + "/api/user/update",
-        {
-          _id,
-        },
-        {
-          headers: { token },
-        }
-      );
-    } catch (error) {}
+      const response = await axios.post("http://localhost:4000/api/product/update", { _id });
+
+      const { updatedProduct } = response.data;
+    //   console.log(updatedProduct);
+      setName(updatedProduct.name);
+      setDescription(updatedProduct.description);
+      setPrice(updatedProduct.price);
+      setSalePrice(updatedProduct.salePrice);
+      setSku(updatedProduct.sku);
+      setStock(updatedProduct.stock);
+      setSalePrice(updatedProduct.salePrice);
+      setSelectedCategories(updatedProduct.categories);
+      setImage1(updatedProduct.images[0].url);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  console.log("Image1",image1);
+
+  useEffect(() => {
+    fetchProduct();
+  }, []);
 
   const productData = {
     name,
@@ -134,13 +149,6 @@ const EditProduct = () => {
       // Make API call
       const response = await axios.post("http://localhost:4000/api/product/add-product", formData);
 
-      // const response = await axios.post(`${backendURL}/api/product/add-products`, formData, {
-      //   // headers: {
-      //   //   token, // Assuming token is stored in state or context
-      //   //   "Content-Type": "multipart/form-data", // Required for file uploads
-      //   // },
-      // });
-
       // Handle response
       if (response.data.success) {
         toast.success(response.data.message);
@@ -196,7 +204,7 @@ const EditProduct = () => {
         <CardHeader floated={false} shadow={false} className='rounded-none'>
           <div className='mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center mt-2'>
             <Typography variant='h5' color='blue-gray'>
-              Add new Product
+              Edit Product
             </Typography>
           </div>
         </CardHeader>
@@ -242,6 +250,7 @@ const EditProduct = () => {
         handleAddCategory={handleAddCategory}
         handleCheckboxChange={handleCheckboxChange}
         productData={productData}
+        title="Update"
       />
     </>
   );
