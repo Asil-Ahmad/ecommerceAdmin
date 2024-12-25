@@ -11,6 +11,7 @@ const TextEditor = ({ editor, content, setContent }) => {
     <JoditEditor
       ref={editor}
       value={content}
+      placeholder=""
       onChange={handleContentChange} // Use the sanitized plain text
     />
   );

@@ -16,6 +16,7 @@ import { MinusCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
 
 const AddProductSidebar = ({
   handleAddProduct,
+  handleUpdateProduct,
   handleAddCategory,
   handleCheckboxChange,
   title,
@@ -89,13 +90,23 @@ const AddProductSidebar = ({
               <List className='p-0'>
                 <ListItem>Draft</ListItem>
                 <ListItem>Public</ListItem>
-                <input
-                  type='button'
-                  popovertarget='box'
-                  onClick={handleAddProduct}
-                  value={title}
-                  className='bg-blue-500 py-1 text-white font-bold text-center hover:bg-blue-700 cursor-pointer'
-                />
+                {title === "Publish" ? (
+                  <input
+                    type='button'
+                    popovertarget='box'
+                    onClick={handleAddProduct}
+                    value={title}
+                    className='bg-blue-500 py-1 text-white font-bold text-center hover:bg-blue-700 cursor-pointer'
+                  />
+                ) : (
+                  <input
+                    type='button'
+                    popovertarget='box'
+                    onClick={handleUpdateProduct}
+                    value={title}
+                    className='bg-blue-500 py-1 text-white font-bold text-center hover:bg-blue-700 cursor-pointer'
+                  />
+                )}
               </List>
             </AccordionBody>
           </Accordion>
@@ -335,7 +346,7 @@ const AddProductSidebar = ({
                       <div className='flex flex-col w-full gap-1 '>
                         <div className='w-full flex justify-center'>
                           <img
-                            src={URL.createObjectURL(image2)}
+                            src={typeof image2 === "string" ? image2 : URL.createObjectURL(image2)}
                             alt='Preview'
                             className='w-[356px] h-[356px] object-cover object-center'
                           />
@@ -394,7 +405,7 @@ const AddProductSidebar = ({
                       <div className='flex flex-col w-full gap-1'>
                         <div className='w-full flex justify-center'>
                           <img
-                            src={URL.createObjectURL(image3)}
+                            src={typeof image3 === "string" ? image3 : URL.createObjectURL(image3)}
                             alt='Preview'
                             className='w-[356px] h-[356px] object-cover'
                           />
@@ -446,7 +457,7 @@ const AddProductSidebar = ({
                       <div className='flex flex-col w-full gap-1'>
                         <div className='w-full flex justify-center'>
                           <img
-                            src={URL.createObjectURL(image4)}
+                            src={typeof image4 === "string" ? image4 : URL.createObjectURL(image4)}
                             alt='Preview'
                             className='w-[356px] h-[356px] object-cover'
                           />

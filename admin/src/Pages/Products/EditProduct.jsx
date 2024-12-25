@@ -9,7 +9,6 @@ import ProductData from "./Sidebar/ProductData";
 import Loader from "../../constant/Loader";
 import { useParams } from "react-router-dom";
 
-
 const EditProduct = () => {
   const { backendURL } = useContext(ShopContext);
   const { _id } = useParams();
@@ -47,7 +46,7 @@ const EditProduct = () => {
       const response = await axios.post("http://localhost:4000/api/product/update", { _id });
 
       const { updatedProduct } = response.data;
-    //   console.log(updatedProduct);
+      console.log(updatedProduct);
       setName(updatedProduct.name);
       setDescription(updatedProduct.description);
       setPrice(updatedProduct.price);
@@ -57,12 +56,13 @@ const EditProduct = () => {
       setSalePrice(updatedProduct.salePrice);
       setSelectedCategories(updatedProduct.categories);
       setImage1(updatedProduct.images[0].url);
+      setImage2(updatedProduct.images[1].url);
+      setImage3(updatedProduct.images[2].url);
+      setImage4(updatedProduct.images[3].url);
     } catch (error) {
       console.log(error);
     }
   };
-
-  console.log("Image1",image1);
 
   useEffect(() => {
     fetchProduct();
@@ -110,69 +110,63 @@ const EditProduct = () => {
     stock,
     setStock,
   };
-  console.log(productData);
+  //   console.log(productData);
 
   // Add Product
-  const handleAddProduct = async (e) => {
+  const handleUpdateProduct = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
       const formData = new FormData();
 
+      // Append the product ID
+      formData.append("_id", _id);
+
       // Append basic details
       formData.append("name", name);
       formData.append("description", description);
       formData.append("price", price);
-      formData.append("selectedCategories", selectedCategories); // Assuming multiple categories selected
+      formData.append("selectedCategories", JSON.stringify(selectedCategories)); // Serialize array
       formData.append("salePrice", salePrice);
       formData.append("stock", stock);
-
       formData.append("sku", sku);
-      // formData.append("subCategory", subCategory);
-      // formData.append("sizes", JSON.stringify(sizes)); // Sizes should be a JSON string
-      // formData.append("newCategory", newCategory); // For adding a new category
 
       // Append images
-      if (image1) formData.append("image1", image1);
-      if (image1) formData.append("altText1", altText1);
-
-      if (image2) formData.append("image2", image2);
-      if (image2) formData.append("altText2", altText2);
-
-      if (image3) formData.append("image3", image3);
-      if (image3) formData.append("altText3", altText3);
-
-      if (image4) formData.append("image4", image4);
-      if (image4) formData.append("altText4", altText4);
+      if (image1) {
+        formData.append("image1", image1);
+        formData.append("altText1", altText1 || "");
+      }
+      if (image2) {
+        formData.append("image2", image2);
+        formData.append("altText2", altText2 || "");
+      }
+      if (image3) {
+        formData.append("image3", image3);
+        formData.append("altText3", altText3 || "");
+      }
+      if (image4) {
+        formData.append("image4", image4);
+        formData.append("altText4", altText4 || "");
+      }
 
       // Make API call
-      const response = await axios.post("http://localhost:4000/api/product/add-product", formData);
+      const response = await axios.post("http://localhost:4000/api/product/update", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       // Handle response
       if (response.data.success) {
         toast.success(response.data.message);
         console.log(response.data);
-
-        // Reset form states after successful submission
-        // setName("");
-        // setDescription("");
-        // setImage1("");
-        // setImage2("");
-        // setImage3("");
-        // setImage4("");
-        // setCategory([]);
-        // setNewCategory("");
-        // setSelectedCategories([]);
-        // setPrice("");
-        // setSizes([]);
       } else {
         toast.error(response.data.message || "An error occurred");
-        console.log("An error occured");
       }
     } catch (error) {
       console.error(error);
-      toast.error(error.message);
+      toast.error(error.message || "Failed to update product");
     } finally {
       setLoading(false); // Stop loading spinner
     }
@@ -246,11 +240,11 @@ const EditProduct = () => {
         </CardBody>
       </Card>
       <MiniSidebar
-        handleAddProduct={handleAddProduct}
+        handleUpdateProduct={handleUpdateProduct}
         handleAddCategory={handleAddCategory}
         handleCheckboxChange={handleCheckboxChange}
         productData={productData}
-        title="Update"
+        title='Update'
       />
     </>
   );

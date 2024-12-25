@@ -93,6 +93,7 @@ const ProductData = ({ productData }) => {
               <input
                 type='number'
                 name='stock'
+                min={0}
                 value={stock}
                 onChange={(e) => setStock(e.target.value)}
                 className='border w-1/2 border-black rounded p-1'
