@@ -524,7 +524,7 @@ const AddProductSidebar = ({
             <ListItem className='p-0' selected={open.includes(4)}>
               <AccordionHeader onClick={() => handleOpen(4)} className='border-b-0 p-3'>
                 <Typography color='black' className='mr-auto font-bold'>
-                  Product Categories
+                  Product categories
                 </Typography>
               </AccordionHeader>
             </ListItem>
@@ -568,6 +568,142 @@ const AddProductSidebar = ({
                       className=' py-1 text-blue-500 font-semibold gap-2 underline text-sm flex items-center  cursor-pointer'
                     >
                       <PlusIcon strokeWidth={2.5} className='w-4' /> Add Category
+                    </button>
+                  </div>
+                </div>
+              </List>
+            </AccordionBody>
+          </Accordion>
+        </List>
+
+         {/* todo Add Product Tags NEED TO MAKE CHANGES NOT YET FUNCTIONAL */}
+         <List className='border border-black rounded-lg'>
+          <Accordion
+            open={open.includes(4)}
+            icon={
+              <ChevronDownIcon
+                strokeWidth={2.5}
+                className={`mx-auto h-4 w-4 transition-transform ${
+                  open.includes(4) ? "rotate-180" : ""
+                }`}
+              />
+            }
+          >
+            <ListItem className='p-0' selected={open.includes(4)}>
+              <AccordionHeader onClick={() => handleOpen(4)} className='border-b-0 p-3'>
+                <Typography color='black' className='mr-auto font-bold'>
+                  Product tags
+                </Typography>
+              </AccordionHeader>
+            </ListItem>
+            <AccordionBody className='py-1'>
+              <List>
+                <div className='p-0'>
+                  {categories.length > 0 ? (
+                    <div className='flex flex-col gap-2 border p-1 rounded-lg'>
+                      {categories.map((category) => (
+                        <div key={category} className='flex items-center gap-2'>
+                          <input
+                            type='checkbox'
+                            checked={selectedCategories.includes(category)}
+                            onChange={() => handleCheckboxChange(category)}
+                            className='cursor-pointer'
+                          />
+                          <p className='text-black'>{category}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+
+                  <div className='mt-4 w-full flex flex-col gap-2 '>
+                    <input
+                      type='text'
+                      value={newCategory}
+                      onChange={(e) => setNewCategory(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault(); // Prevent default Enter key behavior (like form submission)
+                          handleAddCategory();
+                        }
+                      }}
+                      placeholder='Add new category'
+                      className='border border-gray-300 rounded-md px-2 py-1'
+                    />
+                    <button
+                      onClick={handleAddCategory}
+                      className=' py-1 text-blue-500 font-semibold gap-2 underline text-sm flex items-center  cursor-pointer'
+                    >
+                      <PlusIcon strokeWidth={2.5} className='w-4' /> Add Tags
+                    </button>
+                  </div>
+                </div>
+              </List>
+            </AccordionBody>
+          </Accordion>
+        </List>
+
+          {/* todo Add BRANDS NEED TO MAKE CHANGES NOT YET FUNCTIONAL */}
+          <List className='border border-black rounded-lg'>
+          <Accordion
+            open={open.includes(4)}
+            icon={
+              <ChevronDownIcon
+                strokeWidth={2.5}
+                className={`mx-auto h-4 w-4 transition-transform ${
+                  open.includes(4) ? "rotate-180" : ""
+                }`}
+              />
+            }
+          >
+            <ListItem className='p-0' selected={open.includes(4)}>
+              <AccordionHeader onClick={() => handleOpen(4)} className='border-b-0 p-3'>
+                <Typography color='black' className='mr-auto font-bold'>
+                  Brands
+                </Typography>
+              </AccordionHeader>
+            </ListItem>
+            <AccordionBody className='py-1'>
+              <List>
+                <div className='p-0'>
+                  {categories.length > 0 ? (
+                    <div className='flex flex-col gap-2 border p-1 rounded-lg'>
+                      {categories.map((category) => (
+                        <div key={category} className='flex items-center gap-2'>
+                          <input
+                            type='checkbox'
+                            checked={selectedCategories.includes(category)}
+                            onChange={() => handleCheckboxChange(category)}
+                            className='cursor-pointer'
+                          />
+                          <p className='text-black'>{category}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+
+                  <div className='mt-4 w-full flex flex-col gap-2 '>
+                    <input
+                      type='text'
+                      value={newCategory}
+                      onChange={(e) => setNewCategory(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault(); // Prevent default Enter key behavior (like form submission)
+                          handleAddCategory();
+                        }
+                      }}
+                      placeholder='Add new category'
+                      className='border border-gray-300 rounded-md px-2 py-1'
+                    />
+                    <button
+                      onClick={handleAddCategory}
+                      className=' py-1 text-blue-500 font-semibold gap-2 underline text-sm flex items-center  cursor-pointer'
+                    >
+                      <PlusIcon strokeWidth={2.5} className='w-4' /> Add Tags
                     </button>
                   </div>
                 </div>

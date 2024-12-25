@@ -68,7 +68,7 @@ const addProduct = async (req, res) => {
       // sizes: JSON.parse(sizes),
       createdAt: Date.now(),
       sku,
-      // tags,
+      tags,
       // short_description,
       salePrice,
       stock,

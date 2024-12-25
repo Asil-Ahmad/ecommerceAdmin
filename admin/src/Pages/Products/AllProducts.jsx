@@ -134,7 +134,7 @@ const AllProducts = () => {
                   createdAt,
                   stock,
                   selectedCategories,
-
+                  tags,
                   status,
                   account,
                   accountNumber,
@@ -221,7 +221,7 @@ const AllProducts = () => {
                     </td>
                     <td className={classes}>
                       <Typography variant='small' color='blue-gray' className='font-normal'>
-                        #tag
+                        {tags}
                       </Typography>
                     </td>
                     <td className={classes}>
