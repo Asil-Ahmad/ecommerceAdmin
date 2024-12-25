@@ -65,7 +65,7 @@ const ProductData = ({ productData }) => {
                 type='number'
                 name='salePrice'
                 value={salePrice}
-                onChange={(e) => setSalePrice(e.target.value)}
+                onChange={(e) => setSalePrice(e.target.value === "" ? 0 : Number(e.target.value))}
                 className='border w-1/2 border-black rounded p-1'
               />
             </div>

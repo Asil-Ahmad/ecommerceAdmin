@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { ChevronUpDownIcon, PencilIcon } from "@heroicons/react/24/solid";
-import { ArrowDownTrayIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowDownTrayIcon,
+  CheckIcon,
+  MagnifyingGlassIcon,
+  XCircleIcon,
+} from "@heroicons/react/24/outline";
 import {
   Card,
   CardHeader,
@@ -90,11 +95,11 @@ const AllProducts = () => {
           </Typography>{" "}
           |
           <Typography variant='paragraph' color='blue-gray'>
-            Published (1)
+            Published ({allProducts.length})
           </Typography>{" "}
           |
           <Typography variant='paragraph' color='blue-gray'>
-            Sort (1)
+            Sort
           </Typography>
         </div>
       </CardHeader>
@@ -141,7 +146,7 @@ const AllProducts = () => {
                 const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
                 return (
-                  <tr key={_id}>
+                  <tr key={_id} className='group relative'>
                     {/* todo Image */}
                     <td className={classes}>
                       <Avatar
@@ -153,9 +158,17 @@ const AllProducts = () => {
                     </td>
                     {/* todo Name */}
                     <td className={classes}>
-                      <Typography variant='small' color='blue-gray' className='font-normal'>
+                      <Typography variant='small' color='blue-gray' className='font-bold'>
                         {name}
                       </Typography>
+                      <div className='absolute hidden group-hover:flex py-1'>
+                        <button
+                          popovertarget='box'
+                          className='text-red-700 text-[13px] font-normal cursor-pointer'
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </td>
                     {/* todo SKU */}
                     <td className={classes}>
@@ -217,6 +230,7 @@ const AllProducts = () => {
                         color='blue-gray'
                         className='font-normal max-w-[5rem]'
                       >
+                        Published <br />
                         {formatTimestamp(createdAt)}
                       </Typography>
                     </td>
@@ -227,6 +241,29 @@ const AllProducts = () => {
                         </IconButton>
                       </Tooltip>
                     </td>
+                    <div
+                      id='box'
+                      popover='auto'
+                      className='bg-white border shadow-2xl border-gray-300 z-10 sm:w-[25%] sm:h-[25%] w-full h-full p-2 text-center  content-center '
+                    >
+                      <div className='flex flex-col  gap-3 items-center justify-center '>
+                        <div className='flex items-center justify-center h-12 w-12  rounded-full'>
+                          <XCircleIcon color='red' className=' ' />
+                        </div>
+                        <p className='text-black text-xl'>Are your sure ?</p>
+                        <div className='w-full flex justify-center gap-2'>
+                          <button className='bg-gray-400 w-full py-2 px-3 rounded-lg text-white'>
+                            Cancel
+                          </button>
+                          <button
+                            className='bg-red-500 w-full py-2 px-3 rounded-lg text-white'
+                            onClick={() => removeProducts(_id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </tr>
                 );
               }

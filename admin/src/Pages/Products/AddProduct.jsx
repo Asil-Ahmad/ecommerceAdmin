@@ -33,7 +33,7 @@ const AddProduct = () => {
   const [newCategory, setNewCategory] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [price, setPrice] = useState("");
-  const [salePrice, setSalePrice] = useState("");
+  const [salePrice, setSalePrice] = useState(0);
   const [stock, setStock] = useState("");
   const [subCategory, setSubCategory] = useState("T-shirt");
   const [category, setCategory] = useState("T-shirt");
