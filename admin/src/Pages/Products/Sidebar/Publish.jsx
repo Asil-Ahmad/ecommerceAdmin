@@ -8,12 +8,11 @@ import {
   AccordionHeader,
   AccordionBody,
   Button,
-  Select,
-  Option,
 } from "@material-tailwind/react";
-import { ChevronDownIcon, CheckIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { ShopContext } from "../../../context/ShopContext";
-import { uploadImageIcon } from "../../../assets/icons";
+
+import { MinusCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
 
 const MiniSidebar = ({
   handleAddProduct,
@@ -24,12 +23,20 @@ const MiniSidebar = ({
   const {
     image1,
     setImage1,
+    altText1,
+    setAltText1,
     image2,
     setImage2,
+    altText2,
+    setAltText2,
     image3,
     setImage3,
+    altText3,
+    setAltText3,
     image4,
     setImage4,
+    altText4,
+    setAltText4,
     categories,
     setCategories,
     newCategory,
@@ -84,6 +91,7 @@ const MiniSidebar = ({
                 <input
                   type='button'
                   popovertarget='box'
+                  onClick={handleAddProduct}
                   value='Publish'
                   className='bg-blue-500 py-1 text-white font-bold text-center hover:bg-blue-700 cursor-pointer'
                 />
@@ -92,7 +100,7 @@ const MiniSidebar = ({
           </Accordion>
         </List>
 
-        <div
+        {/* <div
           id='box'
           popover='auto'
           className='bg-white border shadow-2xl border-gray-300 z-10 sm:w-[25%] sm:h-[25%] w-full h-full p-2 text-center  content-center '
@@ -103,7 +111,7 @@ const MiniSidebar = ({
             </div>
             <p className='text-black text-xl'>Product Added Successfully!</p>
           </div>
-        </div>
+        </div> */}
 
         {/* todo Add Product Image Main */}
         <List className='border border-black rounded-lg'>
@@ -157,52 +165,80 @@ const MiniSidebar = ({
             </AccordionBody>
           </Accordion>
         </List>
-
+        {/* todo Opens single Image modal */}
         {openImageModal1 ? (
-          <div className='fixed top-1/2 left-1/2 bg-white border shadow-2xl border-gray-300 z-10 w-[600px] p-4 transform -translate-x-1/2 -translate-y-1/2'>
-            <Typography variant='h5' color='blue-gray'>
-              Product Image
-            </Typography>
+          <div className='fixed inset-0 z-10'>
+            <div className='fixed inset-0 bg-black/70 '></div>
+            <div className='fixed top-1/2 left-1/2 bg-white border shadow-2xl border-gray-300 z-10 w-[90%] h-[90%] p-4 transform -translate-x-1/2 -translate-y-1/2'>
+              <div className='flex justify-between items-center'>
+                <Typography variant='h5' color='blue-gray'>
+                  Product Image
+                </Typography>
+                <XCircleIcon
+                  color='red'
+                  className='w-6 cursor-pointer'
+                  title='Close'
+                  onClick={() => {
+                    setOpenImageModal1(false), setImage1("");
+                  }}
+                />
+              </div>
 
-            <hr />
+              <hr />
 
-            <label htmlFor='image1'>
-              <div className='flex gap-2 sm:justify-center border mt-5 justify-start rounded-md  bg-white w-full py-20 px-4'>
+              <div className='flex gap-2 border h-[80%] mt-5 justify-center items-center rounded-lg  bg-white w-full py-5 px-4'>
                 {image1 ? (
-                  <>
-                    <img
-                      src={URL.createObjectURL(image1)}
-                      alt='Preview'
-                      className='w-52 h-52 object-contain'
-                    />
-                    <input
-                      onChange={(e) => setImage1(e.target.files[0])}
-                      type='file'
-                      id='image1'
-                      accept='image/*' // Optional: Restrict file types to images
-                      hidden
-                    />
-                  </>
+                  <div className='w-full h-full grid grid-cols-3 grid-rows-1 gap-4 '>
+                    <div className='col-span-2 bg-gray-50 p-2 rounded-lg'>
+                      <img
+                        src={URL.createObjectURL(image1)}
+                        alt='Preview'
+                        className='w-52 h-52 object-contain'
+                      />
+                      <input
+                        onChange={(e) => setImage1(e.target.files[0])}
+                        type='file'
+                        id='image1'
+                        accept='image/*' // Optional: Restrict file types to images
+                        hidden
+                      />
+                      {console.log(image1.name)}
+                    </div>
+
+                    <div className='col-start-3 bg-gray-50 p-2 rounded-lg'>
+                      <p>Alt Text</p>
+                      <input
+                        type='text'
+                        value={altText1}
+                        onChange={(e) => setAltText1(e.target.value)}
+                        className='w-full border border-black outline-none p-1 rounded-lg'
+                      />
+                    </div>
+                  </div>
                 ) : (
-                  <Button
-                    variant='outlined'
-                    onClick={() => document.getElementById("image1").click()}
-                  >
-                    Select File
-                    <input
-                      onChange={(e) => setImage1(e.target.files[0])}
-                      type='file'
-                      id='image1'
-                      accept='image/*' // Optional: Restrict file types to images
-                      hidden
-                    />
-                  </Button>
+                  <div>
+                    <label htmlFor='image1'>
+                      <Button
+                        variant='outlined'
+                        onClick={() => document.getElementById("image1").click()}
+                      >
+                        Select File
+                        <input
+                          onChange={(e) => setImage1(e.target.files[0])}
+                          type='file'
+                          id='image1'
+                          accept='image/*' // Optional: Restrict file types to images
+                          hidden
+                        />
+                      </Button>
+                    </label>
+                  </div>
                 )}
               </div>
-            </label>
-            <Button className='mt-5' onClick={() => setOpenImageModal1(false)}>
-              Set product image
-            </Button>
+              <Button className='mt-5' onClick={() => setOpenImageModal1(false)}>
+                Set product image
+              </Button>
+            </div>
           </div>
         ) : (
           ""
@@ -266,124 +302,193 @@ const MiniSidebar = ({
             </AccordionBody>
           </Accordion>
         </List>
-
+        {/* todo Opens Multiple Image modal */}
         {openImageModal2 ? (
-          <div className='fixed top-1/2 left-1/2 bg-white border shadow-2xl border-gray-300 z-10 w-[800px] p-4 transform -translate-x-1/2 -translate-y-1/2'>
-            <Typography variant='h5' color='blue-gray'>
-              Product Image
-            </Typography>
+          <div className='fixed inset-0 z-10'>
+            <div className='fixed inset-0 bg-black/70 '></div>
+            <div className='fixed top-1/2 left-1/2 bg-white border shadow-2xl border-gray-300 z-10 w-[90%] h-[90%] p-4 transform -translate-x-1/2 -translate-y-1/2'>
+              <div className='flex justify-between items-center'>
+                <Typography variant='h5' color='blue-gray'>
+                  Product Image
+                </Typography>
+                <XCircleIcon
+                  color='red'
+                  className='w-6 cursor-pointer'
+                  title='Close'
+                  onClick={() => setOpenImageModal2(false)}
+                />
+              </div>
 
-            <hr />
+              <hr />
 
-            <div className='w-full flex justify-center items-center gap-5'>
-              <label htmlFor='image2'>
-                <div className='flex gap-2 sm:justify-center border mt-5 justify-start rounded-md  bg-white w-full py-20 px-4'>
-                  {image2 ? (
-                    <>
-                      <img
-                        src={URL.createObjectURL(image2)}
-                        alt='Preview'
-                        className='w-52 h-52 object-contain'
-                      />
-                      <input
-                        onChange={(e) => setImage2(e.target.files[0])}
-                        type='file'
-                        id='image2'
-                        accept='image/*' // Optional: Restrict file types to images
-                        hidden
-                      />
-                    </>
-                  ) : (
-                    <Button
-                      variant='outlined'
-                      onClick={() => document.getElementById("image2").click()}
-                    >
-                      Select Files
-                      <input
-                        onChange={(e) => setImage2(e.target.files[0])}
-                        type='file'
-                        id='image2'
-                        accept='image/*' // Optional: Restrict file types to images
-                        hidden
-                      />
-                    </Button>
-                  )}
-                </div>
-              </label>
+              <div className='grid grid-cols-3 grid-rows-1 gap-4 h-[80%]'>
+                <label htmlFor='image2'>
+                  <div
+                    className={`flex gap-2 relative justify-center border ${
+                      image2 ? "border-black" : "border"
+                    } mt-5  h-full rounded-md  bg-white w-full py-10 px-4`}
+                  >
+                    {image2 ? (
+                      <div className='flex flex-col w-full gap-1 '>
+                        <div className='w-full flex justify-center'>
+                          <img
+                            src={URL.createObjectURL(image2)}
+                            alt='Preview'
+                            className='w-[356px] h-[356px] object-cover object-center'
+                          />
+                          <input
+                            onChange={(e) => setImage2(e.target.files[0])}
+                            type='file'
+                            id='image2'
+                            accept='image/*' // Optional: Restrict file types to images
+                            hidden
+                          />
+                        </div>
+                        <div className='col-start-3 bg-gray-50 p-2 rounded-lg'>
+                          <p>Alt Text</p>
+                          <input
+                            type='text'
+                            value={altText1}
+                            onChange={(e) => setAltText1(e.target.value)}
+                            className='w-full border border-black outline-none p-1 rounded-lg'
+                          />
+                        </div>
+                        <MinusCircleIcon
+                          onClick={() => {
+                            setImage2(""), setAltText2("");
+                          }}
+                          color='red'
+                          className='w-6 absolute z-20 cursor-pointer top-0 right-0'
+                        />
+                      </div>
+                    ) : (
+                      <div className='flex justify-center items-center'>
+                        <Button
+                          variant='outlined'
+                          onClick={() => document.getElementById("image2").click()}
+                        >
+                          Select Files
+                          <input
+                            onChange={(e) => setImage2(e.target.files[0])}
+                            type='file'
+                            id='image2'
+                            accept='image/*' // Optional: Restrict file types to images
+                            hidden
+                          />
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </label>
 
-              <label htmlFor='image3'>
-                <div className='flex gap-2 sm:justify-center border mt-5 justify-start rounded-md  bg-white w-full py-20 px-4'>
-                  {image3 ? (
-                    <>
-                      <img
-                        src={URL.createObjectURL(image3)}
-                        alt='Preview'
-                        className='w-52 h-52 object-contain'
-                      />
-                      <input
-                        onChange={(e) => setImage3(e.target.files[0])}
-                        type='file'
-                        id='image3'
-                        accept='image/*' // Optional: Restrict file types to images
-                        hidden
-                      />
-                    </>
-                  ) : (
-                    <Button
-                      variant='outlined'
-                      onClick={() => document.getElementById("image3").click()}
-                    >
-                      Select Files
-                      <input
-                        onChange={(e) => setImage3(e.target.files[0])}
-                        type='file'
-                        id='image3'
-                        accept='image/*' // Optional: Restrict file types to images
-                        hidden
-                      />
-                    </Button>
-                  )}
-                </div>
-              </label>
+                <label htmlFor='image3'>
+                  <div
+                    className={`flex gap-2 justify-center border ${
+                      image3 ? "border-black" : "border"
+                    } mt-5  h-full rounded-md  bg-white w-full py-10 px-4`}
+                  >
+                    {image3 ? (
+                      <div className='flex flex-col w-full gap-1'>
+                        <div className='w-full flex justify-center'>
+                          <img
+                            src={URL.createObjectURL(image3)}
+                            alt='Preview'
+                            className='w-[356px] h-[356px] object-cover'
+                          />
+                          <input
+                            onChange={(e) => setImage3(e.target.files[0])}
+                            type='file'
+                            id='image3'
+                            accept='image/*' // Optional: Restrict file types to images
+                            hidden
+                          />
+                        </div>
+                        <div className='col-start-3 bg-gray-50 p-2  rounded-lg border '>
+                          <p>Alt Text</p>
+                          <input
+                            type='text'
+                            value={altText1}
+                            onChange={(e) => setAltText1(e.target.value)}
+                            className='w-full border border-black outline-none p-1 rounded-lg'
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <div className='flex justify-center items-center'>
+                        <Button
+                          variant='outlined'
+                          onClick={() => document.getElementById("image3").click()}
+                        >
+                          Select Files
+                          <input
+                            onChange={(e) => setImage3(e.target.files[0])}
+                            type='file'
+                            id='image3'
+                            accept='image/*' // Optional: Restrict file types to images
+                            hidden
+                          />
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </label>
 
-              <label htmlFor='image4'>
-                <div className='flex gap-2 sm:justify-center border mt-5 justify-start rounded-md  bg-white w-full py-20 px-4'>
-                  {image4 ? (
-                    <>
-                      <img
-                        src={URL.createObjectURL(image4)}
-                        alt='Preview'
-                        className='w-52 h-52 object-contain'
-                      />
-                      <input
-                        onChange={(e) => setImage4(e.target.files[0])}
-                        type='file'
-                        id='image4'
-                        accept='image/*' // Optional: Restrict file types to images
-                        hidden
-                      />
-                    </>
-                  ) : (
-                    <Button
-                      variant='outlined'
-                      onClick={() => document.getElementById("image4").click()}
-                    >
-                      Select Files
-                      <input
-                        onChange={(e) => setImage4(e.target.files[0])}
-                        type='file'
-                        id='image4'
-                        accept='image/*' // Optional: Restrict file types to images
-                        hidden
-                      />
-                    </Button>
-                  )}
-                </div>
-              </label>
+                <label htmlFor='image4'>
+                  <div
+                    className={`flex gap-2 justify-center border ${
+                      image4 ? "border-black" : "border"
+                    } mt-5  h-full rounded-md  bg-white w-full py-10 px-4`}
+                  >
+                    {image4 ? (
+                      <div className='flex flex-col w-full gap-1'>
+                        <div className='w-full flex justify-center'>
+                          <img
+                            src={URL.createObjectURL(image4)}
+                            alt='Preview'
+                            className='w-[356px] h-[356px] object-cover'
+                          />
+                          <input
+                            onChange={(e) => setImage4(e.target.files[0])}
+                            type='file'
+                            id='image4'
+                            accept='image/*' // Optional: Restrict file types to images
+                            hidden
+                          />
+                        </div>
+                        <div className='col-start-3 bg-gray-50 p-2  rounded-lg border '>
+                          <p>Alt Text</p>
+                          <input
+                            type='text'
+                            value={altText1}
+                            onChange={(e) => setAltText1(e.target.value)}
+                            className='w-full border border-black outline-none p-1 rounded-lg'
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <div className='flex justify-center items-center'>
+                        <Button
+                          variant='outlined'
+                          onClick={() => document.getElementById("image4").click()}
+                        >
+                          Select Files
+                          <input
+                            onChange={(e) => setImage4(e.target.files[0])}
+                            type='file'
+                            id='image4'
+                            accept='image/*' // Optional: Restrict file types to images
+                            hidden
+                          />
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </label>
+              </div>
+              <Button className='mt-10' onClick={() => setOpenImageModal2(false)}>
+                Set product image
+              </Button>
             </div>
-            <Button className='mt-5' onClick={() => setOpenImageModal2(false)}>
-              Set product image
-            </Button>
           </div>
         ) : (
           ""

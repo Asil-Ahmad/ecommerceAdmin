@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import ProductData from "./Sidebar/ProductData";
 import Loader from "../../constant/Loader";
 
-const AddProduct = () => {
+const EditProduct = () => {
   const { backendURL } = useContext(ShopContext);
   //TextEditor
   const editor = useRef(null);
@@ -38,6 +38,20 @@ const AddProduct = () => {
   const [category, setCategory] = useState("T-shirt");
   const [sizes, setSizes] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const fetchProduct = async (id) => {
+    try {
+      const response = await axios.post(
+        backendURL + "/api/user/update",
+        {
+          _id,
+        },
+        {
+          headers: { token },
+        }
+      );
+    } catch (error) {}
+  };
 
   const productData = {
     name,
@@ -113,7 +127,7 @@ const AddProduct = () => {
 
       if (image3) formData.append("image3", image3);
       if (image3) formData.append("altText3", altText3);
-      
+
       if (image4) formData.append("image4", image4);
       if (image4) formData.append("altText4", altText4);
 
@@ -233,4 +247,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;

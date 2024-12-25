@@ -4,10 +4,14 @@ import Home from "./components/Home";
 //Products
 import AllProducts from "./Pages/Products/AllProducts";
 import AddProduct from "./Pages/Products/AddProduct";
+//Toastify
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
     <div className='flex'>
+      <ToastContainer />
       <Sidebar />
 
       <Routes>

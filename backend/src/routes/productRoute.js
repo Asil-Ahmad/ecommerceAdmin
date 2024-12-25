@@ -4,6 +4,7 @@ import {
   addProduct,
   listProducts,
   removeProducts,
+  updateProduct,
   singleProducts,
 } from "../controllers/productController.js";
 import adminAuth from "../middleware/adminAuth.js";
@@ -25,5 +26,15 @@ productRouter.post(
 productRouter.post("/remove", upload.none(), removeProducts);
 productRouter.get("/list-products", listProducts);
 productRouter.get("/info-product", singleProducts);
+productRouter.post(
+  "/update",
+  upload.fields([
+    { name: "image1", maxCount: 1 },
+    { name: "image2", maxCount: 1 },
+    { name: "image3", maxCount: 1 },
+    { name: "image4", maxCount: 1 },
+  ]),
+  updateProduct
+);
 
 export default productRouter;
