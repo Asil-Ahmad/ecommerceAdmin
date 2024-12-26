@@ -4,19 +4,21 @@ import connectDB from "./src/config/mongodb.js";
 import connectCloudinary from "./src/config/cloudinary.js";
 import "dotenv/config";
 import productRouter from "./src/routes/productRoute.js";
-import checkExpiredSales from "./src/middleware/saleEnd.js";
+
 import task from "./src/middleware/task.js";
+import { checkExpiredSalesMiddleware, startCronJob } from "./src/middleware/checkExpiredSales.js";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
-app.use(checkExpiredSales);
 
+// app.use(checkExpiredSalesMiddleware);
+// startCronJob();
 connectDB();
 connectCloudinary();
-task.start();
+
 // Use userRouter for all /api/user routes
 
 app.get("/", (req, res) => res.json({ message: "Connected to API " }));

@@ -1,23 +1,39 @@
 import cron from "node-cron";
 import productModel from "../models/productModel.js";
 
-const task = cron.schedule("* * * * * *", async () => {
+const task = cron.schedule("* * * * * *", async (req,res) => {
   // Runs every hour
   try {
     const now = Date.now();
 
     // Update all expired sales in one operation
-    const result = await productModel.updateMany(
-      {
-        saleEnd: { $lt: now },
-        salePrice: { $ne: null },
-      },
-      {
-        $set: { salePrice: null, saleStart: null, saleEnd: null },
+    const expiredSales = await productModel.find({
+      saleEnd: { $lt: now },
+      salePrice: { $ne: null },
+    });
+    if (expiredSales.length > 0) {
+      const result = await productModel.updateMany(
+        {
+          saleEnd: { $lt: now },
+          salePrice: { $ne: null },
+        },
+        {
+          $set: { salePrice: null, saleStart: null, saleEnd: null },
+        }
+      );
+      console.log(`Expired sales updated ${result} for products.`)
+      // Update each product to remove the sale price
+      for (const product of expiredSales) {
+        product.salePrice = null;
+        product.saleStart = null;
+        product.saleEnd = null;
+        await product.save();
+        console.log(`Sale expired for product: ${product.name}`);
       }
-    );
+    }
 
-    console.log(`Expired sales updated ${result} for products.`);
+ 
+     
   } catch (error) {
     console.error("Error checking expired sales:", error);
   }

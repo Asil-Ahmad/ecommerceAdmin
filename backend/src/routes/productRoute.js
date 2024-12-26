@@ -8,7 +8,7 @@ import {
   singleProducts,
 } from "../controllers/productController.js";
 import adminAuth from "../middleware/adminAuth.js";
-import checkExpiredSales from "../middleware/saleEnd.js";
+import checkExpiredSales from "../middleware/checkExpiredSales.js";
 
 const productRouter = express.Router();
 

@@ -116,7 +116,7 @@ const ProductData = ({ productData }) => {
                   <label className=' w-full max-w-[7.5rem]'>Sale End: </label>
                   <input
                     type='datetime-local'
-                    value={saleEnd ? new Date(saleEnd).toISOString().slice(0, -1) : ""}
+                    value={saleEnd ? new Date(saleEnd).toISOString().slice(0, 16) : ""}
                     onChange={(e) => setSaleEnd(new Date(e.target.value).getTime())}
                     className='border w-1/2 border-black rounded p-1'
                   />
