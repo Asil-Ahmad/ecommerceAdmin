@@ -5,6 +5,7 @@ import connectCloudinary from "./src/config/cloudinary.js";
 import "dotenv/config";
 import productRouter from "./src/routes/productRoute.js";
 import checkExpiredSales from "./src/middleware/saleEnd.js";
+import task from "./src/middleware/task.js";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(checkExpiredSales);
 
 connectDB();
 connectCloudinary();
+task.start();
 // Use userRouter for all /api/user routes
 
 app.get("/", (req, res) => res.json({ message: "Connected to API " }));

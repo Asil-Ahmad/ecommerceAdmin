@@ -25,7 +25,7 @@ productRouter.post(
   addProduct
 );
 productRouter.post("/remove", upload.none(), removeProducts);
-productRouter.get("/list-products", checkExpiredSales, listProducts);
+productRouter.get("/list-products", listProducts);
 productRouter.get("/info-product", singleProducts);
 productRouter.post(
   "/update",
