@@ -42,6 +42,8 @@ const AddProduct = () => {
   const [salePrice, setSalePrice] = useState(0);
   const [saleStart, setSaleStart] = useState(null);
   const [saleEnd, setSaleEnd] = useState(null);
+  //weight,dimenstion
+  const [weight, setWeight] = useState(0);
 
   const [stock, setStock] = useState(2);
 
@@ -98,6 +100,9 @@ const AddProduct = () => {
     setSaleStart,
     saleEnd,
     setSaleEnd,
+
+    weight,
+    setWeight,
   };
   console.log(productData);
 
@@ -252,7 +257,11 @@ const AddProduct = () => {
               <Typography variant='h6' className='py-2 relative'>
                 Product short Description
               </Typography>
-              <TextEditor editor={editor} content={short_Description} setContent={setShortDescription} />
+              <TextEditor
+                editor={editor}
+                content={short_Description}
+                setContent={setShortDescription}
+              />
             </div>
           </div>
         </CardBody>

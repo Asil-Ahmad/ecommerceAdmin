@@ -19,7 +19,8 @@ const addProduct = async (req, res) => {
       stock,
       saleStart,
       saleEnd,
-
+      weight,
+      dimensions,
     } = req.body;
 
     const image1 = req.files.image1 && req.files.image1[0];
@@ -77,6 +78,14 @@ const addProduct = async (req, res) => {
       stock,
       saleStart,
       saleEnd,
+      weight,
+      dimensions: dimensions
+        ? {
+            length: Number(dimensions.length) || null,
+            width: Number(dimensions.width) || null,
+            height: Number(dimensions.height) || null,
+          }
+        : { length: null, width: null, height: null }, //
     };
     console.log(productData);
 
