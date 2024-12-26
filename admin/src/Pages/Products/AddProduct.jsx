@@ -20,10 +20,10 @@ const AddProduct = () => {
   const [sku, setSku] = useState("THS-112");
 
   //-------------- Image states---------------------
-  const [image1, setImage1] = useState("");
-  const [image2, setImage2] = useState("");
-  const [image3, setImage3] = useState("");
-  const [image4, setImage4] = useState("");
+  const [image1, setImage1] = useState("https://picsum.photos/200");
+  const [image2, setImage2] = useState("https://picsum.photos/200");
+  const [image3, setImage3] = useState("https://picsum.photos/200");
+  const [image4, setImage4] = useState("https://picsum.photos/200");
   const [altText1, setAltText1] = useState("");
   const [altText2, setAltText2] = useState("");
   const [altText3, setAltText3] = useState("");
@@ -43,7 +43,7 @@ const AddProduct = () => {
   const [saleStart, setSaleStart] = useState(null);
   const [saleEnd, setSaleEnd] = useState(null);
 
-  const [stock, setStock] = useState("");
+  const [stock, setStock] = useState(2);
 
   const [category, setCategory] = useState("T-shirt");
   const [sizes, setSizes] = useState([]);
@@ -245,6 +245,14 @@ const AddProduct = () => {
               </div>
               <hr />
               <ProductData productData={productData} />
+            </div>
+
+            {/* todo Product short Description */}
+            <div className='border border-black p-3 rounded-lg'>
+              <Typography variant='h6' className='py-2 relative'>
+                Product short Description
+              </Typography>
+              <TextEditor editor={editor} content={short_Description} setContent={setShortDescription} />
             </div>
           </div>
         </CardBody>

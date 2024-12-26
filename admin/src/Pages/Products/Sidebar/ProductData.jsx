@@ -18,6 +18,7 @@ const ProductData = ({ productData }) => {
     setSaleEnd,
   } = productData;
   const [activeTab, setActiveTab] = useState("General");
+  const [isSaleEnabled, setIsSaleEnabled] = useState(false);
   const [productDetails, setProductDetails] = useState({
     regularPrice: "",
     salePrice: "",
@@ -35,6 +36,8 @@ const ProductData = ({ productData }) => {
       [name]: value,
     }));
   };
+
+  const handleOpenSchedule = () => {};
 
   return (
     <div className='flex p-3 h-full '>
@@ -68,7 +71,7 @@ const ProductData = ({ productData }) => {
                 name='regularPrice'
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
-                className=' border w-1/2  border-black rounded p-1'
+                className='border w-1/2  border-black rounded p-1'
               />
             </div>
 
@@ -82,25 +85,45 @@ const ProductData = ({ productData }) => {
                 className='border w-1/2 border-black rounded p-1'
               />
             </div>
-            <div className='sale-period-form'>
-              <label>
-                Sale Start:
+            <div>
+              <div className='flex items-center mb-4'>
+                <label htmlFor='enableSale' className='w-full max-w-[7.5rem]'>
+                  Enable Sale
+                </label>
                 <input
-                  type='datetime-local'
-                  value={saleStart ? new Date(saleStart).toISOString().slice(0, -1) : ""}
-                  onChange={(e) => setSaleStart(new Date(e.target.value).getTime())}
+                  type='checkbox'
+                  id='enableSale'
+                  checked={isSaleEnabled}
+                  onChange={(e) => setIsSaleEnabled(e.target.checked)}
+                  className='mr-2'
                 />
-              </label>
-
-              <label>
-                Sale End:
-                <input
-                  type='datetime-local'
-                  value={saleEnd ? new Date(saleEnd).toISOString().slice(0, -1) : ""}
-                  onChange={(e) => setSaleEnd(new Date(e.target.value).getTime())}
-                />
-              </label>
+              </div>
             </div>
+
+            {/* Sale time */}
+            {isSaleEnabled && (
+              <>
+                <div className='flex items-center'>
+                  <label className=' w-full max-w-[7.5rem]'>Sale Start:</label>
+                  <input
+                    type='datetime-local'
+                    value={saleStart ? new Date(saleStart).toISOString().slice(0, 16) : ""}
+                    onChange={(e) => setSaleStart(new Date(e.target.value).getTime())}
+                    className='border w-1/2 border-black rounded p-1'
+                  />
+                </div>
+                <div className='flex items-center'>
+                  <label className=' w-full max-w-[7.5rem]'>Sale End: </label>
+                  <input
+                    type='datetime-local'
+                    value={saleEnd ? new Date(saleEnd).toISOString().slice(0, -1) : ""}
+                    onChange={(e) => setSaleEnd(new Date(e.target.value).getTime())}
+                    className='border w-1/2 border-black rounded p-1'
+                  />
+                </div>
+              </>
+            )}
+
             {/* <label htmlFor='schedule' className='absolute top-40'>
               <input type='date' name='' id='schedule' />
             </label> */}

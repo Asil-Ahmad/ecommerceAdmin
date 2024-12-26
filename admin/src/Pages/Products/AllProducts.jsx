@@ -28,6 +28,7 @@ const TABLE_HEAD = ["Image", "Name", "SKU", "Stock", "Price", "Categories", "Tag
 const AllProducts = () => {
   const [allProducts, setAllProducts] = useState([]);
   const { navigate } = useContext(ShopContext);
+  const [openDeleteModal, setOpenDeleteModal] = useState(null);
 
   const fetchProducts = async () => {
     const response = await axios.get("http://localhost:4000/api/product/list-products");
@@ -125,21 +126,7 @@ const AllProducts = () => {
           <tbody>
             {allProducts.map(
               (
-                {
-                  _id,
-                  name,
-                  images,
-                  price,
-                  salePrice,
-                  createdAt,
-                  stock,
-                  selectedCategories,
-                  tags,
-                  status,
-                  account,
-                  accountNumber,
-                  expiry,
-                },
+                { _id, name, images, price, salePrice, createdAt, stock, selectedCategories, tags },
                 index
               ) => {
                 const isLast = index === allProducts.length - 1;
@@ -163,7 +150,6 @@ const AllProducts = () => {
                       </Typography>
                       <div className='absolute hidden group-hover:flex py-1'>
                         <button
-                          popovertarget='box'
                           className='text-red-700 text-[13px] font-normal cursor-pointer'
                           onClick={() => removeProducts(_id)}
                         >
@@ -242,31 +228,36 @@ const AllProducts = () => {
                         </IconButton>
                       </Tooltip>
                     </td>
-                    <td>
-                    <div
-                      id='box'
-                      popover='auto'
-                      className='bg-white border shadow-2xl border-gray-300 z-10 sm:w-[25%] sm:h-[25%] w-full h-full p-2 text-center content-center'
-                    >
-                      <div className='flex flex-col gap-3 items-center justify-center'>
-                        <div className='flex items-center justify-center h-12 w-12 rounded-full'>
-                          <XCircleIcon color='red' />
-                        </div>
-                        <p className='text-black text-xl'>Are your sure?</p>
-                        <div className='w-full flex justify-center gap-2'>
-                          <button className='bg-gray-400 w-full py-2 px-3 rounded-lg text-white'>
-                            Cancel
-                          </button>
-                          <button
-                            className='bg-red-500 w-full py-2 px-3 rounded-lg text-white'
-                            onClick={() => removeProducts(_id)}
-                          >
-                            Delete
-                          </button>
+
+                    {/* //!Error it shows all delete options */}
+                    {/* 
+                    {openDeleteModal === _id && ( // Show modal only for the selected product
+                      <div className='absolute bg-white border shadow-2xl border-gray-300 z-10 sm:w-[25%] sm:h-[25%] w-full h-full p-2 text-center content-center'>
+                        <div className='flex flex-col gap-3 items-center justify-center'>
+                          <div className='flex items-center justify-center h-12 w-12 rounded-full'>
+                            <XCircleIcon color='red' />
+                          </div>
+                          <p className='text-black text-xl'>Are you sure?</p>
+                          <div className='w-full flex justify-center gap-2'>
+                            <button
+                              className='bg-gray-400 w-full py-2 px-3 rounded-lg text-white'
+                              onClick={() => setDeleteProductId(null)} // Close modal
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              className='bg-red-500 w-full py-2 px-3 rounded-lg text-white'
+                              onClick={() => {
+                                removeProducts(_id);
+                                setDeleteProductId(null); // Close modal after deletion
+                              }}
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    </td>
+                    )} */}
                   </tr>
                 );
               }

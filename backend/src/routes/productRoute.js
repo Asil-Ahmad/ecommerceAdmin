@@ -8,6 +8,7 @@ import {
   singleProducts,
 } from "../controllers/productController.js";
 import adminAuth from "../middleware/adminAuth.js";
+import checkExpiredSales from "../middleware/saleEnd.js";
 
 const productRouter = express.Router();
 
@@ -24,7 +25,7 @@ productRouter.post(
   addProduct
 );
 productRouter.post("/remove", upload.none(), removeProducts);
-productRouter.get("/list-products", listProducts);
+productRouter.get("/list-products", checkExpiredSales, listProducts);
 productRouter.get("/info-product", singleProducts);
 productRouter.post(
   "/update",
