@@ -140,9 +140,12 @@ const AddProduct = () => {
       formData.append("sku", sku);
       formData.append("tags", tags);
       formData.append("weight", weight);
-      formData.append("dimensions[dlength]", dimensions.dlength);
-      formData.append("dimensions[dwidth]", dimensions.dwidth);
-      formData.append("dimensions[dheight]", dimensions.dheight);
+
+      if (dimensions.dheight || dimensions.dlength || dimensions.dwidth !== null) {
+        formData.append("dimensions[dheight]", dimensions.dheight);
+        formData.append("dimensions[dlength]", dimensions.dlength);
+        formData.append("dimensions[dwidth]", dimensions.dwidth);
+      }
 
       //sales
       if (saleStart && saleEnd) {
@@ -266,8 +269,6 @@ const AddProduct = () => {
                 handleDimensionChange={handleDimensionChange}
               />
             </div>
-
-            
 
             {/* todo Product short Description */}
             <div className='border border-black p-3 rounded-lg'>

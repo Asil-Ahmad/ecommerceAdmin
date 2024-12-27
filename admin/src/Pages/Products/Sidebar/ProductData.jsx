@@ -111,7 +111,9 @@ const ProductData = ({ productData, handleDimensionChange }) => {
                   <label className=' w-full max-w-[7.5rem]'>Sale Start:</label>
                   <input
                     type='datetime-local'
-                    value={saleStart ? new Date(saleStart).toISOString().slice(0, 16) : ""}
+                    value={
+                      saleStart ? new Date(saleStart).toLocaleString("sv-SE").slice(0, 16) : ""
+                    }
                     onChange={(e) => setSaleStart(new Date(e.target.value).getTime())}
                     className='border w-1/2 border-black rounded p-1'
                   />
@@ -120,7 +122,7 @@ const ProductData = ({ productData, handleDimensionChange }) => {
                   <label className=' w-full max-w-[7.5rem]'>Sale End: </label>
                   <input
                     type='datetime-local'
-                    value={saleEnd ? new Date(saleEnd).toISOString().slice(0, 16) : ""}
+                    value={saleEnd ? new Date(saleEnd).toLocaleString("sv-SE").slice(0, 16) : ""}
                     onChange={(e) => setSaleEnd(new Date(e.target.value).getTime())}
                     className='border w-1/2 border-black rounded p-1'
                   />
@@ -209,8 +211,9 @@ const ProductData = ({ productData, handleDimensionChange }) => {
                 type='number'
                 name='weight'
                 value={weight}
+                placeholder='Weight'
                 onChange={(e) => setWeight(e.target.value)}
-                className='border w-1/2  border-black rounded p-1'
+                className='border w-1/2  border-black rounded p-1 placeholder:text-black'
               />
             </div>
 

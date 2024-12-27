@@ -58,11 +58,18 @@ const addProduct = async (req, res) => {
       saleStart,
       saleEnd,
       weight,
-      dimensions: {
-        dlength,
-        dwidth,
-        dheight,
-      },
+      // dimensions: {
+      //   dlength,
+      //   dwidth,
+      //   dheight,
+      // },
+      dimensions: dimensions
+        ? {
+            dlength: dimensions.dlength,
+            dwidth: dimensions.dwidth,
+            dheight: dimensions.dheight,
+          }
+        : { dlength: null, dwidth: null, dheight: null },
 
       // sizes: JSON.parse(sizes),
       // subCategory,
