@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { simpleProduct } from "../../../constant";
 import { ClipboardIcon, TruckIcon, WindowIcon, WrenchIcon } from "@heroicons/react/24/solid";
 
-const ProductData = ({ productData }) => {
+const ProductData = ({ productData, handleDimensionChange }) => {
   const {
     price,
     setPrice,
@@ -16,6 +16,10 @@ const ProductData = ({ productData }) => {
     setSaleStart,
     saleEnd,
     setSaleEnd,
+    weight,
+    setWeight,
+    dimensions,
+    setDimensions,
   } = productData;
   const [activeTab, setActiveTab] = useState("General");
   const [isSaleEnabled, setIsSaleEnabled] = useState(false);
@@ -195,24 +199,55 @@ const ProductData = ({ productData }) => {
             </div>
           </div>
         )}
-
         {activeTab === "Shipping" && (
-          <div>
-            <div className='mt-4'>
-              <label className='block mb-2'>Shipping Address</label>
+          <div className='mt-4 grid grid-cols-1 grid-rows-2 gap-4 text-sm'>
+            <div className='flex items-center'>
+              <label className=' w-full max-w-[7.5rem]'>
+                Weight <small>(kg)</small>
+              </label>
               <input
-                type='text'
-                name='shippingAddress'
-                value={productDetails.shippingAddress}
-                onChange={handleInputChange}
-                className='w-full border rounded p-2'
+                type='number'
+                name='weight'
+                value={weight}
+                onChange={(e) => setWeight(e.target.value)}
+                className='border w-1/2  border-black rounded p-1'
               />
+            </div>
+
+            <div className='flex items-center  '>
+              <label className=' w-full max-w-[7.5rem]'>
+                Dimensions <small>(cm)</small>
+              </label>
+              <div className='flex gap-6'>
+                <input
+                  type='number'
+                  name='dlength'
+                  value={dimensions.dlength}
+                  placeholder='Length'
+                  onChange={handleDimensionChange}
+                  className='border w-1/2 border-black rounded p-1 placeholder:text-black'
+                />
+                <input
+                  type='number'
+                  name='dwidth'
+                  value={dimensions.dwidth}
+                  placeholder='Width'
+                  onChange={handleDimensionChange}
+                  className='border w-1/2 border-black rounded p-1 placeholder:text-black'
+                />
+                <input
+                  type='number'
+                  name='dheight'
+                  value={dimensions.dheight}
+                  placeholder='Height'
+                  onChange={handleDimensionChange}
+                  className='border w-1/2 border-black rounded p-1 placeholder:text-black'
+                />
+              </div>
             </div>
           </div>
         )}
       </div>
-
-      {/* Save Button */}
       {/* <button
         onClick={() => console.log(productDetails)}
         className='mt-4 bg-blue-500 text-white py-2 px-4 rounded'

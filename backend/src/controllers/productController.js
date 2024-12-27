@@ -23,6 +23,8 @@ const addProduct = async (req, res) => {
       dimensions,
     } = req.body;
 
+    const { dlength, dwidth, dheight } = dimensions || {};
+
     const image1 = req.files.image1 && req.files.image1[0];
     const image2 = req.files.image1 && req.files.image2[0];
     const image3 = req.files.image1 && req.files.image3[0];
@@ -41,35 +43,12 @@ const addProduct = async (req, res) => {
       })
     );
 
-    // const images = req.files;
-    // const mainImage = req.files.main_image;
-
-    // let mainImageUrl = "";
-
-    // if (mainImage) {
-    //   const mainImageUpload = await cloudinary.uploader.upload(mainImage.path, {
-    //     resource_type: "image",
-    //   });
-    //   mainImageUrl = mainImageUpload.secure_url;
-    // }
-
-    // const imageUrls = [];
-
-    // for (const image of images) {
-    //   const imageUpload = await cloudinary.uploader.upload(image.path, {
-    //     resource_type: "image",
-    //   });
-    //   imageUrls.push(imageUpload.secure_url);
-    // }
-
     const productData = {
       name,
       description,
       price: Number(price),
       selectedCategories,
-      // subCategory,
       images: imagesUrl,
-      // sizes: JSON.parse(sizes),
       createdAt: Date.now(),
       sku,
       tags,
@@ -79,13 +58,14 @@ const addProduct = async (req, res) => {
       saleStart,
       saleEnd,
       weight,
-      dimensions: dimensions
-        ? {
-            length: Number(dimensions.length) || null,
-            width: Number(dimensions.width) || null,
-            height: Number(dimensions.height) || null,
-          }
-        : { length: null, width: null, height: null }, //
+      dimensions: {
+        dlength,
+        dwidth,
+        dheight,
+      },
+
+      // sizes: JSON.parse(sizes),
+      // subCategory,
     };
     console.log(productData);
 

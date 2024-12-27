@@ -37,13 +37,18 @@ const AddProduct = () => {
   //-------------------Tags------------------------------
   const [tags, setTags] = useState("tag1");
 
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState("1100");
   //sale price,start end
   const [salePrice, setSalePrice] = useState(0);
   const [saleStart, setSaleStart] = useState(null);
   const [saleEnd, setSaleEnd] = useState(null);
   //weight,dimenstion
-  const [weight, setWeight] = useState(0);
+  const [weight, setWeight] = useState("");
+  const [dimensions, setDimensions] = useState({
+    dlength: null,
+    dwidth: null,
+    dheight: null,
+  });
 
   const [stock, setStock] = useState(2);
 
@@ -51,6 +56,16 @@ const AddProduct = () => {
   const [sizes, setSizes] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const handleDimensionChange = (e) => {
+    const { name, value } = e.target;
+    setDimensions((prevDimensions) => ({
+      ...prevDimensions,
+      [name]: value,
+    }));
+    console.log(dimensions);
+  };
+
+  //Passing All Props here
   const productData = {
     name,
     description,
@@ -66,22 +81,19 @@ const AddProduct = () => {
     selectedCategories,
     setSelectedCategories,
     sizes,
-
+    //images and Alt
     image1,
     setImage1,
     altText1,
     setAltText1,
-
     image2,
     setImage2,
     altText2,
     setAltText2,
-
     image3,
     setImage3,
     altText3,
     setAltText3,
-
     image4,
     setImage4,
     altText4,
@@ -103,8 +115,11 @@ const AddProduct = () => {
 
     weight,
     setWeight,
+
+    dimensions,
+    setDimensions,
   };
-  console.log(productData);
+  console.log(dimensions);
 
   // Add Product
   const handleAddProduct = async (e) => {
@@ -124,6 +139,10 @@ const AddProduct = () => {
       formData.append("stock", stock);
       formData.append("sku", sku);
       formData.append("tags", tags);
+      formData.append("weight", weight);
+      formData.append("dimensions[dlength]", dimensions.dlength);
+      formData.append("dimensions[dwidth]", dimensions.dwidth);
+      formData.append("dimensions[dheight]", dimensions.dheight);
 
       //sales
       if (saleStart && saleEnd) {
@@ -150,13 +169,6 @@ const AddProduct = () => {
 
       // Make API call
       const response = await axios.post("http://localhost:4000/api/product/add-product", formData);
-
-      // const response = await axios.post(`${backendURL}/api/product/add-products`, formData, {
-      //   // headers: {
-      //   //   token, // Assuming token is stored in state or context
-      //   //   "Content-Type": "multipart/form-data", // Required for file uploads
-      //   // },
-      // });
 
       // Handle response
       if (response.data.success) {
@@ -249,8 +261,13 @@ const AddProduct = () => {
                 </select>
               </div>
               <hr />
-              <ProductData productData={productData} />
+              <ProductData
+                productData={productData}
+                handleDimensionChange={handleDimensionChange}
+              />
             </div>
+
+            
 
             {/* todo Product short Description */}
             <div className='border border-black p-3 rounded-lg'>

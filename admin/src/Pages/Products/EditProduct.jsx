@@ -39,6 +39,7 @@ const EditProduct = () => {
   const [subCategory, setSubCategory] = useState("");
   const [category, setCategory] = useState("");
   const [sizes, setSizes] = useState([]);
+  const [weight, setWeight] = useState("");
   const [loading, setLoading] = useState(false);
 
   const fetchProduct = async () => {
@@ -54,6 +55,7 @@ const EditProduct = () => {
       setSku(updatedProduct.sku);
       setStock(updatedProduct.stock);
       setSalePrice(updatedProduct.salePrice);
+      setWeight(updatedProduct.weight);
       setSelectedCategories(updatedProduct.categories);
       setImage1(updatedProduct.images[0].url);
       setImage2(updatedProduct.images[1].url);
@@ -109,6 +111,8 @@ const EditProduct = () => {
 
     stock,
     setStock,
+    weight,
+    setWeight,
   };
   //   console.log(productData);
 

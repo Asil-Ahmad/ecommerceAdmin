@@ -18,11 +18,11 @@ const productSchema = new mongoose.Schema({
   //sales Start-End
   saleStart: { type: Number, default: null }, // Timestamp when the sale starts
   saleEnd: { type: Number, default: null },
-  weight: { type: Number, default: null },
+  weight: { type: Number },
   dimensions: {
-    length: { type: Number, default: null },
-    width: { type: Number, default: null },
-    height: { type: Number, default: null },
+    dlength: { type: Number, default: null },
+    dwidth: { type: Number, default: null },
+    dheight: { type: Number, default: null },
   },
 
   //images attributes,weight dimension status createdAtD,updatedAtD,slug
