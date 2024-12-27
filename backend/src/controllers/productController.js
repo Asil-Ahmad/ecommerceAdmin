@@ -99,7 +99,19 @@ const listProducts = async (req, res) => {
 //todo Update Products
 const updateProduct = async (req, res) => {
   try {
-    const { _id, name, description, price, selectedCategories, sku, salePrice, stock } = req.body;
+    const {
+      _id,
+      name,
+      description,
+      price,
+      selectedCategories,
+      sku,
+      salePrice,
+      stock,
+      weight,
+      saleStart,
+      saleEnd,
+    } = req.body;
 
     if (!_id) {
       return res.status(400).json({ success: false, message: "Product ID is required" });
@@ -142,6 +154,9 @@ const updateProduct = async (req, res) => {
       salePrice: salePrice || existingProduct.salePrice,
       stock: stock || existingProduct.stock,
       images: imagesUrl.length > 0 ? imagesUrl : existingProduct.images, // Keep existing images if no new ones
+      weight: weight || existingProduct.weight,
+      saleStart: saleStart || existingProduct.saleStart,
+      saleEnd: saleEnd || existingProduct.saleEnd,
       updatedAt: Date.now(),
     };
 
@@ -149,6 +164,7 @@ const updateProduct = async (req, res) => {
     const updatedProduct = await productModel.findByIdAndUpdate(_id, productData, {
       new: true, // Return the updated document
     });
+    console.log("Updated Product", updatedProduct);
 
     res
       .status(200)

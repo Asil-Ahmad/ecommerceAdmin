@@ -284,6 +284,7 @@ const AddProduct = () => {
           </div>
         </CardBody>
       </Card>
+    
       <AddProductSidebar
         handleAddProduct={handleAddProduct}
         handleAddCategory={handleAddCategory}

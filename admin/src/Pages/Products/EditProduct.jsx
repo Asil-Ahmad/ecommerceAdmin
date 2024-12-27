@@ -40,6 +40,11 @@ const EditProduct = () => {
   const [category, setCategory] = useState("");
   const [sizes, setSizes] = useState([]);
   const [weight, setWeight] = useState("");
+  const [dimensions, setDimensions] = useState({
+    dlength: "",
+    dwidth: "",
+    dheight: "",
+  });
   const [loading, setLoading] = useState(false);
 
   const fetchProduct = async () => {
@@ -55,12 +60,19 @@ const EditProduct = () => {
       setSku(updatedProduct.sku);
       setStock(updatedProduct.stock);
       setSalePrice(updatedProduct.salePrice);
-      setWeight(updatedProduct.weight);
       setSelectedCategories(updatedProduct.categories);
       setImage1(updatedProduct.images[0].url);
       setImage2(updatedProduct.images[1].url);
       setImage3(updatedProduct.images[2].url);
       setImage4(updatedProduct.images[3].url);
+      setWeight(updatedProduct.weight);
+      setDimensions({
+        dlength: updatedProduct.dimensions.dlength,
+        dwidth: updatedProduct.dimensions.dwidth,
+        dheight: updatedProduct.dimensions.dheight,
+      });
+      console.log(response.data.updatedProduct);
+      
     } catch (error) {
       console.log(error);
     }
@@ -113,6 +125,8 @@ const EditProduct = () => {
     setStock,
     weight,
     setWeight,
+    dimensions,
+    setDimensions,
   };
   //   console.log(productData);
 
@@ -153,6 +167,11 @@ const EditProduct = () => {
         formData.append("image4", image4);
         formData.append("altText4", altText4 || "");
       }
+      formData.append("weight", weight);
+
+      formData.append("dimensions[dheight]", dimensions.dheight);
+      formData.append("dimensions[dlength]", dimensions.dlength);
+      formData.append("dimensions[dwidth]", dimensions.dwidth);
 
       // Make API call
       const response = await axios.post("http://localhost:4000/api/product/update", formData, {
