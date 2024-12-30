@@ -189,11 +189,10 @@ const EditProduct = () => {
       }
       formData.append("weight", weight);
 
-      if (dimensions && (dimensions.dlength || dimensions.dwidth || dimensions.dheight)) {
-        formData.append("dimensions[dheight]", dimensions.dheight || "");
-        formData.append("dimensions[dlength]", dimensions.dlength || "");
-        formData.append("dimensions[dwidth]", dimensions.dwidth || "");
-      }
+      formData.append("dimensions[dheight]", dimensions.dheight || "");
+      formData.append("dimensions[dlength]", dimensions.dlength || "");
+      formData.append("dimensions[dwidth]", dimensions.dwidth || "");
+
       // Make API call
       const response = await axios.post("http://localhost:4000/api/product/update", formData, {
         headers: {
