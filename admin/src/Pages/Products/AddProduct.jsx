@@ -65,18 +65,18 @@ const AddProduct = () => {
     console.log(dimensions);
   };
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get(`${backendURL}/api/category/list-categories`);
-        const { categories } = response.data;
-        setAllCategories(categories);
-        console.log(categories);
-      } catch (error) {
-        console.error("Failed to fetch categories", error);
-      }
-    };
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(`${backendURL}/api/category/list-categories`);
+      const { categories } = response.data;
+      setAllCategories(categories);
+      console.log(categories);
+    } catch (error) {
+      console.error("Failed to fetch categories", error);
+    }
+  };
 
+  useEffect(() => {
     fetchCategories();
   }, [backendURL]);
 
@@ -228,6 +228,7 @@ const AddProduct = () => {
       if (response.data.success) {
         const addedCategory = response.data.category;
         setAllCategories((prev) => [...prev, addedCategory]);
+        await fetchCategories(); // Fetch updated categories
         setNewCategory(""); // Clear the input field
       } else {
         console.error("Failed to add category:", response.data.message);

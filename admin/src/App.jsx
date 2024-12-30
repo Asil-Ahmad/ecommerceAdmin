@@ -1,4 +1,6 @@
 import { Routes, Route } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+
 import Sidebar from "./components/Sidebar";
 import Home from "./components/Home";
 //Products
@@ -11,11 +13,18 @@ import EditProduct from "./Pages/Products/EditProduct";
 import Category from "./Pages/Products/Category";
 
 const App = () => {
+  const [darkMode, setDarkMode] = useState(false);
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
   return (
-    <div className='flex'>
+    <div className={`flex ${darkMode ? "dark" : ""} `}>
       <ToastContainer />
       <Sidebar />
-
+      {/* <button className='bg-black text-white' onClick={toggleDarkMode}>
+        CLICK
+      </button> */}
       <Routes>
         <Route path='/' element={<Home />} />
 

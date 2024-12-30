@@ -15,6 +15,7 @@ import { PencilIcon, TrashIcon, PlusIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { ShopContext } from "../../context/ShopContext";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const TABLE_HEAD = ["Name", "Status", "Created Date", "Actions"];
 
@@ -22,20 +23,52 @@ const Category = () => {
   const [categories, setCategories] = useState([]);
   const { backendURL } = useContext(ShopContext);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get(`${backendURL}/api/category/list-categories`);
-        const { categories } = response.data;
-        setCategories(categories);
-        console.log(categories);
-      } catch (error) {
-        console.error("Failed to fetch categories", error);
-      }
-    };
+  //set Date
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
 
+    // Extract date components
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const day = String(date.getDate()).padStart(2, "0");
+
+    // Extract time components
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12; // Convert to 12-hour format
+
+    return `${year}/${month}/${day} at ${hours}:${minutes} ${ampm}`;
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(`${backendURL}/api/category/list-categories`);
+      const { categories } = response.data;
+      setCategories(categories);
+      console.log(categories);
+    } catch (error) {
+      console.error("Failed to fetch categories", error);
+    }
+  };
+
+  useEffect(() => {
     fetchCategories();
   }, [backendURL]);
+
+  const removeCategory = async (id) => {
+    console.log(id);
+
+    try {
+      const response = await axios.post(`${backendURL}/api/category/remove-category`, { id });
+      if (response.data) {
+        toast.success(response.data.message);
+        await fetchCategories();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Card className='h-full w-full'>
@@ -72,8 +105,8 @@ const Category = () => {
             </tr>
           </thead>
           <tbody>
-            {categories.map(({ id, name, status, date }, index) => (
-              <tr key={id} className='even:bg-blue-gray-50/50'>
+            {categories.map(({ _id, name, status, createdAt }, index) => (
+              <tr key={_id} className='even:bg-blue-gray-50/50'>
                 <td className='p-4'>
                   <Typography variant='small' color='blue-gray' className='font-normal'>
                     {name}
@@ -89,7 +122,7 @@ const Category = () => {
                 </td>
                 <td className='p-4'>
                   <Typography variant='small' color='blue-gray' className='font-normal'>
-                    {date}
+                    {formatTimestamp(createdAt)}
                   </Typography>
                 </td>
                 <td className='p-4'>
@@ -100,7 +133,7 @@ const Category = () => {
                       </IconButton>
                     </Tooltip>
                     <Tooltip content='Delete Category'>
-                      <IconButton variant='text' color='red'>
+                      <IconButton variant='text' color='red' onClick={() => removeCategory(_id)}>
                         <TrashIcon className='h-4 w-4' />
                       </IconButton>
                     </Tooltip>

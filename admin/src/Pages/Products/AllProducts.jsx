@@ -75,7 +75,7 @@ const AllProducts = () => {
   console.log(allProducts);
 
   return (
-    <Card className='h-screen w-full '>
+    <Card className='h-screen w-full   '>
       <CardHeader floated={false} shadow={false} className='rounded-none'>
         <div className='mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center mt-2'>
           <div>
@@ -126,7 +126,18 @@ const AllProducts = () => {
           <tbody>
             {allProducts.map(
               (
-                { _id, name,sku, images, price, salePrice, createdAt, stock, selectedCategories, tags },
+                {
+                  _id,
+                  name,
+                  sku,
+                  images,
+                  price,
+                  salePrice,
+                  createdAt,
+                  stock,
+                  selectedCategories,
+                  tags,
+                },
                 index
               ) => {
                 const isLast = index === allProducts.length - 1;
@@ -202,7 +213,11 @@ const AllProducts = () => {
                       ></Typography>
                     </td>
                     <td className={classes}>
-                      <Typography variant='small' color='blue-gray' className='font-normal truncate max-w-40'>
+                      <Typography
+                        variant='small'
+                        color='blue-gray'
+                        className='font-normal truncate max-w-40'
+                      >
                         {selectedCategories}
                       </Typography>
                     </td>
