@@ -82,6 +82,8 @@ const EditProduct = () => {
         dwidth: updatedProduct.dimensions.dwidth || "",
         dheight: updatedProduct.dimensions.dheight || "",
       });
+      setSaleStart(updatedProduct.saleStart || "");
+      setSaleEnd(updatedProduct.saleEnd || "");
     } catch (error) {
       console.log(error);
     }
@@ -100,6 +102,10 @@ const EditProduct = () => {
     setPrice,
     salePrice,
     setSalePrice,
+    saleStart,
+    setSaleStart,
+    saleEnd,
+    setSaleEnd,
     categories,
     setCategories,
     subCategory,
@@ -167,6 +173,11 @@ const EditProduct = () => {
       formData.append("price", price);
       formData.append("selectedCategories", JSON.stringify(selectedCategories)); // Serialize array
       formData.append("salePrice", salePrice);
+
+      if (saleStart && saleEnd) {
+        formData.append("saleStart", saleStart || null); // Add saleStart
+        formData.append("saleEnd", saleEnd || null);
+      }
       formData.append("stock", stock);
       formData.append("sku", sku);
 
