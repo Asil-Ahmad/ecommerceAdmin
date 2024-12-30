@@ -161,9 +161,9 @@ const EditProduct = () => {
       formData.append("_id", _id);
 
       // Append basic details
-      formData.append("name", name);
-      formData.append("description", description);
-      formData.append("short_description", short_Description);
+      formData.append("name", name || "");
+      formData.append("description", description || "");
+      formData.append("short_description", short_Description || "");
       formData.append("price", price);
       formData.append("selectedCategories", JSON.stringify(selectedCategories)); // Serialize array
       formData.append("salePrice", salePrice);
