@@ -24,3 +24,14 @@ export const getCategories = async (req, res) => {
     console.log(error);
   }
 };
+
+export const removeCategory = async (req, res) => {
+  try {
+    const { id } = req.body;
+    await categoryModel.findByIdAndDelete(id);
+    res.status(200).json({ success: true, message: "Category removed successfully" });
+  } catch (error) {
+    res.status(400).json({ success: false, message: "Failed to remove category!" });
+    console.log(error);
+  }
+};
