@@ -103,6 +103,7 @@ const updateProduct = async (req, res) => {
       _id,
       name,
       description,
+      short_description,
       price,
       selectedCategories,
       sku,
@@ -149,6 +150,7 @@ const updateProduct = async (req, res) => {
     const productData = {
       name: name || existingProduct.name,
       description: description || existingProduct.description,
+      short_description: short_description || existingProduct.short_description,
       price: price ? Number(price) : existingProduct.price,
       selectedCategories: selectedCategories || existingProduct.selectedCategories,
       sku: sku || existingProduct.sku,

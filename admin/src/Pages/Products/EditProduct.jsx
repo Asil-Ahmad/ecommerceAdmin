@@ -65,7 +65,7 @@ const EditProduct = () => {
       console.log("Updated Product", updatedProduct);
       setName(updatedProduct.name || "");
       setDescription(updatedProduct.description || "");
-      setShortDescription(updatedProduct.short_Description || "");
+      setShortDescription(updatedProduct.short_description || "");
       setPrice(updatedProduct.price || "");
       setSalePrice(updatedProduct.salePrice || "");
       setSku(updatedProduct.sku || "");
@@ -76,7 +76,7 @@ const EditProduct = () => {
       setImage2(updatedProduct.images[1].url);
       setImage3(updatedProduct.images[2].url);
       setImage4(updatedProduct.images[3].url);
-      setWeight(updatedProduct.weight);
+      setWeight(updatedProduct.weight || "");
       setDimensions({
         dlength: updatedProduct.dimensions.dlength || "",
         dwidth: updatedProduct.dimensions.dwidth || "",
@@ -163,7 +163,7 @@ const EditProduct = () => {
       // Append basic details
       formData.append("name", name);
       formData.append("description", description);
-      formData.append("short_Description", short_Description);
+      formData.append("short_description", short_Description);
       formData.append("price", price);
       formData.append("selectedCategories", JSON.stringify(selectedCategories)); // Serialize array
       formData.append("salePrice", salePrice);
@@ -187,8 +187,8 @@ const EditProduct = () => {
         formData.append("image4", image4);
         formData.append("altText4", altText4 || "");
       }
-      formData.append("weight", weight);
 
+      formData.append("weight", weight || "");
       formData.append("dimensions[dheight]", dimensions.dheight || "");
       formData.append("dimensions[dlength]", dimensions.dlength || "");
       formData.append("dimensions[dwidth]", dimensions.dwidth || "");
