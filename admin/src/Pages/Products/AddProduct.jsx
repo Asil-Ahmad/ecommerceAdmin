@@ -39,15 +39,15 @@ const AddProduct = () => {
 
   const [price, setPrice] = useState("1100");
   //sale price,start end
-  const [salePrice, setSalePrice] = useState(0);
+  const [salePrice, setSalePrice] = useState("");
   const [saleStart, setSaleStart] = useState(null);
   const [saleEnd, setSaleEnd] = useState(null);
   //weight,dimenstion
   const [weight, setWeight] = useState("");
   const [dimensions, setDimensions] = useState({
-    dlength: null,
-    dwidth: null,
-    dheight: null,
+    dlength: "",
+    dwidth: "",
+    dheight: "",
   });
 
   const [stock, setStock] = useState(2);
@@ -284,7 +284,7 @@ const AddProduct = () => {
           </div>
         </CardBody>
       </Card>
-    
+
       <AddProductSidebar
         handleAddProduct={handleAddProduct}
         handleAddCategory={handleAddCategory}

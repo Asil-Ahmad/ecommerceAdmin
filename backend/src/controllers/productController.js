@@ -109,6 +109,7 @@ const updateProduct = async (req, res) => {
       salePrice,
       stock,
       weight,
+      dimensions,
       saleStart,
       saleEnd,
     } = req.body;
@@ -155,6 +156,7 @@ const updateProduct = async (req, res) => {
       stock: stock || existingProduct.stock,
       images: imagesUrl.length > 0 ? imagesUrl : existingProduct.images, // Keep existing images if no new ones
       weight: weight || existingProduct.weight,
+      dimensions: dimensions || existingProduct.dimensions,
       saleStart: saleStart || existingProduct.saleStart,
       saleEnd: saleEnd || existingProduct.saleEnd,
       updatedAt: Date.now(),

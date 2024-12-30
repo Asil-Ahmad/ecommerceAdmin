@@ -17,6 +17,7 @@ const EditProduct = () => {
   //!start from here
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [short_Description, setShortDescription] = useState("");
   const [sku, setSku] = useState("");
 
   //-------------- Image states---------------------
@@ -29,22 +30,31 @@ const EditProduct = () => {
   const [altText3, setAltText3] = useState("");
   const [altText4, setAltText4] = useState("");
 
-  //-------------------------------------------------
+  //-------------------Categories------------------------------
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [price, setPrice] = useState("");
-  const [salePrice, setSalePrice] = useState("");
-  const [stock, setStock] = useState("");
   const [subCategory, setSubCategory] = useState("");
-  const [category, setCategory] = useState("");
-  const [sizes, setSizes] = useState([]);
+  //-------------------Tags------------------------------
+  const [tags, setTags] = useState("");
+
+  const [price, setPrice] = useState("");
+  //sale price,start end
+  const [salePrice, setSalePrice] = useState("");
+  const [saleStart, setSaleStart] = useState("");
+  const [saleEnd, setSaleEnd] = useState("");
+  //weight,dimenstion
   const [weight, setWeight] = useState("");
   const [dimensions, setDimensions] = useState({
     dlength: "",
     dwidth: "",
     dheight: "",
   });
+
+  const [stock, setStock] = useState(2);
+
+  const [category, setCategory] = useState("T-shirt");
+  const [sizes, setSizes] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const fetchProduct = async () => {
@@ -52,27 +62,26 @@ const EditProduct = () => {
       const response = await axios.post("http://localhost:4000/api/product/update", { _id });
 
       const { updatedProduct } = response.data;
-      console.log(updatedProduct);
-      setName(updatedProduct.name);
-      setDescription(updatedProduct.description);
-      setPrice(updatedProduct.price);
-      setSalePrice(updatedProduct.salePrice);
-      setSku(updatedProduct.sku);
-      setStock(updatedProduct.stock);
-      setSalePrice(updatedProduct.salePrice);
-      setSelectedCategories(updatedProduct.categories);
+      console.log("Updated Product", updatedProduct);
+      setName(updatedProduct.name || "");
+      setDescription(updatedProduct.description || "");
+      setShortDescription(updatedProduct.short_Description || "");
+      setPrice(updatedProduct.price || "");
+      setSalePrice(updatedProduct.salePrice || "");
+      setSku(updatedProduct.sku || "");
+      setStock(updatedProduct.stock || "");
+      setSalePrice(updatedProduct.salePrice || "");
+      setSelectedCategories(updatedProduct.categories || "");
       setImage1(updatedProduct.images[0].url);
       setImage2(updatedProduct.images[1].url);
       setImage3(updatedProduct.images[2].url);
       setImage4(updatedProduct.images[3].url);
       setWeight(updatedProduct.weight);
       setDimensions({
-        dlength: updatedProduct.dimensions.dlength,
-        dwidth: updatedProduct.dimensions.dwidth,
-        dheight: updatedProduct.dimensions.dheight,
+        dlength: updatedProduct.dimensions.dlength || "",
+        dwidth: updatedProduct.dimensions.dwidth || "",
+        dheight: updatedProduct.dimensions.dheight || "",
       });
-      console.log(response.data.updatedProduct);
-      
     } catch (error) {
       console.log(error);
     }
@@ -85,6 +94,8 @@ const EditProduct = () => {
   const productData = {
     name,
     description,
+    short_Description,
+    setShortDescription,
     price,
     setPrice,
     salePrice,
@@ -130,6 +141,14 @@ const EditProduct = () => {
   };
   //   console.log(productData);
 
+  const handleDimensionChange = (e) => {
+    const { name, value } = e.target;
+    setDimensions((prevDimensions) => ({
+      ...prevDimensions,
+      [name]: value,
+    }));
+  };
+
   // Add Product
   const handleUpdateProduct = async (e) => {
     e.preventDefault();
@@ -144,6 +163,7 @@ const EditProduct = () => {
       // Append basic details
       formData.append("name", name);
       formData.append("description", description);
+      formData.append("short_Description", short_Description);
       formData.append("price", price);
       formData.append("selectedCategories", JSON.stringify(selectedCategories)); // Serialize array
       formData.append("salePrice", salePrice);
@@ -169,10 +189,11 @@ const EditProduct = () => {
       }
       formData.append("weight", weight);
 
-      formData.append("dimensions[dheight]", dimensions.dheight);
-      formData.append("dimensions[dlength]", dimensions.dlength);
-      formData.append("dimensions[dwidth]", dimensions.dwidth);
-
+      if (dimensions && (dimensions.dlength || dimensions.dwidth || dimensions.dheight)) {
+        formData.append("dimensions[dheight]", dimensions.dheight || "");
+        formData.append("dimensions[dlength]", dimensions.dlength || "");
+        formData.append("dimensions[dwidth]", dimensions.dwidth || "");
+      }
       // Make API call
       const response = await axios.post("http://localhost:4000/api/product/update", formData, {
         headers: {
@@ -257,7 +278,20 @@ const EditProduct = () => {
                 </select>
               </div>
               <hr />
-              <ProductData productData={productData} />
+              <ProductData
+                productData={productData}
+                handleDimensionChange={handleDimensionChange}
+              />
+            </div>
+            <div className='border border-black p-3 rounded-lg'>
+              <Typography variant='h6' className='py-2 relative'>
+                Product short Description
+              </Typography>
+              <TextEditor
+                editor={editor}
+                content={short_Description}
+                setContent={setShortDescription}
+              />
             </div>
           </div>
         </CardBody>
