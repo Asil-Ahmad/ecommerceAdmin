@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Card, CardHeader, Typography, CardBody } from "@material-tailwind/react";
 import TextEditor from "../../constant/TextEditor";
 import MiniSidebar from "./Sidebar/AddProductSidebar";
@@ -30,7 +30,7 @@ const AddProduct = () => {
   const [altText4, setAltText4] = useState("");
 
   //-------------------Categories------------------------------
-  const [categories, setCategories] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [subCategory, setSubCategory] = useState("T-shirt");
@@ -65,6 +65,21 @@ const AddProduct = () => {
     console.log(dimensions);
   };
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(`${backendURL}/api/category/list-categories`);
+        const { categories } = response.data;
+        setAllCategories(categories);
+        console.log(categories);
+      } catch (error) {
+        console.error("Failed to fetch categories", error);
+      }
+    };
+
+    fetchCategories();
+  }, [backendURL]);
+
   //Passing All Props here
   const productData = {
     name,
@@ -73,8 +88,8 @@ const AddProduct = () => {
     setPrice,
     salePrice,
     setSalePrice,
-    categories,
-    setCategories,
+    allCategories,
+    setAllCategories,
     subCategory,
     newCategory,
     setNewCategory,
@@ -119,7 +134,7 @@ const AddProduct = () => {
     dimensions,
     setDimensions,
   };
-  console.log(dimensions);
+  // console.log(dimensions);
 
   // Add Product
   const handleAddProduct = async (e) => {
@@ -176,7 +191,7 @@ const AddProduct = () => {
       // Handle response
       if (response.data.success) {
         toast.success(response.data.message);
-        console.log(response.data);
+        console.log(response.data.products);
 
         // Reset form states after successful submission
         // setName("");
@@ -203,10 +218,22 @@ const AddProduct = () => {
   };
 
   //Add new category
-  const handleAddCategory = () => {
-    if (newCategory.trim() && !categories.includes(newCategory.trim())) {
-      setCategories((prev) => [...prev, newCategory.trim()]);
-      setNewCategory(""); // Clear the input field
+  const handleAddCategory = async () => {
+    try {
+      const response = await axios.post(`${backendURL}/api/category/add-category`, {
+        name: newCategory,
+        description: "",
+      });
+
+      if (response.data.success) {
+        const addedCategory = response.data.category;
+        setAllCategories((prev) => [...prev, addedCategory]);
+        setNewCategory(""); // Clear the input field
+      } else {
+        console.error("Failed to add category:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error adding category:", error);
     }
   };
 

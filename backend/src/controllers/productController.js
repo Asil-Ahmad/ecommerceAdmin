@@ -23,8 +23,6 @@ const addProduct = async (req, res) => {
       dimensions,
     } = req.body;
 
-    const { dlength, dwidth, dheight } = dimensions || {};
-
     const image1 = req.files.image1 && req.files.image1[0];
     const image2 = req.files.image1 && req.files.image2[0];
     const image3 = req.files.image1 && req.files.image3[0];
@@ -58,11 +56,6 @@ const addProduct = async (req, res) => {
       saleStart,
       saleEnd,
       weight,
-      // dimensions: {
-      //   dlength,
-      //   dwidth,
-      //   dheight,
-      // },
       dimensions: dimensions
         ? {
             dlength: dimensions.dlength,
@@ -79,7 +72,7 @@ const addProduct = async (req, res) => {
     const products = new productModel(productData);
     await products.save();
 
-    res.status(200).json({ success: true, message: "Product added successfully" });
+    res.status(200).json({ success: true, message: "Product added successfully", products });
   } catch (error) {
     res.status(400).json({ success: false, message: "Failed to add product!", error: error });
     console.log(error);
