@@ -202,7 +202,7 @@ const AllProducts = () => {
                       ></Typography>
                     </td>
                     <td className={classes}>
-                      <Typography variant='small' color='blue-gray' className='font-normal'>
+                      <Typography variant='small' color='blue-gray' className='font-normal truncate max-w-40'>
                         {selectedCategories}
                       </Typography>
                     </td>

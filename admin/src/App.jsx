@@ -8,6 +8,7 @@ import AddProduct from "./Pages/Products/AddProduct";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditProduct from "./Pages/Products/EditProduct";
+import Category from "./Pages/Products/Category";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path='/all_products' element={<AllProducts />} />
         <Route path='/add_new_product' element={<AddProduct />} />
         <Route path='/edit_product/:_id' element={<EditProduct />} />
+        <Route path='/categories' element={<Category />} />
       </Routes>
     </div>
   );

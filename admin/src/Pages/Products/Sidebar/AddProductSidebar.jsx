@@ -529,17 +529,17 @@ const AddProductSidebar = ({
             <AccordionBody className='py-1'>
               <List>
                 <div className='p-0'>
-                  {allCategories.length > 0 ? (
+                  {allCategories?.length > 0 ? (
                     <div className='flex flex-col gap-2 border p-1 rounded-lg'>
-                      {allCategories.map((category) => (
-                        <div key={category._id} className='flex items-center gap-2'>
+                      {allCategories?.map((category) => (
+                        <div key={category?._id} className='flex items-center gap-2'>
                           <input
                             type='checkbox'
-                            checked={selectedCategories.includes(category.name)}
-                            onChange={() => handleCheckboxChange(category.name)}
+                            checked={selectedCategories.includes(category?.name)}
+                            onChange={() => handleCheckboxChange(category?.name)}
                             className='cursor-pointer'
                           />
-                          <p className='text-black'>{category.name}</p>
+                          <p className='text-black'>{category?.name}</p>
                         </div>
                       ))}
                     </div>
