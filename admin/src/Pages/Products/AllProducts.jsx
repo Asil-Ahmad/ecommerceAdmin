@@ -126,7 +126,7 @@ const AllProducts = () => {
           <tbody>
             {allProducts.map(
               (
-                { _id, name, images, price, salePrice, createdAt, stock, selectedCategories, tags },
+                { _id, name,sku, images, price, salePrice, createdAt, stock, selectedCategories, tags },
                 index
               ) => {
                 const isLast = index === allProducts.length - 1;
@@ -160,7 +160,7 @@ const AllProducts = () => {
                     {/* todo SKU */}
                     <td className={classes}>
                       <Typography variant='small' color='blue-gray' className='font-normal'>
-                        TBHU-102
+                        {sku}
                       </Typography>
                     </td>
                     {/* todo Stock */}
