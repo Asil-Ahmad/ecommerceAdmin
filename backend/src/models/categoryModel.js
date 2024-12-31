@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import slugify from "slugify";
 
 const categorySchema = new mongoose.Schema(
   {
@@ -10,7 +11,6 @@ const categorySchema = new mongoose.Schema(
     },
     slug: {
       type: String,
-      required: true,
       unique: true,
       trim: true,
     },
@@ -18,12 +18,12 @@ const categorySchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    thumbnail: { type: String },
     // parent: {
     //   type: mongoose.Schema.Types.ObjectId,
     //   ref: "Category",
     //   default: null,
     // },
-    thumbnail: { type: String },
     // displayType: {
     //   type: String,
     //   enum: ["products", "subcategories", "both"],
@@ -69,6 +69,14 @@ const categorySchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Pre-save hook to generate slug from name if not provided
+categorySchema.pre("save", function (next) {
+  if (!this.slug) {
+    this.slug = slugify(this.name, { lower: true, strict: true });
+  }
+  next();
+});
 
 const categoryModel = mongoose.models.Category || mongoose.model("Category", categorySchema);
 

@@ -17,7 +17,7 @@ import { ShopContext } from "../../context/ShopContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const TABLE_HEAD = ["Name", "Status", "Created Date", "Actions"];
+const TABLE_HEAD = ["Thumbnail", "Name", "Status", "Created Date", "Actions"];
 
 const Category = () => {
   const [categories, setCategories] = useState([]);
@@ -124,8 +124,11 @@ const Category = () => {
                 </tr>
               </thead>
               <tbody>
-                {categories.map(({ _id, name, status, createdAt }, index) => (
+                {categories.map(({ _id, thumbnail, name, status, createdAt }, index) => (
                   <tr key={_id} className='even:bg-blue-gray-50/50'>
+                    <td className='p-4'>
+                      <img src={thumbnail} alt='' />
+                    </td>
                     <td className='p-4'>
                       <Typography variant='small' color='blue-gray' className='font-normal'>
                         {name}

@@ -235,6 +235,9 @@ const AddProduct = () => {
       }
     } catch (error) {
       console.error("Error adding category:", error);
+      const { message } = error.response.data;
+      toast.error(`${message}.. 
+         Category already exists`);
     }
   };
 
