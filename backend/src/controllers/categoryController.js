@@ -1,9 +1,29 @@
 import categoryModel from "../models/categoryModel.js";
+import upload from "../middleware/multer.js";
+import { v2 as cloudinary } from "cloudinary";
 
 export const addCategory = async (req, res) => {
   try {
-    const { name, description } = req.body;
-    const categoryData = { name, description, createdAt: Date.now() };
+    const { name, slug, description } = req.body;
+    // const thumbnailFile = req.file;
+
+    const thumbnailFile = req.file; //!need to add file
+
+    let thumbnailUrl = "https://ui-avatars.com/api/?name=Default+Image"; //!if no file we get this url image else true we use user upload image
+    if (thumbnailFile) {
+      const imageUpload = await cloudinary.uploader.upload(thumbnailFile.path, {
+        resource_type: "image",
+      });
+      thumbnailUrl = imageUpload.secure_url;
+    }
+
+    const categoryData = {
+      name,
+      slug,
+      description,
+      thumbnail: thumbnailUrl,
+      createdAt: Date.now(),
+    };
     const newCategory = new categoryModel(categoryData);
     await newCategory.save();
     res.status(200).json({ success: true, message: "Category added successfully", newCategory });

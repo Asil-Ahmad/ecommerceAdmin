@@ -71,12 +71,12 @@ const Category = () => {
   };
 
   return (
-    <Card className='h-full w-full'>
+    <Card className='h-screen w-full'>
       <CardHeader floated={false} shadow={false} className='rounded-none'>
         <div className='mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center mt-2'>
           <div>
             <Typography variant='h5' color='blue-gray'>
-              Products
+              Product Categories
             </Typography>
           </div>
           <div className='flex items-center justify-between w-full shrink-0 gap-2 md:w-max '>
@@ -87,76 +87,105 @@ const Category = () => {
           </div>
         </div>
       </CardHeader>
-      <CardBody className='overflow-scroll px-0'>
-        <table className='w-full min-w-max table-auto text-left'>
-          <thead>
-            <tr>
-              {TABLE_HEAD.map((head) => (
-                <th key={head} className='border-b border-blue-gray-100 bg-blue-gray-50 p-4'>
-                  <Typography
-                    variant='small'
-                    color='blue-gray'
-                    className='font-normal leading-none opacity-70'
-                  >
-                    {head}
-                  </Typography>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {categories.map(({ _id, name, status, createdAt }, index) => (
-              <tr key={_id} className='even:bg-blue-gray-50/50'>
-                <td className='p-4'>
-                  <Typography variant='small' color='blue-gray' className='font-normal'>
-                    {name}
-                  </Typography>
-                </td>
-                <td className='p-4'>
-                  <Chip
-                    variant='ghost'
-                    size='sm'
-                    value={status}
-                    color={status === "active" ? "green" : "blue-gray"}
-                  />
-                </td>
-                <td className='p-4'>
-                  <Typography variant='small' color='blue-gray' className='font-normal'>
-                    {formatTimestamp(createdAt)}
-                  </Typography>
-                </td>
-                <td className='p-4'>
-                  <div className='flex gap-2'>
-                    <Tooltip content='Edit Category'>
-                      <IconButton variant='text' color='blue-gray'>
-                        <PencilIcon className='h-4 w-4' />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip content='Delete Category'>
-                      <IconButton variant='text' color='red' onClick={() => removeCategory(_id)}>
-                        <TrashIcon className='h-4 w-4' />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </CardBody>
-      <CardFooter className='flex items-center justify-between border-t border-blue-gray-50 p-4'>
-        <Typography variant='small' color='blue-gray' className='font-normal'>
-          Page 1 of 1
-        </Typography>
-        <div className='flex gap-2'>
-          <Button variant='outlined' color='blue-gray' size='sm'>
-            Previous
-          </Button>
-          <Button variant='outlined' color='blue-gray' size='sm'>
-            Next
-          </Button>
+      <div className='flex'>
+        <CardBody className='w-[25%] bg-gray-50 rounded-l-lg'>
+          <Typography variant='h6' color='blue-gray' className='mb-4'>
+            Add new Category
+          </Typography>
+          <div className='flex flex-col gap-4'>
+            
+              <Input label='Name' placeholder='Enter category name' className='bg-white' />
+           
+            
+              <Input label='Slug' placeholder='Enter category slug' className='bg-white' />
+            
+            <div>
+              <Typography variant='para' color='blue-gray'>
+                Description
+              </Typography>
+             <textarea name="" id="" className="w-full"></textarea>
+            </div>
+          </div>
+        </CardBody>
+
+        {/* //!Second card body */}
+        <div className='w-[75%]'>
+          <CardBody className='overflow-scroll px-0 p-0 rounded-r-lg'>
+            <table className='w-full min-w-max table-auto text-left'>
+              <thead>
+                <tr>
+                  {TABLE_HEAD.map((head) => (
+                    <th key={head} className='border-b border-blue-gray-100 bg-blue-gray-50 p-4'>
+                      <Typography
+                        variant='small'
+                        color='blue-gray'
+                        className='font-normal leading-none opacity-70'
+                      >
+                        {head}
+                      </Typography>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {categories.map(({ _id, name, status, createdAt }, index) => (
+                  <tr key={_id} className='even:bg-blue-gray-50/50'>
+                    <td className='p-4'>
+                      <Typography variant='small' color='blue-gray' className='font-normal'>
+                        {name}
+                      </Typography>
+                    </td>
+                    <td className='p-4'>
+                      <Chip
+                        variant='ghost'
+                        size='sm'
+                        value={status}
+                        color={status === "active" ? "green" : "blue-gray"}
+                      />
+                    </td>
+                    <td className='p-4'>
+                      <Typography variant='small' color='blue-gray' className='font-normal'>
+                        {formatTimestamp(createdAt)}
+                      </Typography>
+                    </td>
+                    <td className='p-4'>
+                      <div className='flex gap-2'>
+                        <Tooltip content='Edit Category'>
+                          <IconButton variant='text' color='blue-gray'>
+                            <PencilIcon className='h-4 w-4' />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip content='Delete Category'>
+                          <IconButton
+                            variant='text'
+                            color='red'
+                            onClick={() => removeCategory(_id)}
+                          >
+                            <TrashIcon className='h-4 w-4' />
+                          </IconButton>
+                        </Tooltip>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </CardBody>
+          <CardFooter className='flex items-center justify-between border-t border-blue-gray-50 p-4 '>
+            <Typography variant='small' color='blue-gray' className='font-normal'>
+              Page 1 of 1
+            </Typography>
+            <div className='flex gap-2'>
+              <Button variant='outlined' color='blue-gray' size='sm'>
+                Previous
+              </Button>
+              <Button variant='outlined' color='blue-gray' size='sm'>
+                Next
+              </Button>
+            </div>
+          </CardFooter>
         </div>
-      </CardFooter>
+      </div>
     </Card>
   );
 };

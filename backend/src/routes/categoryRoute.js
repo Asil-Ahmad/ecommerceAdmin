@@ -6,7 +6,7 @@ import { addCategory, getCategories, removeCategory } from "../controllers/categ
 
 const categoryRouter = express.Router();
 
-categoryRouter.post("/add-category", upload.none(), addCategory);
+categoryRouter.post("/add-category", upload.single("thumbnail"), addCategory);
 categoryRouter.get("/list-categories", getCategories);
 categoryRouter.post("/remove-category", upload.none(), removeCategory);
 
