@@ -54,10 +54,10 @@ const categorySchema = new mongoose.Schema(
     //   type: Number,
     //   default: 0,
     // },
-    // isFeatured: {
-    //   type: Boolean,
-    //   default: false,
-    // },
+    isFeatured: {
+      type: Boolean,
+      default: false,
+    },
     // showInMenu: {
     //   type: Boolean,
     //   default: true,

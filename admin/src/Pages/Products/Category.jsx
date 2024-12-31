@@ -93,17 +93,13 @@ const Category = () => {
             Add new Category
           </Typography>
           <div className='flex flex-col gap-4'>
-            
-              <Input label='Name' placeholder='Enter category name' className='bg-white' />
-           
-            
-              <Input label='Slug' placeholder='Enter category slug' className='bg-white' />
-            
+            <Input label='Name' placeholder='Enter category name' className='bg-white' />
+            <Input label='Slug' placeholder='Enter category slug' className='bg-white' />
             <div>
               <Typography variant='para' color='blue-gray'>
                 Description
               </Typography>
-             <textarea name="" id="" className="w-full"></textarea>
+              <textarea name='' id='' className='w-full'></textarea>
             </div>
           </div>
         </CardBody>
