@@ -149,7 +149,7 @@ const Category = () => {
                         </Typography>
                       </td>
                       <td className='p-4'>
-                        <Typography variant='small' color='blue-gray' className='font-normal'>
+                        <Typography variant='small' color='blue-gray' className='font-normal max-w-40 truncate'>
                           {description}
                         </Typography>
                       </td>

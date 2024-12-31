@@ -31,6 +31,7 @@ const EditProduct = () => {
   const [altText4, setAltText4] = useState("");
 
   //-------------------Categories------------------------------
+  const [allCategories, setAllCategories] = useState([]);
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -88,10 +89,20 @@ const EditProduct = () => {
       console.log(error);
     }
   };
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(`${backendURL}/api/category/list-categories`);
+      const { categories } = response.data;
+      setAllCategories(categories);
+    } catch (error) {
+      console.error("Failed to fetch categories", error);
+    }
+  };
 
   useEffect(() => {
     fetchProduct();
-  }, []);
+    fetchCategories();
+  }, [backendURL]);
 
   const productData = {
     name,
@@ -113,6 +124,8 @@ const EditProduct = () => {
     setNewCategory,
     selectedCategories,
     setSelectedCategories,
+    allCategories,
+    setAllCategories,
     sizes,
 
     image1,
@@ -146,6 +159,19 @@ const EditProduct = () => {
     setDimensions,
   };
   //   console.log(productData);
+
+  const handleCategoryChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setSelectedCategories((prevCategories) => [...prevCategories, value]);
+    } else {
+      setSelectedCategories((prevCategories) =>
+        prevCategories.filter((category) => category !== value)
+      );
+    }
+  };
+
+  
 
   const handleDimensionChange = (e) => {
     const { name, value } = e.target;
@@ -310,6 +336,7 @@ const EditProduct = () => {
         handleUpdateProduct={handleUpdateProduct}
         handleAddCategory={handleAddCategory}
         handleCheckboxChange={handleCheckboxChange}
+        handleCategoryChange={handleCategoryChange}
         productData={productData}
         title='Update'
       />
