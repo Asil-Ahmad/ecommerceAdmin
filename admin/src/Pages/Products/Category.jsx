@@ -17,7 +17,7 @@ import { ShopContext } from "../../context/ShopContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const TABLE_HEAD = ["Thumbnail", "Name", "Status", "Created Date", "Actions"];
+const TABLE_HEAD = ["Thumbnail", "Name", "Slug", "Description", "Created Date", "Actions"];
 
 const Category = () => {
   const [categories, setCategories] = useState([]);
@@ -124,49 +124,61 @@ const Category = () => {
                 </tr>
               </thead>
               <tbody>
-                {categories.map(({ _id, thumbnail, name, status, createdAt }, index) => (
-                  <tr key={_id} className='even:bg-blue-gray-50/50'>
-                    <td className='p-4'>
-                      <img src={thumbnail} alt='' />
-                    </td>
-                    <td className='p-4'>
-                      <Typography variant='small' color='blue-gray' className='font-normal'>
-                        {name}
-                      </Typography>
-                    </td>
-                    <td className='p-4'>
-                      <Chip
-                        variant='ghost'
-                        size='sm'
-                        value={status}
-                        color={status === "active" ? "green" : "blue-gray"}
-                      />
-                    </td>
-                    <td className='p-4'>
-                      <Typography variant='small' color='blue-gray' className='font-normal'>
-                        {formatTimestamp(createdAt)}
-                      </Typography>
-                    </td>
-                    <td className='p-4'>
-                      <div className='flex gap-2'>
-                        <Tooltip content='Edit Category'>
-                          <IconButton variant='text' color='blue-gray'>
-                            <PencilIcon className='h-4 w-4' />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip content='Delete Category'>
-                          <IconButton
-                            variant='text'
-                            color='red'
-                            onClick={() => removeCategory(_id)}
-                          >
-                            <TrashIcon className='h-4 w-4' />
-                          </IconButton>
-                        </Tooltip>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                {categories.map(
+                  (
+                    { _id, thumbnail, slug, name, description, isFeatured, createdAt, updateAt },
+                    index
+                  ) => (
+                    <tr key={_id} className='even:bg-blue-gray-50/50'>
+                      <td className='p-4'>
+                        <img src={thumbnail} alt='' />
+                      </td>
+                      <td className='p-4'>
+                        <Typography variant='small' color='blue-gray' className='font-normal'>
+                          {name}
+                        </Typography>
+                      </td>
+                      <td className='p-4'>
+                        {/* <Chip
+                          variant='ghost'
+                          size='sm'
+                          color={isFeatured ? "lightBlue" : "gray"}
+                        /> */}
+                        <Typography variant='small' color='blue-gray' className='font-normal'>
+                          {slug}
+                        </Typography>
+                      </td>
+                      <td className='p-4'>
+                        <Typography variant='small' color='blue-gray' className='font-normal'>
+                          {description}
+                        </Typography>
+                      </td>
+                      <td className='p-4'>
+                        <Typography variant='small' color='blue-gray' className='font-normal'>
+                          {formatTimestamp(createdAt)}
+                        </Typography>
+                      </td>
+                      <td className='p-4'>
+                        <div className='flex gap-2'>
+                          <Tooltip content='Edit Category'>
+                            <IconButton variant='text' color='blue-gray'>
+                              <PencilIcon className='h-4 w-4' />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip content='Delete Category'>
+                            <IconButton
+                              variant='text'
+                              color='red'
+                              onClick={() => removeCategory(_id)}
+                            >
+                              <TrashIcon className='h-4 w-4' />
+                            </IconButton>
+                          </Tooltip>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                )}
               </tbody>
             </table>
           </CardBody>

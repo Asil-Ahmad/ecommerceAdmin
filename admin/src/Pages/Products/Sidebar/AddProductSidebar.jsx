@@ -180,7 +180,7 @@ const AddProductSidebar = ({
         {/* todo Opens single Image modal */}
         {openImageModal1 ? (
           <div className='fixed inset-0 z-10'>
-            <div className='fixed inset-0 bg-black/70 '></div>
+            <div className='fixed inset-0 bg-black/70'></div>
             <div className='fixed top-1/2 left-1/2 bg-white border shadow-2xl border-gray-300 z-10 w-[90%] h-[90%] p-4 transform -translate-x-1/2 -translate-y-1/2'>
               <div className='flex justify-between items-center'>
                 <Typography variant='h5' color='blue-gray'>

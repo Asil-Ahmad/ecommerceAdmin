@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { simpleProduct } from "../../../constant";
 import { ClipboardIcon, TruckIcon, WindowIcon, WrenchIcon } from "@heroicons/react/24/solid";
 
@@ -32,6 +32,15 @@ const ProductData = ({ productData, handleDimensionChange }) => {
     stockStatus: "inStock",
     shippingAddress: "",
   });
+
+  // useEffect(() => {
+  //   const now = new Date().getTime();
+  //   if (saleStart && saleEnd && now >= saleStart && now <= saleEnd) {
+  //     setIsSaleEnabled(true);
+  //   } else {
+  //     setIsSaleEnabled(false);
+  //   }
+  // }, [saleStart, saleEnd]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

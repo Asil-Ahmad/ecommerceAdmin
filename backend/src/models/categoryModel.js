@@ -17,6 +17,7 @@ const categorySchema = new mongoose.Schema(
     description: {
       type: String,
       trim: true,
+      default: "No description provided",
     },
     thumbnail: { type: String },
     // parent: {
