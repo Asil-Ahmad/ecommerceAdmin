@@ -40,13 +40,16 @@ export const addCategory = async (req, res) => {
 export const updateCategory = async (req, res) => {
   try {
     const { name, slug, description, id } = req.body;
+
     //if no id
     if (!id) {
       return res.status(400).json({ success: false, message: "Category ID is required!" });
     }
 
     //if no category with id?
-    const categoryExist = await categoryModel.findById(id);
+    const categoryExist = await categoryModel.findByIdAndUpdate(id);
+    console.log("This is categoryExist", categoryExist);
+
     if (!categoryExist) {
       return res.status(404).json({ success: false, message: "Category not found!" });
     }
@@ -69,7 +72,7 @@ export const updateCategory = async (req, res) => {
     categoryExist.description = description || categoryExist.description;
     categoryExist.thumbnail = thumbnailUrl;
 
-    await categoryExist.save();
+     await categoryExist.save();
 
     res
       .status(200)

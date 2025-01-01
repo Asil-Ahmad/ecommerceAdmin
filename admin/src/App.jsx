@@ -11,6 +11,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditProduct from "./Pages/Products/EditProduct";
 import Category from "./Pages/Products/Category";
+import EditCategory from "./Pages/Products/EditCategory";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -33,6 +34,7 @@ const App = () => {
         <Route path='/add_new_product' element={<AddProduct />} />
         <Route path='/edit_product/:_id' element={<EditProduct />} />
         <Route path='/categories' element={<Category />} />
+        <Route path='/edit_category/:_id' element={<EditCategory />} />
       </Routes>
     </div>
   );

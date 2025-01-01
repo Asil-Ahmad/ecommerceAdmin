@@ -29,6 +29,7 @@ const Category = () => {
     description: "",
     thumbnail: false,
   });
+  const { navigate } = useContext(ShopContext);
   console.log(formData);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -214,7 +215,11 @@ const Category = () => {
                       <td className='p-4'>
                         <div className='flex gap-2'>
                           <Tooltip content='Edit Category'>
-                            <IconButton variant='text' color='blue-gray'>
+                            <IconButton
+                              variant='text'
+                              color='blue-gray'
+                              onClick={() => navigate(`/edit_category/${_id}`)}
+                            >
                               <PencilIcon className='h-4 w-4' />
                             </IconButton>
                           </Tooltip>

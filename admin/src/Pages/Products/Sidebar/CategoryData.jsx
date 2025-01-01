@@ -1,6 +1,7 @@
 import React from "react";
-import { Typography, Button, CardBody, Input } from "@material-tailwind/react";
+import { Typography, Button, CardBody, Input, Textarea } from "@material-tailwind/react";
 import { PhotoIcon } from "@heroicons/react/24/solid";
+
 const CategoryData = ({ formData, setFormData, handleAddCategory }) => {
   return (
     <CardBody className='w-[25%] bg-gray-50 rounded-l-lg'>
@@ -22,23 +23,17 @@ const CategoryData = ({ formData, setFormData, handleAddCategory }) => {
           value={formData.slug}
           onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
         />
-        <div>
-          <Typography variant='para' color='blue-gray'>
-            Description
-          </Typography>
-          <textarea
-            name=''
-            id=''
-            className='w-full'
-            value={formData.description}
-            placeholder='Enter category description'
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-          ></textarea>
-        </div>
+        <Textarea
+          label='Description'
+          value={formData.description}
+          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+        />
 
         <label
           htmlFor='thumbnail'
-          className='items-center flex justify-between border-2 p-2 cursor-pointer rounded-lg'
+          className={`items-center flex justify-between border-2 ${
+            formData.thumbnail ? "border-black" : ""
+          } p-2 cursor-pointer rounded-lg`}
         >
           {formData.thumbnail ? (
             <img
