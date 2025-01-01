@@ -47,11 +47,11 @@ const EditCategory = () => {
 
   return (
     <div className='flex w-full justify-center items-center min-h-screen bg-gray-100'>
-      <Card color='transparent' shadow={false} className='p-8 bg-white'>
+      <Card color='transparent' shadow={false} className='p-8 bg-gray-50 h-full w-full'>
         <Typography variant='h4' color='blue-gray'>
           Edit Category
         </Typography>
-        <form className='mt-8 mb-2 w-80 max-w-screen-lg sm:w-96' onSubmit={handleSubmit}>
+        <form className='mt-8 mb-2 w-80 max-w-screen-lg sm:w-[34rem]' onSubmit={handleSubmit}>
           <div className='mb-4 flex flex-col gap-6'>
             <Input
               size='lg'
