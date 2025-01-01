@@ -39,15 +39,15 @@ export const addCategory = async (req, res) => {
 
 export const updateCategory = async (req, res) => {
   try {
-    const { name, slug, description, id } = req.body;
+    const { name, slug, description, _id } = req.body;
 
     //if no id
-    if (!id) {
+    if (!_id) {
       return res.status(400).json({ success: false, message: "Category ID is required!" });
     }
 
     //if no category with id?
-    const categoryExist = await categoryModel.findByIdAndUpdate(id);
+    const categoryExist = await categoryModel.findById(_id);
     console.log("This is categoryExist", categoryExist);
 
     if (!categoryExist) {
@@ -67,16 +67,20 @@ export const updateCategory = async (req, res) => {
     }
 
     //update category or keep the same
-    categoryExist.name = name || categoryExist.name;
-    categoryExist.slug = slug || categoryExist.slug;
-    categoryExist.description = description || categoryExist.description;
-    categoryExist.thumbnail = thumbnailUrl;
+    const categoryData = {
+      name: name || categoryExist.name,
+      slug: slug || categoryExist.slug,
+      description: description || categoryExist.description,
+      thumbnail: thumbnailUrl,
+    };
 
-     await categoryExist.save();
+    const updatedCategory = await categoryModel.findByIdAndUpdate(_id, categoryData, {
+      new: true, // Return the updated document
+    });
 
     res
       .status(200)
-      .json({ success: true, message: "Category updated successfully", categoryExist });
+      .json({ success: true, message: "Category updated successfully", updatedCategory });
   } catch (error) {
     res
       .status(400)

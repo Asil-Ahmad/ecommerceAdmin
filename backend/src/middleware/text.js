@@ -1,10 +1,9 @@
-import cron from "node-cron";
-import productModel from "../models/productModel.js";
+import cron from 'node-cron';
+import Product from '../models/Product'; // Assuming you have a Product model
 
-//todo this check Function to check and remove expired sales
 const checkAndRemoveExpiredSales = async () => {
   try {
-    const products = await productModel.find();
+    const products = await Product.find();
 
     for (const product of products) {
       const now = new Date();
@@ -29,6 +28,7 @@ const checkAndRemoveExpiredSales = async () => {
     console.error("Error checking expired sales:", error);
   }
 };
+
 export default checkAndRemoveExpiredSales;
 
 // Middleware to run expired sales check on incoming requests
@@ -39,8 +39,8 @@ export const checkExpiredSalesMiddleware = async (req, res, next) => {
 
 // Schedule the task to run every hour using node-cron
 export const startCronJob = () => {
-  cron.schedule("* * * * * *", async () => {
-    console.log("Ok Running scheduled task to check expired sales...");
+  cron.schedule("* * * * *", async () => {
+    console.log("Running scheduled task to check expired sales...");
     await checkAndRemoveExpiredSales();
   });
 };

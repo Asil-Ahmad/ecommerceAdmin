@@ -1,8 +1,8 @@
 import cron from "node-cron";
 import productModel from "../models/productModel.js";
 
-const task = cron.schedule("* * * * * *", async (req,res) => {
-  // Runs every hour
+const task = cron.schedule("* * * * * *", async (req, res, next) => {
+  // console.log("Every Running scheduled task to check expired sales...");
   try {
     const now = Date.now();
 
@@ -21,7 +21,7 @@ const task = cron.schedule("* * * * * *", async (req,res) => {
           $set: { salePrice: null, saleStart: null, saleEnd: null },
         }
       );
-      console.log(`Expired sales updated ${result} for products.`)
+      console.log(`Expired sales updated ${result} for products.`);
       // Update each product to remove the sale price
       for (const product of expiredSales) {
         product.salePrice = null;
@@ -31,12 +31,10 @@ const task = cron.schedule("* * * * * *", async (req,res) => {
         console.log(`Sale expired for product: ${product.name}`);
       }
     }
-
- 
-     
   } catch (error) {
     console.error("Error checking expired sales:", error);
   }
+  next(); // Proceed to the next middleware or route handler
 });
 
 export default task;

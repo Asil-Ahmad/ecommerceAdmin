@@ -133,6 +133,7 @@ const AllProducts = () => {
                   images,
                   price,
                   salePrice,
+                  saleStart,
                   createdAt,
                   stock,
                   selectedCategories,
@@ -188,7 +189,7 @@ const AllProducts = () => {
                       </div>
                     </td>
                     <td className={classes}>
-                      {salePrice ? (
+                      {salePrice && saleStart && new Date(saleStart) <= new Date() ? (
                         <>
                           <Typography
                             variant='small'
