@@ -40,9 +40,46 @@ export const addCategory = async (req, res) => {
 export const updateCategory = async (req, res) => {
   try {
     const { name, slug, description, id } = req.body;
-    const category = await categoryModel.findById(id);
-    category.name = name;
-  } catch (error) {}
+    //if no id
+    if (!id) {
+      return res.status(400).json({ success: false, message: "Category ID is required!" });
+    }
+
+    //if no category with id?
+    const categoryExist = await categoryModel.findById(id);
+    if (!categoryExist) {
+      return res.status(404).json({ success: false, message: "Category not found!" });
+    }
+
+    //if no file
+    const thumbnailFile = req.file;
+    let thumbnailUrl = categoryExist.thumbnail;
+
+    //if file
+    if (thumbnailFile) {
+      const imageUpload = await cloudinary.uploader.upload(thumbnailFile.path, {
+        resource_type: "image",
+      });
+      thumbnailUrl = imageUpload.secure_url;
+    }
+
+    //update category or keep the same
+    categoryExist.name = name || categoryExist.name;
+    categoryExist.slug = slug || categoryExist.slug;
+    categoryExist.description = description || categoryExist.description;
+    categoryExist.thumbnail = thumbnailUrl;
+
+    await categoryExist.save();
+
+    res
+      .status(200)
+      .json({ success: true, message: "Category updated successfully", categoryExist });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ success: false, message: "Failed to update category!", error: error.message });
+    console.log(error);
+  }
 };
 
 export const getCategories = async (req, res) => {
