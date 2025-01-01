@@ -26,6 +26,8 @@ export const addCategory = async (req, res) => {
     };
     const newCategory = new categoryModel(categoryData);
     await newCategory.save();
+    console.log("This is newCategory", newCategory);
+
     res.status(200).json({ success: true, message: "Category added successfully", newCategory });
   } catch (error) {
     res
@@ -33,6 +35,14 @@ export const addCategory = async (req, res) => {
       .json({ success: false, message: "Failed to add category!", error: error.message });
     console.log(error);
   }
+};
+
+export const updateCategory = async (req, res) => {
+  try {
+    const { name, slug, description, id } = req.body;
+    const category = await categoryModel.findById(id);
+    category.name = name;
+  } catch (error) {}
 };
 
 export const getCategories = async (req, res) => {

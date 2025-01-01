@@ -11,11 +11,12 @@ import {
   Tooltip,
   Input,
 } from "@material-tailwind/react";
-import { PencilIcon, TrashIcon, PlusIcon } from "@heroicons/react/24/solid";
+import { PencilIcon, TrashIcon, PlusIcon, PhotoIcon } from "@heroicons/react/24/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { ShopContext } from "../../context/ShopContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import CategoryData from "./Sidebar/CategoryData";
 
 const TABLE_HEAD = ["Thumbnail", "Name", "Slug", "Description", "Created Date", "Actions"];
 
@@ -26,8 +27,10 @@ const Category = () => {
     name: "",
     slug: "",
     description: "",
-    thumbnail: "",
+    thumbnail: false,
   });
+  console.log(formData);
+
   const [currentPage, setCurrentPage] = useState(1);
   const categoriesPerPage = 6;
 
@@ -79,7 +82,16 @@ const Category = () => {
   //todo  Add Category
   const handleAddCategory = async () => {
     try {
-      const response = await axios.post(`${backendURL}/api/category/add-category`, formData);
+      const data = new FormData();
+      data.append("name", formData.name);
+      data.append("slug", formData.slug);
+      data.append(
+        "description",
+        formData.description === "" ? "No description provided" : formData.description
+      );
+      data.append("thumbnail", formData.thumbnail);
+      const response = await axios.post(`${backendURL}/api/category/add-category`, data); //!this is with file
+      // const response = await axios.post(`${backendURL}/api/category/add-category`, formData); //!without file good for text only data
       console.log("Add Category:", response);
       if (response.data) {
         toast.success(response.data.message);
@@ -130,41 +142,11 @@ const Category = () => {
         </div>
       </CardHeader>
       <div className='flex'>
-        <CardBody className='w-[25%] bg-gray-50 rounded-l-lg'>
-          <Typography variant='h6' color='blue-gray' className='mb-4'>
-            Add new Category
-          </Typography>
-          <div className='flex flex-col gap-4'>
-            <Input
-              label='Name'
-              placeholder='Enter category name'
-              className='bg-white'
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            />
-            <Input
-              label='Slug'
-              placeholder='Enter category slug'
-              className='bg-white'
-              value={formData.slug}
-              onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-            />
-            <div>
-              <Typography variant='para' color='blue-gray'>
-                Description
-              </Typography>
-              <textarea
-                name=''
-                id=''
-                className='w-full'
-                value={formData.description}
-                placeholder='Enter category description'
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              ></textarea>
-            </div>
-            <Button onClick={handleAddCategory}>Add New Category</Button>
-          </div>
-        </CardBody>
+        <CategoryData
+          formData={formData}
+          setFormData={setFormData}
+          handleAddCategory={handleAddCategory}
+        />
 
         {/* //!Second card body */}
         <div className='w-[75%]'>
@@ -199,7 +181,7 @@ const Category = () => {
                   }) => (
                     <tr key={_id} className='even:bg-blue-gray-50/50'>
                       <td className='p-4'>
-                        <img src={thumbnail} alt='' />
+                        <img src={thumbnail} alt='' width={50} />
                       </td>
                       <td className='p-4'>
                         <Typography variant='small' color='blue-gray' className='font-normal'>
