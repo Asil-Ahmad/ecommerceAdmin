@@ -22,6 +22,14 @@ const TABLE_HEAD = ["Thumbnail", "Name", "Slug", "Description", "Created Date", 
 const Category = () => {
   const [categories, setCategories] = useState([]);
   const { backendURL } = useContext(ShopContext);
+  const [formData, setFormData] = useState({
+    name: "",
+    slug: "",
+    description: "",
+    thumbnail: "",
+  });
+  const [currentPage, setCurrentPage] = useState(1);
+  const categoriesPerPage = 6;
 
   //set Date
   const formatTimestamp = (timestamp) => {
@@ -41,6 +49,7 @@ const Category = () => {
     return `${year}/${month}/${day} at ${hours}:${minutes} ${ampm}`;
   };
 
+  //todo  Get ALl Category
   const fetchCategories = async () => {
     try {
       const response = await axios.get(`${backendURL}/api/category/list-categories`);
@@ -52,10 +61,7 @@ const Category = () => {
     }
   };
 
-  useEffect(() => {
-    fetchCategories();
-  }, [backendURL]);
-
+  //todo  Remove Category
   const removeCategory = async (id) => {
     console.log(id);
 
@@ -67,6 +73,42 @@ const Category = () => {
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  //todo  Add Category
+  const handleAddCategory = async () => {
+    try {
+      const response = await axios.post(`${backendURL}/api/category/add-category`, formData);
+      console.log("Add Category:", response);
+      if (response.data) {
+        toast.success(response.data.message);
+        await fetchCategories();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, [backendURL]);
+
+  // Calculate the categories to display on the current page
+  const indexOfLastCategory = currentPage * categoriesPerPage;
+  const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
+  const currentCategories = categories.slice(indexOfFirstCategory, indexOfLastCategory);
+
+  // Handle pagination
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(categories.length / categoriesPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
     }
   };
 
@@ -93,14 +135,34 @@ const Category = () => {
             Add new Category
           </Typography>
           <div className='flex flex-col gap-4'>
-            <Input label='Name' placeholder='Enter category name' className='bg-white' />
-            <Input label='Slug' placeholder='Enter category slug' className='bg-white' />
+            <Input
+              label='Name'
+              placeholder='Enter category name'
+              className='bg-white'
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            />
+            <Input
+              label='Slug'
+              placeholder='Enter category slug'
+              className='bg-white'
+              value={formData.slug}
+              onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+            />
             <div>
               <Typography variant='para' color='blue-gray'>
                 Description
               </Typography>
-              <textarea name='' id='' className='w-full'></textarea>
+              <textarea
+                name=''
+                id=''
+                className='w-full'
+                value={formData.description}
+                placeholder='Enter category description'
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              ></textarea>
             </div>
+            <Button onClick={handleAddCategory}>Add New Category</Button>
           </div>
         </CardBody>
 
@@ -124,11 +186,17 @@ const Category = () => {
                 </tr>
               </thead>
               <tbody>
-                {categories.map(
-                  (
-                    { _id, thumbnail, slug, name, description, isFeatured, createdAt, updateAt },
-                    index
-                  ) => (
+                {currentCategories.map(
+                  ({
+                    _id,
+                    thumbnail,
+                    slug,
+                    name,
+                    description,
+                    isFeatured,
+                    createdAt,
+                    updateAt,
+                  }) => (
                     <tr key={_id} className='even:bg-blue-gray-50/50'>
                       <td className='p-4'>
                         <img src={thumbnail} alt='' />
@@ -139,22 +207,25 @@ const Category = () => {
                         </Typography>
                       </td>
                       <td className='p-4'>
-                        {/* <Chip
-                          variant='ghost'
-                          size='sm'
-                          color={isFeatured ? "lightBlue" : "gray"}
-                        /> */}
                         <Typography variant='small' color='blue-gray' className='font-normal'>
                           {slug}
                         </Typography>
                       </td>
                       <td className='p-4'>
-                        <Typography variant='small' color='blue-gray' className='font-normal max-w-40 truncate'>
+                        <Typography
+                          variant='small'
+                          color='blue-gray'
+                          className='font-normal max-w-40 truncate'
+                        >
                           {description}
                         </Typography>
                       </td>
                       <td className='p-4'>
-                        <Typography variant='small' color='blue-gray' className='font-normal'>
+                        <Typography
+                          variant='small'
+                          color='blue-gray'
+                          className='font-normal max-w-[5rem]'
+                        >
                           {formatTimestamp(createdAt)}
                         </Typography>
                       </td>
@@ -184,13 +255,25 @@ const Category = () => {
           </CardBody>
           <CardFooter className='flex items-center justify-between border-t border-blue-gray-50 p-4 '>
             <Typography variant='small' color='blue-gray' className='font-normal'>
-              Page 1 of 1
+              Page {currentPage} of {Math.ceil(categories.length / categoriesPerPage)}
             </Typography>
             <div className='flex gap-2'>
-              <Button variant='outlined' color='blue-gray' size='sm'>
+              <Button
+                variant='outlined'
+                color='blue-gray'
+                size='sm'
+                onClick={handlePreviousPage}
+                disabled={currentPage === 1}
+              >
                 Previous
               </Button>
-              <Button variant='outlined' color='blue-gray' size='sm'>
+              <Button
+                variant='outlined'
+                color='blue-gray'
+                size='sm'
+                onClick={handleNextPage}
+                disabled={currentPage === Math.ceil(categories.length / categoriesPerPage)}
+              >
                 Next
               </Button>
             </div>
