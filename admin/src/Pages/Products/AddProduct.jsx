@@ -40,6 +40,7 @@ const AddProduct = () => {
   const [price, setPrice] = useState("1100");
   //sale price,start end
   const [salePrice, setSalePrice] = useState("");
+  const [isSaleEnabled, setIsSaleEnabled] = useState(false);
   const [saleStart, setSaleStart] = useState(null);
   const [saleEnd, setSaleEnd] = useState(null);
   //weight,dimenstion
@@ -88,6 +89,8 @@ const AddProduct = () => {
     setPrice,
     salePrice,
     setSalePrice,
+    isSaleEnabled,
+    setIsSaleEnabled,
     allCategories,
     setAllCategories,
     subCategory,
@@ -134,7 +137,7 @@ const AddProduct = () => {
     dimensions,
     setDimensions,
   };
-  // console.log(dimensions);
+  console.log(isSaleEnabled);
 
   // Add Product
   const handleAddProduct = async (e) => {

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { simpleProduct } from "../../../constant";
 import { ClipboardIcon, TruckIcon, WindowIcon, WrenchIcon } from "@heroicons/react/24/solid";
 
-
 const ProductData = ({ productData, handleDimensionChange }) => {
   const {
     price,
@@ -20,13 +19,14 @@ const ProductData = ({ productData, handleDimensionChange }) => {
     weight,
     setWeight,
     dimensions,
+    isSaleEnabled,
+    setIsSaleEnabled,
     setDimensions,
   } = productData;
   const [activeTab, setActiveTab] = useState("General");
 
-  console.log(productData);
+  console.log(isSaleEnabled);
 
-  const [isSaleEnabled, setIsSaleEnabled] = useState(false);
   const [productDetails, setProductDetails] = useState({
     regularPrice: "",
     salePrice: "",
@@ -45,8 +45,6 @@ const ProductData = ({ productData, handleDimensionChange }) => {
   //     setIsSaleEnabled(false);
   //   }
   // }, [saleStart, saleEnd]);
-
- 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

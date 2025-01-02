@@ -52,11 +52,9 @@ const EditProduct = () => {
     dwidth: "",
     dheight: "",
   });
-
   const [stock, setStock] = useState(2);
-
-  const [category, setCategory] = useState("T-shirt");
-  const [sizes, setSizes] = useState([]);
+  // const [category, setCategory] = useState("T-shirt");
+  // const [sizes, setSizes] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const fetchProduct = async () => {
@@ -65,6 +63,7 @@ const EditProduct = () => {
 
       const { updatedProduct } = response.data;
       console.log("Updated Product", updatedProduct);
+
       setName(updatedProduct.name || "");
       setDescription(updatedProduct.description || "");
       setShortDescription(updatedProduct.short_description || "");
@@ -84,9 +83,9 @@ const EditProduct = () => {
         dwidth: updatedProduct.dimensions.dwidth || "",
         dheight: updatedProduct.dimensions.dheight || "",
       });
+
       setIsSaleEnabled(updatedProduct.isSaleEnabled || false);
-      setSaleStart(updatedProduct.saleStart || "");
-      setSaleEnd(updatedProduct.saleEnd || "");
+      setSaleEnd(updatedProduct.saleEnd);
     } catch (error) {
       console.log(error);
     }
@@ -104,8 +103,8 @@ const EditProduct = () => {
   useEffect(() => {
     fetchProduct();
     fetchCategories();
-    console.log("THIS IS START", saleStart);
-  }, [backendURL]);
+    // console.log("THIS IS START", saleStart);
+  }, []);
 
   const productData = {
     name,
@@ -116,6 +115,8 @@ const EditProduct = () => {
     setPrice,
     salePrice,
     setSalePrice,
+    isSaleEnabled,
+    setIsSaleEnabled,
     saleStart,
     setSaleStart,
     saleEnd,
@@ -129,7 +130,7 @@ const EditProduct = () => {
     setSelectedCategories,
     allCategories,
     setAllCategories,
-    sizes,
+    // sizes,
 
     image1,
     setImage1,
@@ -161,7 +162,7 @@ const EditProduct = () => {
     dimensions,
     setDimensions,
   };
-     console.log("This",productData);
+  //  console.log("This",productData);
 
   const handleCategoryChange = (e) => {
     const { value, checked } = e.target;
