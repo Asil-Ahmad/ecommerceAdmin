@@ -16,6 +16,7 @@ const productSchema = new mongoose.Schema({
   createdAt: { type: Number, required: true },
   updatedAt: { type: Number, default: null },
   //sales Start-End
+  isSaleEnabled: { type: Boolean, default: false }, // to check if the sale is enabled
   saleStart: { type: Number, default: null }, // Timestamp when the sale starts
   saleEnd: { type: Number, default: null },
   weight: { type: Number },

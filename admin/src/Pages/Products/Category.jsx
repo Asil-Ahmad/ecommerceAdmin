@@ -59,7 +59,7 @@ const Category = () => {
       const response = await axios.get(`${backendURL}/api/category/list-categories`);
       const { categories } = response.data;
       setCategories(categories);
-      console.log(categories);
+      // console.log(categories);
     } catch (error) {
       console.error("Failed to fetch categories", error);
     }

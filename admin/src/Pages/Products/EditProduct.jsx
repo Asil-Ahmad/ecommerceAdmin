@@ -41,6 +41,7 @@ const EditProduct = () => {
 
   const [price, setPrice] = useState("");
   //sale price,start end
+  const [isSaleEnabled, setIsSaleEnabled] = useState(false);
   const [salePrice, setSalePrice] = useState("");
   const [saleStart, setSaleStart] = useState("");
   const [saleEnd, setSaleEnd] = useState("");
@@ -83,6 +84,7 @@ const EditProduct = () => {
         dwidth: updatedProduct.dimensions.dwidth || "",
         dheight: updatedProduct.dimensions.dheight || "",
       });
+      setIsSaleEnabled(updatedProduct.isSaleEnabled || false);
       setSaleStart(updatedProduct.saleStart || "");
       setSaleEnd(updatedProduct.saleEnd || "");
     } catch (error) {
@@ -102,6 +104,7 @@ const EditProduct = () => {
   useEffect(() => {
     fetchProduct();
     fetchCategories();
+    console.log("THIS IS START", saleStart);
   }, [backendURL]);
 
   const productData = {
@@ -158,7 +161,7 @@ const EditProduct = () => {
     dimensions,
     setDimensions,
   };
-  //   console.log(productData);
+     console.log("This",productData);
 
   const handleCategoryChange = (e) => {
     const { value, checked } = e.target;
@@ -170,8 +173,6 @@ const EditProduct = () => {
       );
     }
   };
-
-  
 
   const handleDimensionChange = (e) => {
     const { name, value } = e.target;
@@ -287,7 +288,7 @@ const EditProduct = () => {
             {/* todo Product Name */}
             <input
               placeholder='Product Name'
-              className='peer w-full bg-transparent placeholder:text-xl placeholder:text-slate-400 text-slate-700 text-xl 
+              className='peer w-full  bg-transparent placeholder:text-xl placeholder:text-slate-400 text-slate-700 text-xl 
                border border-black rounded-md px-3 py-3 transition duration-300 ease  hover:border-slate-300 shadow-sm focus:shadow'
               value={name}
               onChange={(e) => setName(e.target.value)}

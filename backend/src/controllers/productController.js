@@ -17,6 +17,7 @@ const addProduct = async (req, res) => {
       short_description,
       salePrice,
       stock,
+      isSaleEnabled,
       saleStart,
       saleEnd,
       weight,
@@ -53,6 +54,7 @@ const addProduct = async (req, res) => {
       short_description,
       salePrice,
       stock,
+      isSaleEnabled: saleStart && saleEnd ? true : false,
       saleStart,
       saleEnd,
       weight,
@@ -104,6 +106,7 @@ const updateProduct = async (req, res) => {
       stock,
       weight,
       dimensions,
+      isSaleEnabled,
       saleStart,
       saleEnd,
     } = req.body;
@@ -152,6 +155,7 @@ const updateProduct = async (req, res) => {
       images: imagesUrl.length > 0 ? imagesUrl : existingProduct.images, // Keep existing images if no new ones
       weight: weight || existingProduct.weight,
       dimensions: dimensions || existingProduct.dimensions,
+      isSaleEnabled: saleStart && saleEnd ? true : false,
       saleStart: saleStart || existingProduct.saleStart,
       saleEnd: saleEnd || existingProduct.saleEnd,
       updatedAt: Date.now(),

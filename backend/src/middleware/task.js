@@ -27,6 +27,7 @@ const task = cron.schedule("* * * * * *", async (req, res, next) => {
         product.salePrice = null;
         product.saleStart = null;
         product.saleEnd = null;
+        product.isSaleEnabled = false;
         await product.save();
         console.log(`Sale expired for product: ${product.name}`);
       }
