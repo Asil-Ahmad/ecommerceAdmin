@@ -57,39 +57,45 @@ const EditProduct = () => {
   // const [sizes, setSizes] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchProduct = async () => {
-    try {
-      const response = await axios.post("http://localhost:4000/api/product/update", { _id });
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.post("http://localhost:4000/api/product/update", { _id });
 
-      const { updatedProduct } = response.data;
-      console.log("Updated Product", updatedProduct);
+        const { updatedProduct } = response.data;
+        console.log("Update", updatedProduct.isSaleEnabled);
+        console.log("isSaleEnabled after set:", updatedProduct.isSaleEnabled || false);
 
-      setName(updatedProduct.name || "");
-      setDescription(updatedProduct.description || "");
-      setShortDescription(updatedProduct.short_description || "");
-      setPrice(updatedProduct.price || "");
-      setSalePrice(updatedProduct.salePrice || "");
-      setSku(updatedProduct.sku || "");
-      setStock(updatedProduct.stock || "");
-      setSalePrice(updatedProduct.salePrice || "");
-      setSelectedCategories(updatedProduct.categories || "");
-      setImage1(updatedProduct.images[0].url);
-      setImage2(updatedProduct.images[1].url);
-      setImage3(updatedProduct.images[2].url);
-      setImage4(updatedProduct.images[3].url);
-      setWeight(updatedProduct.weight || "");
-      setDimensions({
-        dlength: updatedProduct.dimensions.dlength || "",
-        dwidth: updatedProduct.dimensions.dwidth || "",
-        dheight: updatedProduct.dimensions.dheight || "",
-      });
+        setName(updatedProduct.name || "");
+        setDescription(updatedProduct.description || "");
+        setShortDescription(updatedProduct.short_description || "");
+        setPrice(updatedProduct.price || "");
+        setSalePrice(updatedProduct.salePrice || "");
 
-      setIsSaleEnabled(updatedProduct.isSaleEnabled || false);
-      setSaleEnd(updatedProduct.saleEnd);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+        setSku(updatedProduct.sku || "");
+        setStock(updatedProduct.stock || "");
+        setSelectedCategories(updatedProduct.categories || "");
+        setImage1(updatedProduct.images[0].url);
+        setImage2(updatedProduct.images[1].url);
+        setImage3(updatedProduct.images[2].url);
+        setImage4(updatedProduct.images[3].url);
+        setWeight(updatedProduct.weight || "");
+        setDimensions({
+          dlength: updatedProduct.dimensions.dlength || "",
+          dwidth: updatedProduct.dimensions.dwidth || "",
+          dheight: updatedProduct.dimensions.dheight || "",
+        });
+        setIsSaleEnabled(updatedProduct.isSaleEnabled || false);
+        setSaleStart(updatedProduct.saleStart);
+        setSaleEnd(updatedProduct.saleEnd);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchProduct();
+    console.log("isSale", isSaleEnabled);
+  }, [_id]);
+
   const fetchCategories = async () => {
     try {
       const response = await axios.get(`${backendURL}/api/category/list-categories`);
@@ -101,10 +107,8 @@ const EditProduct = () => {
   };
 
   useEffect(() => {
-    fetchProduct();
     fetchCategories();
-    // console.log("THIS IS START", saleStart);
-  }, []);
+  }, [isSaleEnabled]);
 
   const productData = {
     name,
@@ -162,7 +166,7 @@ const EditProduct = () => {
     dimensions,
     setDimensions,
   };
-  //  console.log("This",productData);
+  // console.log("This", productData);
 
   const handleCategoryChange = (e) => {
     const { value, checked } = e.target;

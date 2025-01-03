@@ -13,6 +13,7 @@ import EditProduct from "./Pages/Products/EditProduct";
 import Category from "./Pages/Products/Category";
 import EditCategory from "./Pages/Products/EditCategory";
 
+
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
   const toggleDarkMode = () => {
@@ -23,6 +24,7 @@ const App = () => {
     <div className={`flex ${darkMode ? "dark" : ""} `}>
       <ToastContainer />
       <Sidebar />
+    
 
       {/* <button className='bg-black text-white' onClick={toggleDarkMode}>
         CLICK

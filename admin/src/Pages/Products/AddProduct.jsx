@@ -137,7 +137,7 @@ const AddProduct = () => {
     dimensions,
     setDimensions,
   };
-  console.log(isSaleEnabled);
+  console.log(saleStart,saleEnd);
 
   // Add Product
   const handleAddProduct = async (e) => {

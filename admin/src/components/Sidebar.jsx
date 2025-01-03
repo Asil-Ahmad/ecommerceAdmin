@@ -26,7 +26,7 @@ import { ShopContext } from "../context/ShopContext";
 const Sidebar = () => {
   const [open, setOpen] = useState(0);
   const { navigate, test } = useContext(ShopContext);
-  console.log(test);
+  // console.log(test);
 
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);

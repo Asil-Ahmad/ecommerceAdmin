@@ -25,7 +25,7 @@ const ProductData = ({ productData, handleDimensionChange }) => {
   } = productData;
   const [activeTab, setActiveTab] = useState("General");
 
-  console.log(isSaleEnabled);
+  
 
   const [productDetails, setProductDetails] = useState({
     regularPrice: "",
@@ -36,15 +36,6 @@ const ProductData = ({ productData, handleDimensionChange }) => {
     stockStatus: "inStock",
     shippingAddress: "",
   });
-
-  // useEffect(() => {
-  //   const now = new Date().getTime();
-  //   if (saleStart && saleEnd && now >= saleStart && now <= saleEnd) {
-  //     setIsSaleEnabled(true);
-  //   } else {
-  //     setIsSaleEnabled(false);
-  //   }
-  // }, [saleStart, saleEnd]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

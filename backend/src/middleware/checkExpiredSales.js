@@ -21,7 +21,7 @@ const checkAndRemoveExpiredSales = async () => {
       if (product.saleEnd && product.saleEnd <= now) {
         product.salePrice = null;
         product.saleEnd = null;
-        product.isSaleEnabled = false;
+        product.isSaleEnabled = false; // Disable the sale
         await product.save();
         console.log(`Sale expired for product: ${product.name}`);
       }
