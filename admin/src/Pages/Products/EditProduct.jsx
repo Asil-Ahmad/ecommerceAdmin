@@ -66,7 +66,7 @@ const EditProduct = () => {
       setName(updatedProduct.name || "");
       setDescription(updatedProduct.description || "");
       setShortDescription(updatedProduct.short_description || "");
-      setPrice(updatedProduct.price || "");
+      setPrice(updatedProduct.price || 0);
       setSalePrice(updatedProduct.salePrice || "");
       setSku(updatedProduct.sku || "");
       setStock(updatedProduct.stock || "");
@@ -104,7 +104,7 @@ const EditProduct = () => {
     fetchCategories();
   }, []);
 
-  console.log("Edit Product", isSaleEnabled);
+  // console.log("Edit Product", isSaleEnabled);
 
   const productData = {
     name,
@@ -200,9 +200,8 @@ const EditProduct = () => {
       formData.append("short_description", short_Description || "");
       formData.append("price", price);
       formData.append("selectedCategories", JSON.stringify(selectedCategories)); // Serialize array
-      if (salePrice) {
-        formData.append("salePrice", salePrice);
-      }
+
+      formData.append("salePrice", salePrice);
 
       if (isSaleEnabled) {
         if (saleStart && saleEnd) {
@@ -212,11 +211,11 @@ const EditProduct = () => {
       } else {
         formData.append("saleStart", ""); // Set saleStart to ""
         formData.append("saleEnd", ""); // Set saleEnd to null
-        formData.append("salePrice", 0); // Set salePrice to null
+        // formData.append("salePrice", 0); // Set salePrice to null
       }
-      if (salePrice === true && isSaleEnabled === false) {
-        alert("Sale Price is enabled but Sale is not enabled");
-      }
+      // if (salePrice === true && isSaleEnabled === false) {
+      //   alert("Sale Price is enabled but Sale is not enabled");
+      // }
 
       formData.append("stock", stock);
       formData.append("sku", sku);
@@ -266,11 +265,11 @@ const EditProduct = () => {
     }
   };
 
-  useEffect(() => {
-    if (!isSaleEnabled) {
-      setSalePrice(0);
-    }
-  }, [isSaleEnabled]);
+  // useEffect(() => {
+  //   if (!isSaleEnabled) {
+  //     setSalePrice(0);
+  //   }
+  // }, [isSaleEnabled]);
 
   //Add new category
   const handleAddCategory = () => {
