@@ -17,7 +17,7 @@ import { ShopContext } from "../../context/ShopContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import CategoryData from "./Sidebar/CategoryData";
-import Loader from "../../constant/Loader";
+import { LoaderSmall } from "../../constant/LoaderSmall";
 
 const TABLE_HEAD = ["Thumbnail", "Name", "Slug", "Description", "Created Date", "Actions"];
 
@@ -157,98 +157,103 @@ const Categories = () => {
         {/* //!Second card body */}
 
         <div className='w-[75%]'>
-          <CardBody className='overflow-scroll px-0 p-0 rounded-r-lg'>
-            <table className='w-full min-w-max table-auto text-left'>
-              <thead>
-                <tr>
-                  {TABLE_HEAD.map((head) => (
-                    <th key={head} className='border-b border-blue-gray-100 bg-blue-gray-50 p-4'>
-                      <Typography
-                        variant='small'
-                        color='blue-gray'
-                        className='font-normal leading-none opacity-70'
-                      >
-                        {head}
-                      </Typography>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {categories.length === 0 ? (
-                  <h1 className='text-center w-full'>No category found</h1>
-                ) : (
-                  currentCategories.map(
-                    ({ _id, thumbnail, slug, name, description, createdAt }) => (
-                      <tr key={_id} className='even:bg-blue-gray-50/50'>
-                        <td className='p-4'>
-                          <img src={thumbnail} alt='' width={50} />
-                        </td>
-                        <td className='p-4'>
-                          <Typography
-                            variant='small'
-                            color='blue-gray'
-                            className='font-normal max-w-20 truncate'
-                          >
-                            {name}
-                          </Typography>
-                        </td>
-                        <td className='p-4'>
-                          <Typography
-                            variant='small'
-                            color='blue-gray'
-                            className='font-normal max-w-20 truncate'
-                          >
-                            {slug}
-                          </Typography>
-                        </td>
-                        <td className='p-4'>
-                          <Typography
-                            variant='small'
-                            color='blue-gray'
-                            className='font-normal max-w-40 truncate'
-                          >
-                            {description}
-                          </Typography>
-                        </td>
-                        <td className='p-4'>
-                          <Typography
-                            variant='small'
-                            color='blue-gray'
-                            className='font-normal max-w-[5rem]'
-                          >
-                            {formatTimestamp(createdAt)}
-                          </Typography>
-                        </td>
-                        <td className='p-4'>
-                          <div className='flex gap-2'>
-                            <Tooltip content='Edit Category'>
-                              <IconButton
-                                variant='text'
-                                color='blue-gray'
-                                onClick={() => navigate(`/edit_category/${_id}`)}
-                              >
-                                <PencilIcon className='h-4 w-4' />
-                              </IconButton>
-                            </Tooltip>
-                            <Tooltip content='Delete Category'>
-                              <IconButton
-                                variant='text'
-                                color='red'
-                                onClick={() => removeCategory(_id)}
-                              >
-                                <TrashIcon className='h-4 w-4' />
-                              </IconButton>
-                            </Tooltip>
-                          </div>
-                        </td>
-                      </tr>
+          {loading ? (
+            <LoaderSmall />
+          ) : (
+            <CardBody className='h-[75vh] overflow-scroll px-0 p-0 rounded-r-lg'>
+              <table className='w-full min-w-max table-auto text-left'>
+                <thead>
+                  <tr>
+                    {TABLE_HEAD.map((head) => (
+                      <th key={head} className='border-b border-blue-gray-100 bg-blue-gray-50 p-4'>
+                        <Typography
+                          variant='small'
+                          color='blue-gray'
+                          className='font-normal leading-none opacity-70'
+                        >
+                          {head}
+                        </Typography>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {categories.length === 0 ? (
+                    <h1 className='text-center w-full'>No category found</h1>
+                  ) : (
+                    currentCategories.map(
+                      ({ _id, thumbnail, slug, name, description, createdAt }) => (
+                        <tr key={_id} className='even:bg-blue-gray-50/50'>
+                          <td className='p-4'>
+                            <img src={thumbnail} alt='' width={50} />
+                          </td>
+                          <td className='p-4'>
+                            <Typography
+                              variant='small'
+                              color='blue-gray'
+                              className='font-normal max-w-20 truncate'
+                            >
+                              {name}
+                            </Typography>
+                          </td>
+                          <td className='p-4'>
+                            <Typography
+                              variant='small'
+                              color='blue-gray'
+                              className='font-normal max-w-20 truncate'
+                            >
+                              {slug}
+                            </Typography>
+                          </td>
+                          <td className='p-4'>
+                            <Typography
+                              variant='small'
+                              color='blue-gray'
+                              className='font-normal max-w-40 truncate'
+                            >
+                              {description}
+                            </Typography>
+                          </td>
+                          <td className='p-4'>
+                            <Typography
+                              variant='small'
+                              color='blue-gray'
+                              className='font-normal max-w-[5rem]'
+                            >
+                              {formatTimestamp(createdAt)}
+                            </Typography>
+                          </td>
+                          <td className='p-4'>
+                            <div className='flex gap-2'>
+                              <Tooltip content='Edit Category'>
+                                <IconButton
+                                  variant='text'
+                                  color='blue-gray'
+                                  onClick={() => navigate(`/edit_category/${_id}`)}
+                                >
+                                  <PencilIcon className='h-4 w-4' />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip content='Delete Category'>
+                                <IconButton
+                                  variant='text'
+                                  color='red'
+                                  onClick={() => removeCategory(_id)}
+                                >
+                                  <TrashIcon className='h-4 w-4' />
+                                </IconButton>
+                              </Tooltip>
+                            </div>
+                          </td>
+                        </tr>
+                      )
                     )
-                  )
-                )}
-              </tbody>
-            </table>
-          </CardBody>
+                  )}
+                </tbody>
+              </table>
+            </CardBody>
+          )}
+
           <CardFooter className='flex items-center justify-between border-t border-blue-gray-50 p-4 '>
             <Typography variant='small' color='blue-gray' className='font-normal'>
               Page {currentPage} of {Math.ceil(categories.length / categoriesPerPage)}
