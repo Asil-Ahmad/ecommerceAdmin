@@ -4,17 +4,21 @@ import { Card, Input, Button, Typography, Textarea } from "@material-tailwind/re
 import axios from "axios";
 import { ShopContext } from "../../context/ShopContext";
 import { PhotoIcon } from "@heroicons/react/24/solid";
+import { toast } from "react-toastify";
 
 const EditCategory = () => {
   const { backendURL } = useContext(ShopContext);
   const { _id } = useParams();
 
   const [formData, setFormData] = useState({
+    _id: "",
     name: "",
     slug: "",
     description: "",
     thumbnail: null,
   });
+
+  const [loading, setLoading] = useState(false);
 
   const fetchCategory = async () => {
     console.log(_id);
@@ -25,6 +29,7 @@ const EditCategory = () => {
       const { updatedCategory } = response.data;
 
       setFormData({
+        _id: updatedCategory._id,
         name: updatedCategory.name,
         slug: updatedCategory.slug,
         description: updatedCategory.description,
@@ -38,11 +43,34 @@ const EditCategory = () => {
 
   useEffect(() => {
     fetchCategory();
-  }, []);
+  }, [_id]);
 
-  const handleSubmit = (e) => {
+  const handleUpdateCategory = async (e) => {
     e.preventDefault();
-    // Add your submit logic here
+    setLoading(true);
+    try {
+      const data = new FormData();
+      data.append("_id", formData._id);
+      data.append("name", formData.name);
+      data.append("slug", formData.slug);
+      data.append(
+        "description",
+        formData.description === "" ? "No description provided" : formData.description
+      );
+      data.append("thumbnail", formData.thumbnail);
+
+      const response = await axios.post("http://localhost:4000/api/category/update-category", data);
+      console.log("Update Category:", response.data);
+
+      if (response.data) {
+        toast.success(response.data.message);
+        await fetchCategory();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -51,7 +79,10 @@ const EditCategory = () => {
         <Typography variant='h4' color='blue-gray'>
           Edit Category
         </Typography>
-        <form className='mt-8 mb-2 w-80 max-w-screen-lg sm:w-[34rem]' onSubmit={handleSubmit}>
+        <form
+          className='mt-8 mb-2 w-80 max-w-screen-lg sm:w-[34rem]'
+          onSubmit={handleUpdateCategory}
+        >
           <div className='mb-4 flex flex-col gap-6'>
             <Input
               size='lg'
@@ -79,13 +110,14 @@ const EditCategory = () => {
               {formData.thumbnail ? (
                 <img
                   src={
-                    formData.thumbnail
+                    typeof formData.thumbnail === "string"
                       ? formData.thumbnail
                       : URL.createObjectURL(formData.thumbnail)
                   }
                   alt={formData.name}
                   width={100}
-                  className='object-cover'
+                  height={100}
+                  className='object-fill'
                 />
               ) : (
                 <PhotoIcon width={100} />
@@ -109,4 +141,5 @@ const EditCategory = () => {
     </div>
   );
 };
+
 export default EditCategory;

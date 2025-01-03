@@ -19,7 +19,15 @@ import { toast } from "react-toastify";
 import CategoryData from "./Sidebar/CategoryData";
 import { LoaderSmall } from "../../constant/LoaderSmall";
 
-const TABLE_HEAD = ["Thumbnail", "Name", "Slug", "Description", "Created Date", "Actions"];
+const TABLE_HEAD = [
+  "Thumbnail",
+  "Name",
+  "Slug",
+  "Description",
+  "Created At",
+  "Updated At",
+  "Actions",
+];
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
