@@ -17,12 +17,14 @@ import { ShopContext } from "../../context/ShopContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import CategoryData from "./Sidebar/CategoryData";
+import Loader from "../../constant/Loader";
 
 const TABLE_HEAD = ["Thumbnail", "Name", "Slug", "Description", "Created Date", "Actions"];
 
-const Category = () => {
+const Categories = () => {
   const [categories, setCategories] = useState([]);
   const { backendURL } = useContext(ShopContext);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     slug: "",
@@ -82,6 +84,7 @@ const Category = () => {
 
   //todo  Add Category
   const handleAddCategory = async () => {
+    setLoading(true);
     try {
       const data = new FormData();
       data.append("name", formData.name);
@@ -100,6 +103,8 @@ const Category = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -150,6 +155,7 @@ const Category = () => {
         />
 
         {/* //!Second card body */}
+
         <div className='w-[75%]'>
           <CardBody className='overflow-scroll px-0 p-0 rounded-r-lg'>
             <table className='w-full min-w-max table-auto text-left'>
@@ -170,7 +176,7 @@ const Category = () => {
               </thead>
               <tbody>
                 {categories.length === 0 ? (
-                  <h1 className="text-center w-full">No category found</h1>
+                  <h1 className='text-center w-full'>No category found</h1>
                 ) : (
                   currentCategories.map(
                     ({ _id, thumbnail, slug, name, description, createdAt }) => (
@@ -179,12 +185,20 @@ const Category = () => {
                           <img src={thumbnail} alt='' width={50} />
                         </td>
                         <td className='p-4'>
-                          <Typography variant='small' color='blue-gray' className='font-normal'>
+                          <Typography
+                            variant='small'
+                            color='blue-gray'
+                            className='font-normal max-w-20 truncate'
+                          >
                             {name}
                           </Typography>
                         </td>
                         <td className='p-4'>
-                          <Typography variant='small' color='blue-gray' className='font-normal'>
+                          <Typography
+                            variant='small'
+                            color='blue-gray'
+                            className='font-normal max-w-20 truncate'
+                          >
                             {slug}
                           </Typography>
                         </td>
@@ -266,4 +280,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default Categories;
