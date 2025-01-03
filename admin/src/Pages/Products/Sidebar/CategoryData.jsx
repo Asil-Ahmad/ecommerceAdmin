@@ -39,8 +39,7 @@ const CategoryData = ({ formData, setFormData, handleAddCategory }) => {
             <img
               src={URL.createObjectURL(formData.thumbnail)}
               alt={formData.name}
-              width={100}
-              className='object-cover'
+              className='w-[100px] h-[100px] object-contain '
             />
           ) : (
             <PhotoIcon width={100} />
