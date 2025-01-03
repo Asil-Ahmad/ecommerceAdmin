@@ -42,7 +42,7 @@ const EditProduct = () => {
   const [price, setPrice] = useState("");
   //sale price,start end
   const [isSaleEnabled, setIsSaleEnabled] = useState(false);
-  const [salePrice, setSalePrice] = useState("");
+  const [salePrice, setSalePrice] = useState(0);
   const [saleStart, setSaleStart] = useState("");
   const [saleEnd, setSaleEnd] = useState("");
   //weight,dimenstion
@@ -200,7 +200,9 @@ const EditProduct = () => {
       formData.append("short_description", short_Description || "");
       formData.append("price", price);
       formData.append("selectedCategories", JSON.stringify(selectedCategories)); // Serialize array
-      formData.append("salePrice", salePrice);
+      if (salePrice) {
+        formData.append("salePrice", salePrice);
+      }
 
       if (isSaleEnabled) {
         if (saleStart && saleEnd) {
@@ -210,7 +212,10 @@ const EditProduct = () => {
       } else {
         formData.append("saleStart", ""); // Set saleStart to ""
         formData.append("saleEnd", ""); // Set saleEnd to null
-        formData.append("salePrice", 0); // Set salePrice to 0
+        formData.append("salePrice", 0); // Set salePrice to null
+      }
+      if (salePrice === true && isSaleEnabled === false) {
+        alert("Sale Price is enabled but Sale is not enabled");
       }
 
       formData.append("stock", stock);
@@ -260,6 +265,12 @@ const EditProduct = () => {
       setLoading(false); // Stop loading spinner
     }
   };
+
+  useEffect(() => {
+    if (!isSaleEnabled) {
+      setSalePrice(0);
+    }
+  }, [isSaleEnabled]);
 
   //Add new category
   const handleAddCategory = () => {
