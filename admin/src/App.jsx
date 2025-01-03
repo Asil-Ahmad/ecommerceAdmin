@@ -14,6 +14,7 @@ import Category from "./Pages/Products/Category";
 import EditCategory from "./Pages/Products/EditCategory";
 
 
+
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
   const toggleDarkMode = () => {
@@ -31,6 +32,7 @@ const App = () => {
       </button> */}
       <Routes>
         <Route path='/' element={<Home />} />
+      
 
         {/* Products Routes */}
         <Route path='/all_products' element={<AllProducts />} />

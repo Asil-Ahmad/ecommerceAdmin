@@ -53,48 +53,41 @@ const EditProduct = () => {
     dheight: "",
   });
   const [stock, setStock] = useState(2);
-  // const [category, setCategory] = useState("T-shirt");
-  // const [sizes, setSizes] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const response = await axios.post("http://localhost:4000/api/product/update", { _id });
+  const fetchProduct = async () => {
+    try {
+      const response = await axios.post("http://localhost:4000/api/product/update", { _id });
 
-        const { updatedProduct } = response.data;
-        console.log("Update", updatedProduct.isSaleEnabled);
-        console.log("isSaleEnabled after set:", updatedProduct.isSaleEnabled || false);
+      const { updatedProduct } = response.data;
 
-        setName(updatedProduct.name || "");
-        setDescription(updatedProduct.description || "");
-        setShortDescription(updatedProduct.short_description || "");
-        setPrice(updatedProduct.price || "");
-        setSalePrice(updatedProduct.salePrice || "");
+      console.log("Update", updatedProduct.isSaleEnabled);
 
-        setSku(updatedProduct.sku || "");
-        setStock(updatedProduct.stock || "");
-        setSelectedCategories(updatedProduct.categories || "");
-        setImage1(updatedProduct.images[0].url);
-        setImage2(updatedProduct.images[1].url);
-        setImage3(updatedProduct.images[2].url);
-        setImage4(updatedProduct.images[3].url);
-        setWeight(updatedProduct.weight || "");
-        setDimensions({
-          dlength: updatedProduct.dimensions.dlength || "",
-          dwidth: updatedProduct.dimensions.dwidth || "",
-          dheight: updatedProduct.dimensions.dheight || "",
-        });
-        setIsSaleEnabled(updatedProduct.isSaleEnabled || false);
-        setSaleStart(updatedProduct.saleStart);
-        setSaleEnd(updatedProduct.saleEnd);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchProduct();
-    console.log("isSale", isSaleEnabled);
-  }, [_id]);
+      setName(updatedProduct.name || "");
+      setDescription(updatedProduct.description || "");
+      setShortDescription(updatedProduct.short_description || "");
+      setPrice(updatedProduct.price || "");
+      setSalePrice(updatedProduct.salePrice || "");
+      setSku(updatedProduct.sku || "");
+      setStock(updatedProduct.stock || "");
+      setSelectedCategories(updatedProduct.categories || []);
+      setImage1(updatedProduct.images?.[0]?.url || "");
+      setImage2(updatedProduct.images?.[1]?.url || "");
+      setImage3(updatedProduct.images?.[2]?.url || "");
+      setImage4(updatedProduct.images?.[3]?.url || "");
+      setWeight(updatedProduct.weight || "");
+      setDimensions({
+        dlength: updatedProduct.dimensions?.dlength || "",
+        dwidth: updatedProduct.dimensions?.dwidth || "",
+        dheight: updatedProduct.dimensions?.dheight || "",
+      });
+      setIsSaleEnabled(updatedProduct.isSaleEnabled || false);
+      setSaleStart(updatedProduct.saleStart || "");
+      setSaleEnd(updatedProduct.saleEnd || "");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const fetchCategories = async () => {
     try {
@@ -107,8 +100,11 @@ const EditProduct = () => {
   };
 
   useEffect(() => {
+    fetchProduct();
     fetchCategories();
-  }, [isSaleEnabled]);
+  }, []);
+
+  console.log("Edit Product", isSaleEnabled);
 
   const productData = {
     name,
@@ -206,10 +202,17 @@ const EditProduct = () => {
       formData.append("selectedCategories", JSON.stringify(selectedCategories)); // Serialize array
       formData.append("salePrice", salePrice);
 
-      if (saleStart && saleEnd) {
-        formData.append("saleStart", saleStart || null); // Add saleStart
-        formData.append("saleEnd", saleEnd || null);
+      if (isSaleEnabled) {
+        if (saleStart && saleEnd) {
+          formData.append("saleStart", saleStart || ""); // Add saleStart
+          formData.append("saleEnd", saleEnd || "");
+        }
+      } else {
+        formData.append("saleStart", ""); // Set saleStart to ""
+        formData.append("saleEnd", ""); // Set saleEnd to null
+        formData.append("salePrice", 0); // Set salePrice to 0
       }
+
       formData.append("stock", stock);
       formData.append("sku", sku);
 

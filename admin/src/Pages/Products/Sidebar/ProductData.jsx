@@ -25,7 +25,7 @@ const ProductData = ({ productData, handleDimensionChange }) => {
   } = productData;
   const [activeTab, setActiveTab] = useState("General");
 
-  
+  console.log("productData", isSaleEnabled);
 
   const [productDetails, setProductDetails] = useState({
     regularPrice: "",
