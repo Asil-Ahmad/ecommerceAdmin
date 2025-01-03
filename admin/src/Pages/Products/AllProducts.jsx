@@ -29,6 +29,10 @@ const AllProducts = () => {
   const [allProducts, setAllProducts] = useState([]);
   const { navigate } = useContext(ShopContext);
   const [openDeleteModal, setOpenDeleteModal] = useState(null);
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const itemsPerPage = 5;
 
   const fetchProducts = async () => {
     const response = await axios.get("http://localhost:4000/api/product/list-products");
@@ -68,11 +72,20 @@ const AllProducts = () => {
       console.log(error);
     }
   };
-
   useEffect(() => {
-    fetchProducts();
-  }, []);
-  console.log(allProducts);
+    fetchProducts(currentPage);
+  }, [currentPage]);
+
+  //todo Pagination
+
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= Math.ceil(totalProducts / itemsPerPage)) {
+      setCurrentPage(newPage);
+    }
+  };
+
+  const totalPages = Math.ceil(totalProducts / itemsPerPage);
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
     <Card className='h-screen w-full   '>
