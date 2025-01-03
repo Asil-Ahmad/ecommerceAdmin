@@ -190,7 +190,7 @@ const Categories = () => {
                     <h1 className='text-center w-full'>No category found</h1>
                   ) : (
                     currentCategories.map(
-                      ({ _id, thumbnail, slug, name, description, createdAt }) => (
+                      ({ _id, thumbnail, slug, name, description, createdAt, updatedAt }) => (
                         <tr key={_id} className='even:bg-blue-gray-50/50'>
                           <td className='p-4'>
                             <img src={thumbnail} alt='' width={50} />
@@ -229,6 +229,15 @@ const Categories = () => {
                               className='font-normal max-w-[5rem]'
                             >
                               {formatTimestamp(createdAt)}
+                            </Typography>
+                          </td>
+                          <td className='p-4'>
+                            <Typography
+                              variant='small'
+                              color='blue-gray'
+                              className='font-normal max-w-[5rem]'
+                            >
+                              {createdAt === updatedAt ? "Not updated" : formatTimestamp(updatedAt)}
                             </Typography>
                           </td>
                           <td className='p-4'>

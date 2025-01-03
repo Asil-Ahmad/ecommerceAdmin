@@ -7,7 +7,7 @@ import { PhotoIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-toastify";
 
 const EditCategory = () => {
-  const { backendURL } = useContext(ShopContext);
+  const { backendURL, navigate } = useContext(ShopContext);
   const { _id } = useParams();
 
   const [formData, setFormData] = useState({
@@ -52,7 +52,10 @@ const EditCategory = () => {
       const data = new FormData();
       data.append("_id", formData._id);
       data.append("name", formData.name);
-      data.append("slug", formData.slug);
+      data.append(
+        "slug",
+        formData.slug ? formData.name.toLowerCase().split(" ").join("-") : formData.slug
+      );
       data.append(
         "description",
         formData.description === "" ? "No description provided" : formData.description
@@ -70,6 +73,9 @@ const EditCategory = () => {
       console.log(error);
     } finally {
       setLoading(false);
+      setTimeout(() => {
+        navigate("/categories");
+      }, 2000);
     }
   };
 
