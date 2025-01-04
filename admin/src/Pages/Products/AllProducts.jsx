@@ -31,20 +31,22 @@ const AllProducts = () => {
 
   const [filterProducts, setFilterProducts] = useState([]);
 
-
   //search on click button
   const searchProducts = () => {
+    // Apply filter only if there's a search term
+    let filterItems = allProducts.filter(
+      (item) =>
+        item.name.toLowerCase().includes(search.toLowerCase()) ||
+        item.sku.includes(search) ||
+        item.selectedCategories.toLowerCase().includes(search.toLowerCase())
+    );
     if (search) {
-      // Apply filter only if there's a search term
-      let filterItems = allProducts.filter(
-        (item) =>
-          item.name.toLowerCase().includes(search.toLowerCase()) ||
-          item.sku.includes(search) ||
-          item.selectedCategories.toLowerCase().includes(search.toLowerCase())
-      );
       setFilterProducts(filterItems);
-    } else {
+    }
+
+    if (search === "") {
       setFilterProducts(allProducts);
+      toast.error("Please enter a search term");
     }
   };
 
