@@ -26,10 +26,50 @@ const AllProducts = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const itemsPerPage = 5;
 
+  //search
+  const [search, setSearch] = useState("");
+
+  const [filterProducts, setFilterProducts] = useState([]);
+
+
+  //search on click button
+  const searchProducts = () => {
+    if (search) {
+      // Apply filter only if there's a search term
+      let filterItems = allProducts.filter(
+        (item) =>
+          item.name.toLowerCase().includes(search.toLowerCase()) ||
+          item.sku.includes(search) ||
+          item.selectedCategories.toLowerCase().includes(search.toLowerCase())
+      );
+      setFilterProducts(filterItems);
+    } else {
+      setFilterProducts(allProducts);
+    }
+  };
+
+  //search on text change
+
+  // useEffect(() => {
+  //   if (search) {
+  //     // Apply filter only if there's a search term
+  //     let filterItems = allProducts.filter(
+  //       (item) =>
+  //         item.name.toLowerCase().includes(search.toLowerCase()) ||
+  //         item.sku.includes(search) ||
+  //         item.selectedCategories.toLowerCase().includes(search.toLowerCase())
+  //     );
+  //     setFilterProducts(filterItems);
+  //   } else {
+  //     setFilterProducts(allProducts);
+  //   }
+  // }, [search, allProducts]);
+
   const fetchProducts = async () => {
     const response = await axios.get("http://localhost:4000/api/product/list-products");
     const { products } = response.data;
     setAllProducts(products); // Use setAllProducts to update the state
+    setFilterProducts(products); // Use setFilterProducts to update the state
     setTotalProducts(response.data.totalProducts || products.length);
   };
 
@@ -91,9 +131,19 @@ const AllProducts = () => {
           </div>
           <div className='flex items-center justify-between w-full shrink-0 gap-2 md:w-max'>
             <div className='w-full md:w-72'>
-              <Input label='Search' icon={<MagnifyingGlassIcon className='h-5 w-5' />} />
+              <Input
+                label='Search'
+                icon={<MagnifyingGlassIcon className='h-5 w-5' />}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
             </div>
-            <button className='py-[8px] px-3 rounded-md border border-gray-400'>Search</button>
+            <button
+              className='py-[8px] px-3 rounded-md border border-gray-400'
+              onClick={searchProducts}
+            >
+              Search
+            </button>
           </div>
         </div>
         <div className='flex items-center gap-3'>
@@ -129,7 +179,7 @@ const AllProducts = () => {
             </tr>
           </thead>
           <tbody>
-            {allProducts
+            {filterProducts
               .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
               .map(
                 (
