@@ -1,23 +1,13 @@
 import mongoose from "mongoose";
 
 const headerSchema = new mongoose.Schema({
-  label1: {
-    text: { type: String, default: "" },
-    url: { type: String, default: "" },
-  },
-  label2: {
-    text: { type: String, default: "" },
-    url: { type: String, default: "" },
-  },
-  label3: {
-    text: { type: String, default: "" },
-    url: { type: String, default: "" },
-  },
-  label4: {
-    text: { type: String, default: "" },
-    url: { type: String, default: "" },
-  },
-  logo: { type: String },
+  links: [
+    {
+      text: { type: String, required: true }, // Text for the link (e.g., "Home")
+      url: { type: String, required: true },  // URL for the link (e.g., "/home")
+    },
+  ],
+  logo: { type: String, default: "" }, // URL for the logo
 });
 
 const headerModel = mongoose.models.header || mongoose.model("header", headerSchema);

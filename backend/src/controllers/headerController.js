@@ -2,35 +2,51 @@ import { v2 as cloudinary } from "cloudinary";
 import headerModel from "../models/headerModel.js";
 
 export const addHeader = async (req, res) => {
-    try {
-        const { label1, label2, label3, label4 } = req.body;
+  try {
+    const { links } = req.body; // Dynamic array of links
+    const logoFile = req.file; // Uploaded file for the logo
 
-        const logoFile = req.file; //!need to add file
+    // Default logo URL
+    let logoUrl = "https://ui-avatars.com/api/?name=Default+Image";
 
-        let logoUrl = "https://ui-avatars.com/api/?name=Default+Image"; //!if no file we get this url image else true we use user upload image
-        if (logoFile) {
-            const imageUpload = await cloudinary.uploader.upload(logoFile.path, {
-                resource_type: "image",
-            });
-            logoUrl = imageUpload.secure_url;
-        }
-
-        const headerData = {
-            label1,
-            label2,
-            label3,
-            label4,
-            logo: logoUrl,
-        };
-        const newHeader = new headerModel(headerData);
-        await newHeader.save();
-        console.log("This is newHeader", newHeader);
-
-        res.status(200).json({ success: true, message: "Header added successfully", newHeader });
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({ success: false, message: "Failed to add header!" });
+    // If a file is uploaded, upload it to Cloudinary
+    if (logoFile) {
+      const imageUpload = await cloudinary.uploader.upload(logoFile.path, {
+        resource_type: "image",
+      });
+      logoUrl = imageUpload.secure_url;
     }
+
+    // Validate and prepare the data
+    if (!links || !Array.isArray(links) || links.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Links are required and should be an array.",
+      });
+    }
+
+    const headerData = {
+      links,
+      logo: logoUrl,
+    };
+
+    // Save the data to the database
+    const newHeader = new headerModel(headerData);
+    await newHeader.save();
+
+    console.log("This is newHeader", newHeader);
+    res.status(200).json({
+      success: true,
+      message: "Header added successfully",
+      newHeader,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({
+      success: false,
+      message: "Failed to add header!",
+    });
+  }
 };
 
 export const updateHeader = async (req, res) => {
