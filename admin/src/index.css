@@ -2,7 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  scroll-behavior: smooth;
+}
 
-*{
-    scroll-behavior: smooth;
+.Toastify__toast-theme--light {
+  background: #030303 !important;
+  color: #fffbfb;
 }

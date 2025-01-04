@@ -1,19 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { ChevronUpDownIcon, PencilIcon } from "@heroicons/react/24/solid";
-import {
-  ArrowDownTrayIcon,
-  CheckIcon,
-  MagnifyingGlassIcon,
-  XCircleIcon,
-} from "@heroicons/react/24/outline";
+import { ChevronUpDownIcon, PencilIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import {
   Card,
   CardHeader,
   Typography,
   Button,
   CardBody,
-  Chip,
   CardFooter,
   Avatar,
   IconButton,
@@ -28,7 +21,6 @@ const TABLE_HEAD = ["Image", "Name", "SKU", "Stock", "Price", "Categories", "Tag
 const AllProducts = () => {
   const [allProducts, setAllProducts] = useState([]);
   const { navigate } = useContext(ShopContext);
-  const [openDeleteModal, setOpenDeleteModal] = useState(null);
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
@@ -37,8 +29,8 @@ const AllProducts = () => {
   const fetchProducts = async () => {
     const response = await axios.get("http://localhost:4000/api/product/list-products");
     const { products } = response.data;
-    // console.log(products);
-    setAllProducts(products);
+    setAllProducts(products); // Use setAllProducts to update the state
+    setTotalProducts(response.data.totalProducts || products.length);
   };
 
   //set Date
@@ -72,6 +64,7 @@ const AllProducts = () => {
       console.log(error);
     }
   };
+
   useEffect(() => {
     fetchProducts(currentPage);
   }, [currentPage]);
@@ -88,7 +81,7 @@ const AllProducts = () => {
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    <Card className='h-screen w-full   '>
+    <Card className='h-screen w-full'>
       <CardHeader floated={false} shadow={false} className='rounded-none'>
         <div className='mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center mt-2'>
           <div>
@@ -96,11 +89,11 @@ const AllProducts = () => {
               Products
             </Typography>
           </div>
-          <div className='flex items-center justify-between w-full shrink-0 gap-2 md:w-max '>
-            <div className='w-full md:w-72 '>
+          <div className='flex items-center justify-between w-full shrink-0 gap-2 md:w-max'>
+            <div className='w-full md:w-72'>
               <Input label='Search' icon={<MagnifyingGlassIcon className='h-5 w-5' />} />
             </div>
-            <button className='py-[8px] px-3 rounded-md border border-gray-400 '>Search</button>
+            <button className='py-[8px] px-3 rounded-md border border-gray-400'>Search</button>
           </div>
         </div>
         <div className='flex items-center gap-3'>
@@ -117,11 +110,10 @@ const AllProducts = () => {
           </Typography>
         </div>
       </CardHeader>
-      <CardBody className='overflow-scroll px-0'>
+      <CardBody className='overflow-scroll px-0 h-full'>
         <table className='w-full min-w-max table-auto text-left'>
           <thead>
             <tr>
-              {/* todo remember to do changes of sort arrows */}
               {TABLE_HEAD.map((head) => (
                 <th key={head} className='border-y border-blue-gray-100 bg-blue-gray-50/50 p-4'>
                   <Typography
@@ -137,193 +129,156 @@ const AllProducts = () => {
             </tr>
           </thead>
           <tbody>
-            {allProducts.map(
-              (
-                {
-                  _id,
-                  name,
-                  sku,
-                  images,
-                  price,
-                  salePrice,
-                  saleStart,
-                  createdAt,
-                  stock,
-                  selectedCategories,
-                  tags,
-                },
-                index
-              ) => {
-                const isLast = index === allProducts.length - 1;
-                const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
+            {allProducts
+              .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+              .map(
+                (
+                  {
+                    _id,
+                    name,
+                    sku,
+                    images,
+                    price,
+                    salePrice,
+                    saleStart,
+                    createdAt,
+                    stock,
+                    selectedCategories,
+                    tags,
+                  },
+                  index
+                ) => {
+                  const isLast = index === allProducts.length - 1;
+                  const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
-                return (
-                  <tr key={_id} className='group relative'>
-                    {/* todo Image */}
-                    <td className={classes}>
-                      <Avatar
-                        src={images.length > 0 ? images[0].url : ""}
-                        alt={name}
-                        size='md'
-                        className='border border-blue-gray-50 bg-blue-gray-50/50 object-fill p-0'
-                      />
-                    </td>
-                    {/* todo Name */}
-                    <td className={classes}>
-                      <Typography variant='small' color='blue-gray' className='font-bold'>
-                        {name}
-                      </Typography>
-                      <div className='absolute hidden group-hover:flex py-1'>
-                        <button
-                          className='text-red-700 text-[13px] font-normal cursor-pointer'
-                          onClick={() => removeProducts(_id)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                    {/* todo SKU */}
-                    <td className={classes}>
-                      <Typography variant='small' color='blue-gray' className='font-normal'>
-                        {sku}
-                      </Typography>
-                    </td>
-                    {/* todo Stock */}
-                    <td className={classes}>
-                      <div className='w-max flex items-baseline'>
-                        {stock === 0 ? (
-                          <p className='text-sm font-semibold text-gray-900'>Out of Stock</p>
-                        ) : stock > 5 ? (
-                          <p className='text-sm font-semibold text-green-500'>In Stock</p>
-                        ) : (
-                          <p className='text-sm font-semibold text-red-600'>Low In Stock</p>
-                        )}
-                        {stock === 0 ? "" : <p className='text-sm '>({stock})</p>}
-                      </div>
-                    </td>
-                    <td className={classes}>
-                      {salePrice && saleStart && new Date(saleStart) <= new Date() ? (
-                        <>
-                          <Typography
-                            variant='small'
-                            color='blue-gray'
-                            className='font-normal line-through'
+                  return (
+                    <tr key={_id} className='group relative'>
+                      <td className={classes}>
+                        <Avatar
+                          src={images.length > 0 ? images[0].url : ""}
+                          alt={name}
+                          size='md'
+                          className='border border-blue-gray-50 bg-blue-gray-50/50 object-fill p-0'
+                        />
+                      </td>
+                      <td className={classes}>
+                        <Typography variant='small' color='blue-gray' className='font-bold'>
+                          {name}
+                        </Typography>
+                        <div className='absolute hidden group-hover:flex py-1'>
+                          <button
+                            className='text-red-700 text-[13px] font-normal cursor-pointer'
+                            onClick={() => removeProducts(_id)}
                           >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                      <td className={classes}>
+                        <Typography variant='small' color='blue-gray' className='font-normal'>
+                          {sku}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <div className='w-max flex items-baseline'>
+                          {stock === 0 ? (
+                            <p className='text-sm font-semibold text-gray-900'>Out of Stock</p>
+                          ) : stock > 5 ? (
+                            <p className='text-sm font-semibold text-green-500'>In Stock</p>
+                          ) : (
+                            <p className='text-sm font-semibold text-red-600'>Low In Stock</p>
+                          )}
+                          {stock === 0 ? "" : <p className='text-sm '>({stock})</p>}
+                        </div>
+                      </td>
+                      <td className={classes}>
+                        {salePrice && saleStart && new Date(saleStart) <= new Date() ? (
+                          <>
+                            <Typography
+                              variant='small'
+                              color='blue-gray'
+                              className='font-normal line-through'
+                            >
+                              ₹{price}.00
+                            </Typography>
+                            <Typography variant='small' color='blue-gray' className='font-normal'>
+                              ₹{salePrice}.00
+                            </Typography>
+                          </>
+                        ) : (
+                          <Typography variant='small' color='blue-gray' className='font-normal'>
                             ₹{price}.00
                           </Typography>
-                          <Typography variant='small' color='blue-gray' className='font-normal'>
-                            ₹{salePrice}.00
-                          </Typography>
-                        </>
-                      ) : (
-                        <Typography variant='small' color='blue-gray' className='font-normal '>
-                          ₹{price}.00
+                        )}
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          variant='small'
+                          color='blue-gray'
+                          className='font-normal truncate max-w-40'
+                        >
+                          {selectedCategories}
                         </Typography>
-                      )}
-                      <Typography
-                        variant='small'
-                        color='blue-gray'
-                        className='font-normal line-through'
-                      ></Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant='small'
-                        color='blue-gray'
-                        className='font-normal truncate max-w-40'
-                      >
-                        {selectedCategories}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography variant='small' color='blue-gray' className='font-normal'>
-                        {tags}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant='small'
-                        color='blue-gray'
-                        className='font-normal max-w-[5rem]'
-                      >
-                        Published <br />
-                        {formatTimestamp(createdAt)}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Tooltip content='Edit User'>
-                        <IconButton variant='text' onClick={() => navigate(`/edit_product/${_id}`)}>
-                          <PencilIcon className='h-4 w-4' />
-                        </IconButton>
-                      </Tooltip>
-                    </td>
-
-                    {/* //!Error it shows all delete options */}
-                    {/* 
-                    {openDeleteModal === _id && ( // Show modal only for the selected product
-                      <div className='absolute bg-white border shadow-2xl border-gray-300 z-10 sm:w-[25%] sm:h-[25%] w-full h-full p-2 text-center content-center'>
-                        <div className='flex flex-col gap-3 items-center justify-center'>
-                          <div className='flex items-center justify-center h-12 w-12 rounded-full'>
-                            <XCircleIcon color='red' />
-                          </div>
-                          <p className='text-black text-xl'>Are you sure?</p>
-                          <div className='w-full flex justify-center gap-2'>
-                            <button
-                              className='bg-gray-400 w-full py-2 px-3 rounded-lg text-white'
-                              onClick={() => setDeleteProductId(null)} // Close modal
-                            >
-                              Cancel
-                            </button>
-                            <button
-                              className='bg-red-500 w-full py-2 px-3 rounded-lg text-white'
-                              onClick={() => {
-                                removeProducts(_id);
-                                setDeleteProductId(null); // Close modal after deletion
-                              }}
-                            >
-                              Delete
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )} */}
-                  </tr>
-                );
-              }
-            )}
+                      </td>
+                      <td className={classes}>
+                        <Typography variant='small' color='blue-gray' className='font-normal'>
+                          {tags}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          variant='small'
+                          color='blue-gray'
+                          className='font-normal max-w-[5rem]'
+                        >
+                          Published <br />
+                          {formatTimestamp(createdAt)}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Tooltip content='Edit User'>
+                          <IconButton
+                            variant='text'
+                            onClick={() => navigate(`/edit_product/${_id}`)}
+                          >
+                            <PencilIcon className='h-4 w-4' />
+                          </IconButton>
+                        </Tooltip>
+                      </td>
+                    </tr>
+                  );
+                }
+              )}
           </tbody>
         </table>
       </CardBody>
-
-      {/* //todo Pagination */}
       <CardFooter className='flex items-center justify-between border-t border-blue-gray-50 p-4'>
-        <Button variant='outlined' size='sm'>
+        <Button
+          variant='outlined'
+          size='sm'
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
           Previous
         </Button>
         <div className='flex items-center gap-2'>
-          <IconButton variant='outlined' size='sm'>
-            1
-          </IconButton>
-          <IconButton variant='text' size='sm'>
-            2
-          </IconButton>
-          <IconButton variant='text' size='sm'>
-            3
-          </IconButton>
-          <IconButton variant='text' size='sm'>
-            ...
-          </IconButton>
-          <IconButton variant='text' size='sm'>
-            8
-          </IconButton>
-          <IconButton variant='text' size='sm'>
-            9
-          </IconButton>
-          <IconButton variant='text' size='sm'>
-            10
-          </IconButton>
+          {pageNumbers.map((pageNumber) => (
+            <IconButton
+              key={pageNumber}
+              variant={pageNumber === currentPage ? "outlined" : "text"}
+              size='sm'
+              onClick={() => handlePageChange(pageNumber)}
+            >
+              {pageNumber}
+            </IconButton>
+          ))}
         </div>
-        <Button variant='outlined' size='sm'>
+        <Button
+          variant='outlined'
+          size='sm'
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
           Next
         </Button>
       </CardFooter>
