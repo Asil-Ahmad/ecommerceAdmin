@@ -7,13 +7,13 @@ import productRouter from "./src/routes/productRoute.js";
 import task from "./src/middleware/task.js";
 import { checkExpiredSalesMiddleware, startCronJob } from "./src/middleware/checkExpiredSales.js";
 import categoryRouter from "./src/routes/categoryRoute.js";
+import headerRouter from "./src/routes/headerRoute.js";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-
 
 // app.use(checkExpiredSalesMiddleware);
 // startCronJob();
@@ -26,7 +26,7 @@ app.get("/", (req, res) => res.json({ message: "Connected to API " }));
 // app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/category", categoryRouter);
-// app.use("/api/cart", cartRouter);
+app.use("/api/layout", headerRouter);
 // app.use("/api/order", orderRouter);
 
 const port = process.env.PORT || 4000;
