@@ -19,6 +19,7 @@ import {
   Cog6ToothIcon,
   InboxIcon,
   PowerIcon,
+  ComputerDesktopIcon,
 } from "@heroicons/react/24/solid";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { ShopContext } from "../context/ShopContext";
@@ -72,6 +73,8 @@ const Sidebar = () => {
             </List>
           </AccordionBody>
         </Accordion>
+
+        {/* todo Products */}
         <Accordion
           open={open === 2}
           icon={
@@ -96,11 +99,39 @@ const Sidebar = () => {
               <ListItem onClick={() => navigate("/all_products")}>All Products</ListItem>
               <ListItem onClick={() => navigate("/add_new_product")}>Add Product</ListItem>
               <ListItem>Brands</ListItem>
-              <ListItem onClick={()=>navigate("/categories")}>Categories</ListItem>
+              <ListItem onClick={() => navigate("/categories")}>Categories</ListItem>
               <ListItem>Tags</ListItem>
             </List>
           </AccordionBody>
         </Accordion>
+        {/*todo UI Changes
+         */}
+        <Accordion
+          open={open === 3}
+          icon={
+            <ChevronDownIcon
+              strokeWidth={2.5}
+              className={`mx-auto h-4 w-4 transition-transform ${open === 3 ? "rotate-180" : ""}`}
+            />
+          }
+        >
+          <ListItem className='p-0' selected={open === 3}>
+            <AccordionHeader onClick={() => handleOpen(3)} className='border-b-0 p-3'>
+              <ListItemPrefix>
+                <ComputerDesktopIcon className='h-5 w-5' />
+              </ListItemPrefix>
+              <Typography color='blue-gray' className='mr-auto font-normal'>
+                UI
+              </Typography>
+            </AccordionHeader>
+          </ListItem>
+          <AccordionBody className='py-1'>
+            <List className='p-0'>
+              <ListItem onClick={() => navigate("/headers")}>Headers</ListItem>
+            </List>
+          </AccordionBody>
+        </Accordion>
+
         <ListItem>
           <ListItemPrefix>
             <InboxIcon className='h-5 w-5' />
