@@ -19,7 +19,7 @@ const Header = () => {
     getHeaders();
   }, []);
   return (
-    <header className=' bg-gray-200'>
+    <header className=' '>
       {headerData && (
         <nav className='flex justify-between px-40 items-center '>
           <img src={headerData.logo} alt='' className="w-[100px] h-[50px]   object-cover my-5" />

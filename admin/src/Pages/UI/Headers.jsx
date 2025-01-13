@@ -80,7 +80,7 @@ const Headers = () => {
                     : URL.createObjectURL(headerData.logo)
                 }
                 alt='Logo'
-                className='w-[150px] h-[70px] object-cover'
+                className='w-[100px] h-[50px] object-cover '
               />
             )}
 
