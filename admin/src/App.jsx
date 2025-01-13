@@ -14,8 +14,6 @@ import EditProduct from "./Pages/Products/EditProduct";
 import EditCategory from "./Pages/Products/EditCategory";
 import Categories from "./Pages/Products/Categories";
 
-
-
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
   const toggleDarkMode = () => {
@@ -24,16 +22,15 @@ const App = () => {
 
   return (
     <div className={`flex ${darkMode ? "dark" : ""} `}>
-      <ToastContainer position="bottom-left" />
+      <ToastContainer position='bottom-left' />
+
       <Sidebar />
-    
 
       {/* <button className='bg-black text-white' onClick={toggleDarkMode}>
         CLICK
       </button> */}
       <Routes>
         <Route path='/' element={<Home />} />
-      
 
         {/* Products Routes */}
         <Route path='/all_products' element={<AllProducts />} />

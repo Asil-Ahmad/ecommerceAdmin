@@ -29,11 +29,11 @@ export const addHeader = async (req, res) => {
       links,
       logo: logoUrl,
     };
+    console.log("This is headerData", headerData);
 
     // Save the data to the database
     const newHeader = new headerModel(headerData);
     await newHeader.save();
-
     console.log("This is newHeader", newHeader);
     res.status(200).json({
       success: true,
@@ -51,7 +51,7 @@ export const addHeader = async (req, res) => {
 
 export const updateHeader = async (req, res) => {
   try {
-    const { name, _id } = req.body;
+    const { links, _id } = req.body;
 
     //if no id
     if (!_id) {
@@ -78,9 +78,12 @@ export const updateHeader = async (req, res) => {
     }
 
     const headerData = {
-      name,
       logo: logoUrl,
     };
+
+    if (links && Array.isArray(links) && links.length > 0) {
+      headerData.links = links;
+    }
 
     const updatedHeader = await headerModel.findByIdAndUpdate(_id, headerData, { new: true });
     console.log("This is updatedHeader", updatedHeader);
@@ -89,5 +92,15 @@ export const updateHeader = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).json({ success: false, message: "Failed to update header!" });
+  }
+};
+
+export const getHeader = async (req, res) => {
+  try {
+    const header = await headerModel.findOne();
+    res.status(200).json({ success: true, header });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ success: false, message: "Failed to get header!" });
   }
 };

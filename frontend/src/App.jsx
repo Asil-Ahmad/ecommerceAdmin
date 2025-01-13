@@ -5,9 +5,7 @@ import Header from "./layout/Header";
 const App = () => {
   return (
     <div>
-      <Routes>
-        <Route path='/' element={<Header />} />
-      </Routes>
+      <Header />
     </div>
   );
 };
