@@ -3,39 +3,76 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Button, Typography, CardBody, Input, Textarea } from "@material-tailwind/react";
 import { ArrowPathIcon } from "@heroicons/react/24/solid";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { PhotoIcon } from "@heroicons/react/24/solid";
 
 const Headers = () => {
-  const [headerData, setHeaderData] = useState("");
+  const [headerData, setHeaderData] = useState({
+    logo: "",
+    links: [
+      { text: "Home", url: "/" },
+      { text: "About", url: "/about" },
+      { text: "Services", url: "/services" },
+      { text: "Contact", url: "/contact" },
+    ],
+  });
 
   const getHeaders = async () => {
     try {
       const response = await axios.get("http://localhost:4000/api/layout/get-header");
       const { header } = response.data;
       setHeaderData(header);
-      console.log(response.data.header);
+      console.log(header);
+      
     } catch (error) {
-      console.error(error);
+      console.log(error.message);
     }
   };
 
   const updateHeader = async () => {
     try {
-      const { _id } = headerData;
-      const response = await axios.put("http://localhost:4000/api/layout/update-header", { _id });
-      console.log(response.data);
+      const { _id, links, logo } = headerData;
+    
+
+      const formData = new FormData();
+      formData.append("_id", _id);
+      formData.append("links", JSON.stringify(links));
+      // If there's a logo file to upload
+      if (logo) {
+        formData.append("logo", logo);
+      }
+
+      const response = await axios.post("http://localhost:4000/api/layout/update-header", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response);
+      
+
+      if (response.data.success) {
+        toast.success("Header updated successfully!");
+        getHeaders(); // Refresh the data
+      } else {
+        toast.error(response.data.message);
+      }
     } catch (error) {
       console.error(error);
+      toast.error("Failed to update header");
     }
   };
   useEffect(() => {
     getHeaders();
-    
   }, []);
   return (
     <div className='flex flex-col  w-full'>
-      <header className=''>
+      <header
+        className='sticky top-0 z-50 
+      bg-gray-300  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 
+      '
+      >
         {headerData && (
           <nav
             className='flex justify-between px-20 items-center border-dashed border-2 hover:border-gray-500
@@ -130,6 +167,7 @@ const Headers = () => {
           </div>
         </CardBody>
       </div>
+      <ToastContainer />
     </div>
   );
 };
