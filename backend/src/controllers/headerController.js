@@ -51,25 +51,22 @@ export const addHeader = async (req, res) => {
 
 export const updateHeader = async (req, res) => {
   try {
-    const { links, _id } = req.body;
+    const { links: linksString, _id } = req.body;
 
-    //if no id
+    // If no ID provided
     if (!_id) {
       return res.status(400).json({ success: false, message: "Header ID is required!" });
     }
 
-    //if no header with id?
+    // Check if the header exists
     const headerExist = await headerModel.findById(_id);
-    console.log("This is headerExist", headerExist);
-
     if (!headerExist) {
       return res.status(404).json({ success: false, message: "Header not found!" });
     }
 
-    //if no file
+    // Process logo upload (if file is provided)
     const logoFile = req.file;
     let logoUrl = headerExist.logo;
-
     if (logoFile) {
       const imageUpload = await cloudinary.uploader.upload(logoFile.path, {
         resource_type: "image",
@@ -77,20 +74,28 @@ export const updateHeader = async (req, res) => {
       logoUrl = imageUpload.secure_url;
     }
 
-    const headerData = {
-      logo: logoUrl,
-    };
-
-    if (links && Array.isArray(links) && links.length > 0) {
-      headerData.links = links;
+    // Parse `links` from stringified JSON
+    let links = [];
+    if (linksString) {
+      try {
+        links = JSON.parse(linksString);
+      } catch (error) {
+        return res.status(400).json({ success: false, message: "Invalid links format!" });
+      }
     }
 
+    // Prepare updated data
+    const headerData = {
+      logo: logoUrl,
+      ...(links.length > 0 && { links }),
+    };
+
+    // Update the header
     const updatedHeader = await headerModel.findByIdAndUpdate(_id, headerData, { new: true });
-    console.log("This is updatedHeader", updatedHeader);
 
     res.status(200).json({ success: true, message: "Header updated successfully", updatedHeader });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(400).json({ success: false, message: "Failed to update header!" });
   }
 };
