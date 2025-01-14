@@ -2,7 +2,7 @@ import express from "express";
 import upload from "../middleware/multer.js";
 
 import adminAuth from "../middleware/adminAuth.js";
-import { addHomepage } from "../controllers/homepageController.js";
+import { addHomepage,getHomepage } from "../controllers/homepageController.js";
 
 const homepageRouter = express.Router();
 
@@ -16,7 +16,6 @@ homepageRouter.post(
   ]),
   addHomepage
 );
-// homepageRouter.post("/update-homepage", upload.single("logo"), updatehomepage);
-// homepageRouter.get("/get-homepage", gethomepage);
+homepageRouter.get("/get-homepage", getHomepage);
 
 export default homepageRouter;

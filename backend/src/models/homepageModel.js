@@ -6,6 +6,7 @@ const homepageSchema = new mongoose.Schema({
       url: { type: String, required: true },
       altText: { type: String, default: "" },
       text: { type: String, default: "" },
+      para: { type: String, default: "" },
     },
   ],
 });

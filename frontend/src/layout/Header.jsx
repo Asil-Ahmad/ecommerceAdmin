@@ -10,7 +10,7 @@ const Header = () => {
       const response = await axios.get("http://localhost:4000/api/layout/get-header");
       const { header } = response.data;
       setHeaderData(header);
-      console.log(response.data.header);
+      // console.log(response.data.header);
     } catch (error) {
       console.error(error);
     }

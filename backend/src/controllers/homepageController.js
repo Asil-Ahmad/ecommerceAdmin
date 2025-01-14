@@ -16,10 +16,12 @@ export const addHomepage = async (req, res) => {
         const result = await cloudinary.uploader.upload(item.path, { resource_type: "image" });
         const altTextKey = `altText${index + 1}`; // Expect keys like altText1, altText2, etc.
         const textKey = `text${index + 1}`; // Expect keys like altText1, altText2, etc.
+        const paraKey = `para${index + 1}`; // Expect keys like altText1, altText2, etc.
         return {
           url: result.secure_url,
           altText: req.body[altTextKey] || "", // Use custom altText or fallback to filename
           text: req.body[textKey] || "",
+          para: req.body[paraKey] || "",
         };
       })
     );
@@ -34,5 +36,15 @@ export const addHomepage = async (req, res) => {
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ success: false, message: "Failed to add homepage!" });
+  }
+};
+
+export const getHomepage = async (req, res) => {
+  try {
+    const homepage = await homepageModel.find().sort({ createdAt: -1 }).limit(1);
+    res.status(200).json({ success: true, homepage });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ success: false, message: "Failed to fetch homepage!" });
   }
 };
