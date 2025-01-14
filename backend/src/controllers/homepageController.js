@@ -15,9 +15,11 @@ export const addHomepage = async (req, res) => {
       images.map(async (item, index) => {
         const result = await cloudinary.uploader.upload(item.path, { resource_type: "image" });
         const altTextKey = `altText${index + 1}`; // Expect keys like altText1, altText2, etc.
+        const textKey = `text${index + 1}`; // Expect keys like altText1, altText2, etc.
         return {
           url: result.secure_url,
-          altText: req.body[altTextKey] || item.originalname || "", // Use custom altText or fallback to filename
+          altText: req.body[altTextKey] || "", // Use custom altText or fallback to filename
+          text: req.body[textKey] || "",
         };
       })
     );
