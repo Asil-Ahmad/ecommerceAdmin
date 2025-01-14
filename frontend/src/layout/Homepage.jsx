@@ -19,7 +19,6 @@ const Homepage = () => {
     fetchHomepage();
   }, []);
 
-
   return (
     <section className='container w-full h-screen'>
       <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[70%] '>
@@ -32,12 +31,18 @@ const Homepage = () => {
             backgroundPosition: "center",
           }}
         >
-          <div className='flex flex-col  justify-center items-start h-full p-4 '>
-            <h1 className='text-4xl font-semibold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>{homepageData[0]?.text}</h1>
-            <p className='text-xl font-extralight text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>{homepageData[0]?.para}</p>
-            <button className='bg-white border-white border-1 px-3 py-2 mt-5 rounded-lg'>
-              View Details
-            </button>
+          <div className='flex flex-col  justify-end items-start h-full p-4 '>
+            <div className='bg-black/20 px-3 py-2 rounded-lg '>
+              <h1 className='text-4xl font-semibold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>
+                {homepageData[0]?.text}
+              </h1>
+              <p className='text-xl font-extralight text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>
+                {homepageData[0]?.para}
+              </p>
+              <button className='bg-white border-white border-1 px-3 py-2 mt-5 rounded-lg'>
+                View Details
+              </button>
+            </div>
           </div>
         </div>
         {/* todo 2st */}
@@ -49,12 +54,18 @@ const Homepage = () => {
             backgroundPosition: "center",
           }}
         >
-          <div className='flex flex-col text-center justify-start items-center h-full p-4 '>
-            <h1 className='text-3xl font-semibold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>{homepageData[1]?.text}</h1>
-            <p className='text-xl font-extralight text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>{homepageData[1]?.para}</p>
-            <button className='bg-white border-white border-1 px-3 py-2 mt-5 rounded-lg'>
-              View Details
-            </button>
+          <div className='flex flex-col text-center justify-end items-center h-full p-4 '>
+            <div className='bg-black/20 px-3 py-2 rounded-lg'>
+              <h1 className='text-3xl font-semibold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>
+                {homepageData[1]?.text}
+              </h1>
+              <p className='text-xl font-extralight text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>
+                {homepageData[1]?.para}
+              </p>
+              <button className='bg-white border-white border-1 px-3 py-2 mt-5 rounded-lg'>
+                View Details
+              </button>
+            </div>
           </div>
         </div>
         {/* todo 3st */}
@@ -67,9 +78,15 @@ const Homepage = () => {
           }}
         >
           <div className='flex flex-col justify-center items-start h-full p-4 '>
-            <h1 className='text-xl font-semibold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_70%)]'>{homepageData[2]?.text}</h1>
-            <p className='text-md font-extralight text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>{homepageData[2]?.para}</p>
-            <button className='mt-5 text-white text-sm'>View Details</button>
+            <div className='bg-black/20 px-3 py-2 rounded-lg'>
+              <h1 className='text-xl font-semibold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_70%)]'>
+                {homepageData[2]?.text}
+              </h1>
+              <p className='text-md font-extralight text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>
+                {homepageData[2]?.para}
+              </p>
+              <button className='mt-5 text-white text-sm'>View Details</button>
+            </div>
           </div>
         </div>
         {/* todo 4st */}
@@ -81,10 +98,16 @@ const Homepage = () => {
             backgroundPosition: "center",
           }}
         >
-          <div className='flex flex-col text-center justify-center items-center h-full p-4  '>
-            <h1 className='text-xl font-semibold text-white  [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>{homepageData[3]?.text}</h1>
-            <p className='text-lg font-extralight text-white  [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>{homepageData[3]?.para}</p>
-            <button className='mt-5 text-white text-sm bg-white/20'>View Details</button>
+          <div className='flex flex-col text-center justify-center items-center h-full p-4 cursor-pointer  '>
+            <div className='bg-black/20 px-3 py-2 rounded-lg transition-opacity ease-in duration-300 opacity-100 hover:opacity-0'>
+              <h1 className='text-xl font-semibold text-white  [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>
+                {homepageData[3]?.text}
+              </h1>
+              <p className='text-lg font-extralight text-white  [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>
+                {homepageData[3]?.para}
+              </p>
+              <button className='mt-5 text-white text-sm '>View Details</button>
+            </div>
           </div>
         </div>
       </div>
