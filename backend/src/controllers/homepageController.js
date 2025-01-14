@@ -1,54 +1,39 @@
 import { v2 as cloudinary } from "cloudinary";
 import homepageModel from "../models/homepageModel.js";
 
-
 export const addHomepage = async (req, res) => {
-    try {
-        const { images } = req.body; // Dynamic array of images
-        const imageFiles = req.files; // Uploaded files for the images
-    
-        // Validate and prepare the data
-        if (!images || !Array.isArray(images) || images.length === 0) {
-        return res.status(400).json({
-            success: false,
-            message: "Images are required and should be an array.",
-        });
-        }
-    
-        // Prepare the array to store the image data
-        const imagesArray = [];
-    
-        // Loop through the uploaded files
-        for (const file of imageFiles) {
-        const imageUpload = await cloudinary.uploader.upload(file.path, {
-            resource_type: "image",
-        });
-    
-        // Prepare the image data
-        const imageData = {
-            url: imageUpload.secure_url,
-            altText: file.originalname,
-            text1: images[imageFiles.indexOf(file)].text1,
-            text2: images[imageFiles.indexOf(file)].text2,
+  try {
+    const image1 = req.files.image1 && req.files.image1[0];
+    const image2 = req.files.image2 && req.files.image2[0];
+    const image3 = req.files.image3 && req.files.image3[0];
+    const image4 = req.files.image4 && req.files.image4[0];
+
+    const images = [image1, image2, image3, image4].filter((item) => item !== undefined);
+
+    let imagesUrl = await Promise.all(
+      images.map(async (item, index) => {
+        const result = await cloudinary.uploader.upload(item.path, { resource_type: "image" });
+        const altTextKey = `altText${index + 1}`; // Expect keys like altText1, altText2, etc.
+        const text1Key = `text1${index + 1}`;
+        const text2Key = `text2${index + 1}`;
+        return {
+          url: result.secure_url,
+          altText: req.body[altTextKey] || item.originalname || "",
+          text1: req.body[text1Key] || "",
+          text2: req.body[text2Key] || "",
         };
-    
-        // Push the image data to the array
-        imagesArray.push(imageData);
-        }
-    
-        // Save the data to the database
-        const newHomepage = new homepageModel({ images: imagesArray });
-        await newHomepage.save();
-        res.status(200).json({
-        success: true,
-        message: "Homepage added successfully",
-        newHomepage,
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(400).json({
-        success: false,
-        message: "Failed to add homepage!",
-        });
-    }
-}
+      })
+    );
+    const homepageData = {
+      images: imagesUrl,
+      createdAt: Date.now(),
+    };
+    console.log(homepageData);
+    const homepages = new homepageModel(homepageData);
+    await homepages.save();
+
+    res.status(200).json({ success: true, message: "Product added successfully", homepages });
+  } catch (error) {
+    console.log(error);
+  }
+};
