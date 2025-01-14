@@ -14,6 +14,7 @@ import EditProduct from "./Pages/Products/EditProduct";
 import EditCategory from "./Pages/Products/EditCategory";
 import Categories from "./Pages/Products/Categories";
 import Headers from "./Pages/UI/Headers";
+import Homepage from "./Pages/UI/Homepage";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -42,6 +43,7 @@ const App = () => {
 
         {/* UI Routes */}
         <Route path='/headers' element={<Headers />} />
+        <Route path='/homepage' element={<Homepage />} />
       </Routes>
     </div>
   );

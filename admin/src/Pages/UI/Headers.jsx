@@ -87,7 +87,7 @@ const Headers = () => {
                     : URL.createObjectURL(headerData.logo)
                 }
                 alt='Logo'
-                className='w-[100px] h-[50px] object-cover '
+                className='w-[150px] h-[50px] object-contain '
               />
             )}
 
@@ -128,7 +128,7 @@ const Headers = () => {
                       : URL.createObjectURL(headerData.logo)
                   }
                   alt='Logo'
-                  className='w-[150px] h-[70px] object-cover'
+                  className='w-[150px] h-[70px] object-contain'
                 />
               )}
               {!headerData.logo && <PhotoIcon width={100} />}

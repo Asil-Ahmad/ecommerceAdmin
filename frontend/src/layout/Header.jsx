@@ -22,10 +22,10 @@ const Header = () => {
     <header className=' '>
       {headerData && (
         <nav className='container  flex justify-between items-center '>
-          <img src={headerData.logo} alt='' className='w-[100px] h-[50px]   object-cover my-5' />
+          <img src={headerData.logo} alt='' className='w-[150px] h-[70px] object-contain my-5' />
 
           <div className='flex gap-10'>
-            {headerData?.links.map(({ text, url }, index) => (
+            {headerData?.links?.map(({ text, url }, index) => (
               <Link to={url} key={index}>
                 {text}
               </Link>
