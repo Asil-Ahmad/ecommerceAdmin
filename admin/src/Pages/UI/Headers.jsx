@@ -6,12 +6,14 @@ import { ArrowPathIcon } from "@heroicons/react/24/solid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { PhotoIcon } from "@heroicons/react/24/solid";
+import Loader from "../../constant/Loader";
 
 const Headers = () => {
   const [headerData, setHeaderData] = useState({
     logo: "",
     links: [],
   });
+  const [loading, setLoading] = useState(false);
 
   const getHeaders = async () => {
     try {
@@ -24,6 +26,7 @@ const Headers = () => {
   };
 
   const updateHeader = async () => {
+    setLoading(true);
     try {
       const { _id, links, logo } = headerData || {};
 
@@ -60,6 +63,8 @@ const Headers = () => {
     } catch (error) {
       console.error(error);
       toast.error("Failed to update header");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -67,7 +72,9 @@ const Headers = () => {
     getHeaders();
   }, []);
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <div className='flex flex-col w-full'>
       <header className='sticky top-0 z-50 bg-gray-300 backdrop-blur-md bg-opacity-10'>
         {headerData && (

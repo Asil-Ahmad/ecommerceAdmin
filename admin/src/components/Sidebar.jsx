@@ -128,6 +128,7 @@ const Sidebar = () => {
           <AccordionBody className='py-1'>
             <List className='p-0'>
               <ListItem onClick={() => navigate("/headers")}>Headers</ListItem>
+              <ListItem onClick={() => navigate("/homepage")}>Homepage</ListItem>
             </List>
           </AccordionBody>
         </Accordion>
