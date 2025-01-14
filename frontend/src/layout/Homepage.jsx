@@ -18,7 +18,7 @@ const Homepage = () => {
   useEffect(() => {
     fetchHomepage();
   }, []);
-  console.log("This", homepageData[0].text);
+
 
   return (
     <section className='container w-full h-screen'>
@@ -27,14 +27,14 @@ const Homepage = () => {
         <div
           className='col-span-2 row-span-4 rounded-lg'
           style={{
-            backgroundImage: `url(${homepageData[0].url})`,
+            backgroundImage: `url(${homepageData[0]?.url})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         >
           <div className='flex flex-col  justify-center items-start h-full p-4 '>
-            <h1 className='text-4xl font-semibold text-white'>{homepageData[0].text}</h1>
-            <p className='text-xl font-extralight text-white'>{homepageData[0].para}</p>
+            <h1 className='text-4xl font-semibold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>{homepageData[0]?.text}</h1>
+            <p className='text-xl font-extralight text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>{homepageData[0]?.para}</p>
             <button className='bg-white border-white border-1 px-3 py-2 mt-5 rounded-lg'>
               View Details
             </button>
@@ -44,14 +44,14 @@ const Homepage = () => {
         <div
           className='row-span-4 col-start-3 bg-blue-500 rounded-lg'
           style={{
-            backgroundImage: `url(${homepageData[1].url})`,
+            backgroundImage: `url(${homepageData[1]?.url})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         >
           <div className='flex flex-col text-center justify-start items-center h-full p-4 '>
-            <h1 className='text-3xl font-semibold text-white'>{homepageData[1].text}</h1>
-            <p className='text-xl font-extralight text-white'>{homepageData[1].para}</p>
+            <h1 className='text-3xl font-semibold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>{homepageData[1]?.text}</h1>
+            <p className='text-xl font-extralight text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>{homepageData[1]?.para}</p>
             <button className='bg-white border-white border-1 px-3 py-2 mt-5 rounded-lg'>
               View Details
             </button>
@@ -61,14 +61,14 @@ const Homepage = () => {
         <div
           className='row-span-2 col-start-4 bg-green-500 rounded-lg'
           style={{
-            backgroundImage: `url(${homepageData[2].url})`,
+            backgroundImage: `url(${homepageData[2]?.url})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         >
-          <div className='flex flex-col text-center justify-center items-center h-full p-4 '>
-            <h1 className='text-xl font-semibold text-white'>{homepageData[2].text}</h1>
-            <p className='text-lg font-extralight text-white'>{homepageData[2].para}</p>
+          <div className='flex flex-col justify-center items-start h-full p-4 '>
+            <h1 className='text-xl font-semibold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_70%)]'>{homepageData[2]?.text}</h1>
+            <p className='text-md font-extralight text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>{homepageData[2]?.para}</p>
             <button className='mt-5 text-white text-sm'>View Details</button>
           </div>
         </div>
@@ -76,15 +76,15 @@ const Homepage = () => {
         <div
           className='row-span-2 col-start-4 bg-green-500 rounded-lg'
           style={{
-            backgroundImage: `url(${homepageData[3].url})`,
+            backgroundImage: `url(${homepageData[3]?.url})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         >
-          <div className='flex flex-col text-center justify-center items-center h-full p-4 '>
-            <h1 className='text-xl font-semibold text-white'>{homepageData[3].text}</h1>
-            <p className='text-lg font-extralight text-white'>{homepageData[3].para}</p>
-            <button className='mt-5 text-white text-sm'>View Details</button>
+          <div className='flex flex-col text-center justify-center items-center h-full p-4  '>
+            <h1 className='text-xl font-semibold text-white  [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>{homepageData[3]?.text}</h1>
+            <p className='text-lg font-extralight text-white  [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>{homepageData[3]?.para}</p>
+            <button className='mt-5 text-white text-sm bg-white/20'>View Details</button>
           </div>
         </div>
       </div>
