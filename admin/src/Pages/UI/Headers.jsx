@@ -150,7 +150,7 @@ const Headers = () => {
               }}
             />
             {headerData?.links?.map((link, index) => (
-              <div key={index} className='grid grid-cols-2 grid-rows-2 gap-4'>
+              <div key={index} className='grid grid-cols-2 grid-rows-1 mb-5 gap-4'>
                 <Input
                   label={`Link ${index + 1} Text`}
                   placeholder={`Enter text for link ${index + 1}`}

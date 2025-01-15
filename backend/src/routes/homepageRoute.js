@@ -16,6 +16,7 @@ homepageRouter.post(
   addHomepage
 );
 homepageRouter.get("/get-homepage", getHomepage);
+
 homepageRouter.post(
   "/update-homepage",
   upload.fields([

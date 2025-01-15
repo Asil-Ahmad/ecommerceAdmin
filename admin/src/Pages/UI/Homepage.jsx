@@ -2,22 +2,27 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ArrowPathIcon } from "@heroicons/react/24/solid";
 import { Button, CardBody, Typography, Input } from "@material-tailwind/react";
+import { toast } from "react-toastify";
 
 const Homepage = () => {
   const [homepageData, setHomepageData] = useState([]);
+  const [homepageId, setHomepageId] = useState("");
   const [formData, setFormData] = useState([]);
-  const index = 1;
 
   const fetchHomepage = async () => {
     try {
       const response = await axios.get("http://localhost:4000/api/layout/get-homepage");
       const { images } = response.data.homepage[0];
       setHomepageData(images);
+      setHomepageId(response.data.homepage[0]._id);
+
       setFormData(images);
     } catch (error) {
       console.error(error);
+      toast.error("Failed to fetch homepage data");
     }
   };
+  console.log("this",homepageId);
 
   useEffect(() => {
     fetchHomepage();
@@ -38,10 +43,19 @@ const Homepage = () => {
 
   const handleSaveChanges = async () => {
     try {
-      await axios.post("http://localhost:4000/api/layout/update-homepage", { images: formData });
+      const _id = homepageId;
+      const response = await axios.post("http://localhost:4000/api/layout/update-homepage", {
+        _id,
+        images: formData, // Include the updated images or text
+      });
+
+      console.log(response.data);
+
       setHomepageData(formData);
+      toast.success("Changes saved successfully");
     } catch (error) {
       console.error(error);
+      toast.error("Failed to save changes");
     }
   };
 
@@ -50,7 +64,7 @@ const Homepage = () => {
       <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[50%] border-dashed border-2 border-gray-300 p-4'>
         {homepageData.map((data, idx) => (
           <div
-            key={idx}
+            key={data._id}
             className={`col-span-${idx === 0 ? 2 : 1} ${
               idx === 1 ? "row-span-4 col-start-3" : `row-span-${idx === 0 ? 4 : 2}`
             } rounded-lg`}
@@ -95,7 +109,7 @@ const Homepage = () => {
           </Typography>
           <div className='flex flex-col gap-4'>
             {formData.map((data, idx) => (
-              <div key={idx} className='grid grid-cols-3 grid-rows-2 gap-4'>
+              <div key={data._id} className='grid grid-cols-3 grid-rows-1 gap-4 mb-5'>
                 <label
                   className='flex items-center justify-evenly cursor-pointer'
                   htmlFor={`thumbnail-${idx}`}
