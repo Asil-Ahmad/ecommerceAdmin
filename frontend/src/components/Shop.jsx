@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Button } from "@material-tailwind/react";
 import { ListBulletIcon, PhotoIcon } from "@heroicons/react/24/solid";
 import Sidebar from "./Sidebar";
 import ProductCards from "../constant/ProductCards";
 
 const Shop = () => {
-    const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
 
-    const fetchProducts = async () => {
-        try {
-            const response = await axios.get("http://localhost:4000/api/products");
-            const { products } = response.data;
-            setProducts(products);
-        } catch (error) {
-            console.error(error.message);
-        }
-    }
+  const fetchProducts = async () => {
+    const response = await axios.get("http://localhost:4000/api/product/list-products");
+    const { products } = response.data;
+    setProducts(products); // Use setFilterProducts to update the state
+    console.log(products);
+  };
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   return (
     <div className=' flex items-start '>
       <Sidebar />
@@ -37,19 +38,23 @@ const Shop = () => {
             </select>
           </div>
           <div className='flex space-x-2'>
-            <Button variant='outlined' size='sm'>
-              <ListBulletIcon className='h-4 w-4 mr-2' />
+            <Button variant='outlined' size='sm' className="text-center content-center flex flex-col items-center">
+              <ListBulletIcon className='h-5 w-5 ' />
               List
             </Button>
-            <Button variant='outlined' size='sm'>
-              <PhotoIcon className='h-4 w-4 mr-2' />
+            <Button variant='outlined' size='sm' className="text-center content-center flex flex-col items-center">
+              <PhotoIcon className='h-5 w-5 ' />
               Grid
             </Button>
           </div>
         </div>
         {/* todo Products Card */}
         <div className='grid grid-cols-3 grid-rows-1 gap-4 pt-5'>
-          <ProductCards />
+          {products.map(
+            (product) => (
+              console.log(product.images[0].url), (<ProductCards key={product._id} product={product} />)
+            )
+          )}
         </div>
       </div>
     </div>
