@@ -38,18 +38,31 @@ const Homepage = () => {
     const file = e.target.files[0];
     const newFormData = [...formData];
     newFormData[idx].url = URL.createObjectURL(file);
+    newFormData[idx].file = file;
     setFormData(newFormData);
   };
-
   const handleSaveChanges = async () => {
     try {
       const _id = homepageId;
+      const formDataToSend = new FormData();
+      formDataToSend.append("_id", _id);
+
+      formData.forEach((data, idx) => {
+        if (data.file) {
+          formDataToSend.append(`image${idx + 1}`, data.file);
+        }
+        formDataToSend.append(`text${idx + 1}`, data.text || "");
+        formDataToSend.append(`para${idx + 1}`, data.para || "");
+      });
+
       const response = await axios.post(
         "http://localhost:4000/api/layout/update-homepage",
+        formDataToSend,
         {
-          _id,
-        },
-        { formData }
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
 
       console.log(response.data);
@@ -64,7 +77,7 @@ const Homepage = () => {
 
   return (
     <section className='container w-full overflow-y-scroll p-4'>
-      <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[50%] border-dashed border-2 border-gray-300 p-4'>
+      <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[60%] border-dashed border-2 border-gray-300 p-4'>
         {homepageData.map((data, idx) => (
           <div
             key={data._id}
@@ -93,19 +106,9 @@ const Homepage = () => {
           </div>
         ))}
       </div>
-      <div className='w-full flex justify-end p-5'>
-        <Button
-          variant='outlined'
-          className='group outline-none flex items-center gap-3'
-          onClick={fetchHomepage}
-        >
-          <ArrowPathIcon className='h-5 w-5 transition-all group-hover:rotate-90 duration-500 cursor-pointer' />
-          Refresh
-        </Button>
-      </div>
 
       {/* Edit Homepage */}
-      <div className='w-full flex justify-start m-auto bg-gray-50'>
+      <div className='w-full flex justify-between items-start mt-5 bg-gray-50'>
         <CardBody className='w-[60%] rounded-l-lg'>
           <Typography variant='h6' color='blue-gray' className='mb-4'>
             Edit Homepage
@@ -147,6 +150,14 @@ const Homepage = () => {
             <Button onClick={handleSaveChanges}>Save Changes</Button>
           </div>
         </CardBody>
+        <Button
+          variant='outlined'
+          className='group outline-none flex items-center gap-3 mt-5'
+          onClick={fetchHomepage}
+        >
+          <ArrowPathIcon className='h-5 w-5 transition-all group-hover:rotate-90 duration-500 cursor-pointer' />
+          Refresh
+        </Button>
       </div>
     </section>
   );
