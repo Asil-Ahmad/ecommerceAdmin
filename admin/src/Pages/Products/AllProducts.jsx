@@ -148,7 +148,7 @@ const AllProducts = () => {
             </button>
           </div>
         </div>
-        <div className='flex items-center gap-3'>
+        <div className='flex items-center gap-3 mb-8 '>
           <Typography variant='paragraph' color='blue-gray'>
             All ({allProducts.length})
           </Typography>{" "}
@@ -162,7 +162,7 @@ const AllProducts = () => {
           </Typography>
         </div>
       </CardHeader>
-      <CardBody className='overflow-scroll px-0 h-full'>
+      <CardBody className=' px-0 h-full'>
         <table className='w-full min-w-max table-auto text-left'>
           <thead>
             <tr>

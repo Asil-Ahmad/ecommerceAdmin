@@ -101,19 +101,7 @@ const Headers = () => {
           </nav>
         )}
       </header>
-
-      <div className='w-full flex justify-end p-5'>
-        <Button
-          variant='outlined'
-          className='group outline-none flex items-center gap-3'
-          onClick={getHeaders}
-        >
-          <ArrowPathIcon className='h-5 w-5 transition-all group-hover:rotate-90 duration-500 cursor-pointer' />
-          Refresh
-        </Button>
-      </div>
-
-      <div className='w-full flex justify-start m-auto bg-gray-50'>
+      <div className='w-full flex justify-evenly items-start h-full bg-gray-50'>
         <CardBody className='w-[60%] rounded-l-lg'>
           <Typography variant='h6' color='blue-gray' className='mb-4'>
             Edit Headers
@@ -178,6 +166,14 @@ const Headers = () => {
             <Button onClick={updateHeader}>Save Changes</Button>
           </div>
         </CardBody>
+        <Button
+          variant='outlined'
+          className='group outline-none flex items-center gap-3 mt-5'
+          onClick={getHeaders}
+        >
+          <ArrowPathIcon className='h-5 w-5 transition-all group-hover:rotate-90 duration-500 cursor-pointer' />
+          Refresh
+        </Button>
       </div>
       <ToastContainer />
     </div>
