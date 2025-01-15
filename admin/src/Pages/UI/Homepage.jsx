@@ -22,7 +22,7 @@ const Homepage = () => {
       toast.error("Failed to fetch homepage data");
     }
   };
-  console.log("this",homepageId);
+  console.log("this", homepageId);
 
   useEffect(() => {
     fetchHomepage();
@@ -44,10 +44,13 @@ const Homepage = () => {
   const handleSaveChanges = async () => {
     try {
       const _id = homepageId;
-      const response = await axios.post("http://localhost:4000/api/layout/update-homepage", {
-        _id,
-        images: formData, // Include the updated images or text
-      });
+      const response = await axios.post(
+        "http://localhost:4000/api/layout/update-homepage",
+        {
+          _id,
+        },
+        { formData }
+      );
 
       console.log(response.data);
 

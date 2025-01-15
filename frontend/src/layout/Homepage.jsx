@@ -47,7 +47,7 @@ const Homepage = () => {
         </div>
         {/* todo 2st */}
         <div
-          className='row-span-4 col-start-3 bg-blue-500 rounded-lg'
+          className='row-span-4 col-start-3 rounded-lg'
           style={{
             backgroundImage: `url(${homepageData[1]?.url})`,
             backgroundSize: "cover",
@@ -70,7 +70,7 @@ const Homepage = () => {
         </div>
         {/* todo 3st */}
         <div
-          className='row-span-2 col-start-4 bg-green-500 rounded-lg'
+          className='row-span-2 col-start-4  rounded-lg'
           style={{
             backgroundImage: `url(${homepageData[2]?.url})`,
             backgroundSize: "cover",
@@ -91,7 +91,7 @@ const Homepage = () => {
         </div>
         {/* todo 4st */}
         <div
-          className='row-span-2 col-start-4 bg-green-500 rounded-lg'
+          className='row-span-2 col-start-4  rounded-lg'
           style={{
             backgroundImage: `url(${homepageData[3]?.url})`,
             backgroundSize: "cover",

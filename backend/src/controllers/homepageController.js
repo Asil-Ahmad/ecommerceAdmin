@@ -48,7 +48,6 @@ export const getHomepage = async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to fetch homepage!" });
   }
 };
-
 export const updateHomepage = async (req, res) => {
   try {
     const { _id } = req.body;
@@ -66,19 +65,23 @@ export const updateHomepage = async (req, res) => {
     }
 
     // Extract the files
-    const image1 = req.files.image1 && req.files.image1[0];
-    const image2 = req.files.image1 && req.files.image2[0];
-    const image3 = req.files.image1 && req.files.image3[0];
-    const image4 = req.files.image1 && req.files.image4[0];
-    const images = [image1, image2, image3, image4].filter((item) => item !== undefined);
+    const image1 = req.files && req.files.image1 && req.files.image1[0];
+    const image2 = req.files && req.files.image2 && req.files.image2[0];
+    const image3 = req.files && req.files.image3 && req.files.image3[0];
+    const image4 = req.files && req.files.image4 && req.files.image4[0];
+    const newImages = [image1, image2, image3, image4];
 
     // Handle image upload and text
     let imagesUrl = await Promise.all(
-      images.map(async (item, index) => {
+      newImages.map(async (item, index) => {
+        const existingImage = homepageExist.images[index];
+        if (!item) {
+          return existingImage;
+        }
         const result = await cloudinary.uploader.upload(item.path, { resource_type: "image" });
         const altTextKey = `altText${index + 1}`; // Expect keys like altText1, altText2, etc.
-        const textKey = `text${index + 1}`; // Expect keys like altText1, altText2, etc.
-        const paraKey = `para${index + 1}`; // Expect keys like altText1, altText2, etc.
+        const textKey = `text${index + 1}`; // Expect keys like text1, text2, etc.
+        const paraKey = `para${index + 1}`; // Expect keys like para1, para2, etc.
         return {
           url: result.secure_url,
           altText: req.body[altTextKey] || "", // Use custom altText or fallback to filename
@@ -90,6 +93,7 @@ export const updateHomepage = async (req, res) => {
 
     // Prepare updated data
     const homepageData = { images: imagesUrl, updatedAt: Date.now() };
+    console.log("HomepageData:", homepageData);
 
     // Update the homepage
     const updatedHomepage = await homepageModel.findByIdAndUpdate(_id, homepageData, { new: true });
