@@ -38,11 +38,19 @@ const Shop = () => {
             </select>
           </div>
           <div className='flex space-x-2'>
-            <Button variant='outlined' size='sm' className="text-center content-center flex flex-col items-center">
+            <Button
+              variant='outlined'
+              size='sm'
+              className='text-center content-center flex flex-col items-center'
+            >
               <ListBulletIcon className='h-5 w-5 ' />
               List
             </Button>
-            <Button variant='outlined' size='sm' className="text-center content-center flex flex-col items-center">
+            <Button
+              variant='outlined'
+              size='sm'
+              className='text-center content-center flex flex-col items-center'
+            >
               <PhotoIcon className='h-5 w-5 ' />
               Grid
             </Button>
@@ -50,11 +58,9 @@ const Shop = () => {
         </div>
         {/* todo Products Card */}
         <div className='grid grid-cols-3 grid-rows-1 gap-4 pt-5'>
-          {products.map(
-            (product) => (
-              console.log(product.images[0].url), (<ProductCards key={product._id} product={product} />)
-            )
-          )}
+          {products.map((product) => (
+            <ProductCards key={product._id} product={product} />
+          ))}
         </div>
       </div>
     </div>
