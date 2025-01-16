@@ -5,7 +5,7 @@ import {
   listProducts,
   removeProducts,
   updateProduct,
-  singleProducts,
+  singleProduct,
 } from "../controllers/productController.js";
 import adminAuth from "../middleware/adminAuth.js";
 import checkExpiredSales from "../middleware/checkExpiredSales.js";
@@ -26,7 +26,7 @@ productRouter.post(
 );
 productRouter.post("/remove", upload.none(), removeProducts);
 productRouter.get("/list-products", listProducts);
-productRouter.get("/info-product", singleProducts);
+productRouter.post("/single-product",upload.none(), singleProduct);
 productRouter.post(
   "/update",
   upload.fields([

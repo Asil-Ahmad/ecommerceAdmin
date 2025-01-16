@@ -2,7 +2,7 @@ import upload from "../middleware/multer.js";
 import { v2 as cloudinary } from "cloudinary"; //add image
 import productModel from "../models/productModel.js";
 
-//function for add products
+//todo Add products
 const addProduct = async (req, res) => {
   try {
     const {
@@ -80,7 +80,7 @@ const addProduct = async (req, res) => {
   }
 };
 
-//list of products
+//todo List products
 const listProducts = async (req, res) => {
   try {
     const listAllProducts = await productModel.find({});
@@ -180,6 +180,18 @@ const updateProduct = async (req, res) => {
   }
 };
 
+//todo Get Single Product
+const singleProduct = async (req, res) => {
+  try {
+    const { _id } = req.body;
+    const itemInfo = await productModel.findOne({ _id });
+    res.status(200).json({ message: "success", data: itemInfo });
+  } catch (error) {
+    res.status(400).json({ message: "Product not found" });
+    console.log(error);
+  }
+};
+
 //todo Remove Products
 const removeProducts = async (req, res) => {
   try {
@@ -190,13 +202,4 @@ const removeProducts = async (req, res) => {
   }
 };
 
-//todo info of single product
-const singleProducts = async (req, res) => {
-  const { id } = req.body;
-  try {
-    const itemInfo = await productModel.findOne({ id });
-    res.status(200).json({ message: "success", data: itemInfo });
-  } catch (error) {}
-};
-
-export { addProduct, listProducts, removeProducts, updateProduct, singleProducts };
+export { addProduct, listProducts, removeProducts, updateProduct, singleProduct };
