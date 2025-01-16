@@ -90,8 +90,8 @@ const Homepage = () => {
   return loading ? (
     <Loader />
   ) : (
-    <section className='container w-full overflow-y-scroll p-4'>
-      <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[31rem] p-4 border-dashed hover:border-gray-400 transition-all duration-300 border-2 '>
+    <section className='container w-full overflow-y-scroll '>
+      <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[31rem] p-4 m-2 border-dashed hover:border-gray-400 transition-all duration-300 border-2 '>
         {/* todo 1st */}
         <div
           className='col-span-2 row-span-4 rounded-lg'
@@ -183,12 +183,12 @@ const Homepage = () => {
       </div>
 
       {/* Edit Homepage */}
-      <div className='w-full flex justify-between items-start mt-5 bg-gray-50'>
+      <div className='w-full flex justify-between items-start mt-5 bg-gray-50 p-2'>
         <CardBody className='w-[60%] rounded-l-lg'>
           <Typography variant='h6' color='blue-gray' className='mb-4'>
             Edit Homepage
           </Typography>
-          <div className='flex flex-col gap-4'>
+          <div className='flex flex-col items-start gap-4'>
             {formData.map((data, idx) => (
               <div key={data._id} className='grid grid-cols-3 grid-rows-1 gap-4 mb-5'>
                 <label

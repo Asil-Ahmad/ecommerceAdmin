@@ -15,6 +15,7 @@ import EditCategory from "./Pages/Products/EditCategory";
 import Categories from "./Pages/Products/Categories";
 import Headers from "./Pages/UI/Headers";
 import Homepage from "./Pages/UI/Homepage";
+import Carousel from "./Pages/UI/Carousel";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -44,6 +45,7 @@ const App = () => {
         {/* UI Routes */}
         <Route path='/headers' element={<Headers />} />
         <Route path='/homepage' element={<Homepage />} />
+        <Route path='/carousel' element={<Carousel />} />
       </Routes>
     </div>
   );
