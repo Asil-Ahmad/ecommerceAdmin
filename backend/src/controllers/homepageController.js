@@ -51,7 +51,7 @@ export const getHomepage = async (req, res) => {
 export const updateHomepage = async (req, res) => {
   try {
     const { _id } = req.body;
-    console.log(_id);
+    console.log("Homepage ID:", _id);
 
     // If no ID provided
     if (!_id) {
@@ -65,29 +65,38 @@ export const updateHomepage = async (req, res) => {
     }
 
     // Extract the files
-    const image1 = req.files && req.files.image1 && req.files.image1[0];
-    const image2 = req.files && req.files.image2 && req.files.image2[0];
-    const image3 = req.files && req.files.image3 && req.files.image3[0];
-    const image4 = req.files && req.files.image4 && req.files.image4[0];
+    const image1 = req.files?.image1?.[0];
+    const image2 = req.files?.image2?.[0];
+    const image3 = req.files?.image3?.[0];
+    const image4 = req.files?.image4?.[0];
     const newImages = [image1, image2, image3, image4];
 
     // Handle image upload and text
     let imagesUrl = await Promise.all(
       newImages.map(async (item, index) => {
         const existingImage = homepageExist.images[index];
-        if (!item) {
-          return existingImage;
-        }
-        const result = await cloudinary.uploader.upload(item.path, { resource_type: "image" });
         const altTextKey = `altText${index + 1}`; // Expect keys like altText1, altText2, etc.
         const textKey = `text${index + 1}`; // Expect keys like text1, text2, etc.
         const paraKey = `para${index + 1}`; // Expect keys like para1, para2, etc.
-        return {
-          url: result.secure_url,
-          altText: req.body[altTextKey] || "", // Use custom altText or fallback to filename
-          text: req.body[textKey] || "",
-          para: req.body[paraKey] || "",
-        };
+
+        if (item) {
+          // Upload new image
+          const result = await cloudinary.uploader.upload(item.path, { resource_type: "image" });
+          return {
+            url: result.secure_url,
+            altText: req.body[altTextKey] || "", // Use custom altText or fallback to empty
+            text: req.body[textKey] || "",
+            para: req.body[paraKey] || "",
+          };
+        } else {
+          // Update text and retain existing image
+          return {
+            url: existingImage.url,
+            altText: req.body[altTextKey] || existingImage.altText,
+            text: req.body[textKey] || existingImage.text,
+            para: req.body[paraKey] || existingImage.para,
+          };
+        }
       })
     );
 

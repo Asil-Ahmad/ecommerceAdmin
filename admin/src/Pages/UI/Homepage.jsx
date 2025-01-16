@@ -48,11 +48,16 @@ const Homepage = () => {
       formDataToSend.append("_id", _id);
 
       formData.forEach((data, idx) => {
-        if (data.file) {
-          formDataToSend.append(`image${idx + 1}`, data.file);
-        }
+        // Always append text and paragraph fields
         formDataToSend.append(`text${idx + 1}`, data.text || "");
         formDataToSend.append(`para${idx + 1}`, data.para || "");
+
+        // Append the image file if it exists, otherwise send the current URL
+        if (data.file) {
+          formDataToSend.append(`image${idx + 1}`, data.file);
+        } else {
+          formDataToSend.append(`url${idx + 1}`, data.url || "");
+        }
       });
 
       const response = await axios.post(
@@ -67,6 +72,7 @@ const Homepage = () => {
 
       console.log(response.data);
 
+      // Update state with the latest changes
       setHomepageData(formData);
       toast.success("Changes saved successfully");
     } catch (error) {
@@ -77,34 +83,95 @@ const Homepage = () => {
 
   return (
     <section className='container w-full overflow-y-scroll p-4'>
-      <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[70%] border-dashed border-2 border-gray-300 p-4'>
-        {homepageData.map((data, idx) => (
-          <div
-            key={data._id}
-            className={`col-span-${idx === 0 ? 2 : 1} ${
-              idx === 1 ? "row-span-4 col-start-3" : `row-span-${idx === 0 ? 4 : 2}`
-            } rounded-lg`}
-            style={{
-              backgroundImage: `url(${data.url})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
-            <div className='flex flex-col justify-end items-start h-full p-4'>
-              <div className='bg-black/20 px-3 py-2 rounded-lg'>
-                <h1 className='text-3xl font-semibold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>
-                  {data.text}
-                </h1>
-                <p className='text-lg font-extralight text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>
-                  {data.para}
-                </p>
-                <button className='bg-white border-white border-1 px-3 py-2 mt-5 rounded-lg'>
-                  View Details
-                </button>
-              </div>
+      <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[31rem]'>
+        {/* todo 1st */}
+        <div
+          className='col-span-2 row-span-4 rounded-lg'
+          style={{
+            backgroundImage: `url(${homepageData[0]?.url})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className='flex flex-col justify-end items-start h-full p-4'>
+            <div className='bg-black/20 px-3 py-2 rounded-lg'>
+              <h1 className='text-4xl font-semibold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>
+                {homepageData[0]?.text}
+              </h1>
+              <p className='text-xl font-extralight text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>
+                {homepageData[0]?.para}
+              </p>
+              <button className='bg-white border-white border-1 px-3 py-2 mt-5 rounded-lg'>
+                View Details
+              </button>
             </div>
           </div>
-        ))}
+        </div>
+        {/* todo 2nd */}
+        <div
+          className='row-span-4 col-start-3 rounded-lg'
+          style={{
+            backgroundImage: `url(${homepageData[1]?.url})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className='flex flex-col text-center justify-end items-center h-full p-4'>
+            <div className='bg-black/20 px-3 py-2 rounded-lg'>
+              <h1 className='text-3xl font-semibold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>
+                {homepageData[1]?.text}
+              </h1>
+              <p className='text-xl font-extralight text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>
+                {homepageData[1]?.para}
+              </p>
+              <button className='bg-white border-white border-1 px-3 py-2 mt-5 rounded-lg'>
+                View Details
+              </button>
+            </div>
+          </div>
+        </div>
+        {/* todo 3rd */}
+        <div
+          className='row-span-2 col-start-4 rounded-lg'
+          style={{
+            backgroundImage: `url(${homepageData[2]?.url})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className='flex flex-col justify-center items-start h-full p-4'>
+            <div className='bg-black/20 px-3 py-2 rounded-lg'>
+              <h1 className='text-xl font-semibold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_70%)]'>
+                {homepageData[2]?.text}
+              </h1>
+              <p className='text-md font-extralight text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>
+                {homepageData[2]?.para}
+              </p>
+              <button className='mt-5 text-white text-sm'>View Details</button>
+            </div>
+          </div>
+        </div>
+        {/* todo 4th */}
+        <div
+          className='row-span-2 col-start-4 rounded-lg'
+          style={{
+            backgroundImage: `url(${homepageData[3]?.url})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className='flex flex-col text-center justify-center items-center h-full p-4 cursor-pointer'>
+            <div className='bg-black/20 px-3 py-2 rounded-lg transition-opacity ease-in duration-300 opacity-100 hover:opacity-0'>
+              <h1 className='text-xl font-semibold text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>
+                {homepageData[3]?.text}
+              </h1>
+              <p className='text-lg font-extralight text-white [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]'>
+                {homepageData[3]?.para}
+              </p>
+              <button className='mt-5 text-white text-sm'>View Details</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Edit Homepage */}
