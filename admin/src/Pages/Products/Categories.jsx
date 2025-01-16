@@ -40,45 +40,35 @@ const Categories = () => {
     thumbnail: false,
   });
   const { navigate } = useContext(ShopContext);
-  console.log(formData);
-
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredCategories, setFilteredCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const categoriesPerPage = 6;
 
-  //set Date
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
-
-    // Extract date components
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
-
-    // Extract time components
     let hours = date.getHours();
     const minutes = String(date.getMinutes()).padStart(2, "0");
     const ampm = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12 || 12; // Convert to 12-hour format
-
+    hours = hours % 12 || 12;
     return `${year}/${month}/${day} at ${hours}:${minutes} ${ampm}`;
   };
 
-  //todo  Get ALl Category
   const fetchCategories = async () => {
     try {
       const response = await axios.get(`${backendURL}/api/category/list-categories`);
       const { categories } = response.data;
       setCategories(categories);
-      // console.log(categories);
+      setFilteredCategories(categories);
     } catch (error) {
       console.error("Failed to fetch categories", error);
     }
   };
 
-  //todo  Remove Category
   const removeCategory = async (id) => {
-    console.log(id);
-
     try {
       const response = await axios.post(`${backendURL}/api/category/remove-category`, { id });
       if (response.data) {
@@ -90,7 +80,6 @@ const Categories = () => {
     }
   };
 
-  //todo  Add Category
   const handleAddCategory = async () => {
     setLoading(true);
     try {
@@ -102,9 +91,7 @@ const Categories = () => {
         formData.description === "" ? "No description provided" : formData.description
       );
       data.append("thumbnail", formData.thumbnail);
-      const response = await axios.post(`${backendURL}/api/category/add-category`, data); //!this is with file
-      // const response = await axios.post(`${backendURL}/api/category/add-category`, formData); //!without file good for text only data
-      console.log("Add Category:", response);
+      const response = await axios.post(`${backendURL}/api/category/add-category`, data);
       if (response.data) {
         toast.success(response.data.message);
         await fetchCategories();
@@ -120,14 +107,20 @@ const Categories = () => {
     fetchCategories();
   }, [backendURL]);
 
-  // Calculate the categories to display on the current page
+  const handleSearch = () => {
+    const filtered = categories.filter((category) =>
+      category.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredCategories(filtered);
+    setCurrentPage(1);
+  };
+
   const indexOfLastCategory = currentPage * categoriesPerPage;
   const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
-  const currentCategories = categories.slice(indexOfFirstCategory, indexOfLastCategory);
+  const currentCategories = filteredCategories.slice(indexOfFirstCategory, indexOfLastCategory);
 
-  // Handle pagination
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(categories.length / categoriesPerPage)) {
+    if (currentPage < Math.ceil(filteredCategories.length / categoriesPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -149,9 +142,16 @@ const Categories = () => {
           </div>
           <div className='flex items-center justify-between w-full shrink-0 gap-2 md:w-max '>
             <div className='w-full md:w-72 '>
-              <Input label='Search' icon={<MagnifyingGlassIcon className='h-5 w-5' />} />
+              <Input
+                label='Search'
+                icon={<MagnifyingGlassIcon className='h-5 w-5' />}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
-            <button className='py-[8px] px-3 rounded-md border border-gray-400 '>Search</button>
+            <button className='py-[8px] px-3 rounded-md border border-gray-400' onClick={handleSearch}>
+              Search
+            </button>
           </div>
         </div>
       </CardHeader>
@@ -161,9 +161,6 @@ const Categories = () => {
           setFormData={setFormData}
           handleAddCategory={handleAddCategory}
         />
-
-        {/* //!Second card body */}
-
         <div className='w-[75%]'>
           {loading ? (
             <LoaderSmall />
@@ -186,7 +183,7 @@ const Categories = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {categories.length === 0 ? (
+                  {filteredCategories.length === 0 ? (
                     <h1 className='text-center w-full'>No category found</h1>
                   ) : (
                     currentCategories.map(
@@ -270,10 +267,9 @@ const Categories = () => {
               </table>
             </CardBody>
           )}
-
           <CardFooter className='flex items-center justify-between border-t border-blue-gray-50 p-4 '>
             <Typography variant='small' color='blue-gray' className='font-normal'>
-              Page {currentPage} of {Math.ceil(categories.length / categoriesPerPage)}
+              Page {currentPage} of {Math.ceil(filteredCategories.length / categoriesPerPage)}
             </Typography>
             <div className='flex gap-2'>
               <Button
@@ -290,7 +286,7 @@ const Categories = () => {
                 color='blue-gray'
                 size='sm'
                 onClick={handleNextPage}
-                disabled={currentPage === Math.ceil(categories.length / categoriesPerPage)}
+                disabled={currentPage === Math.ceil(filteredCategories.length / categoriesPerPage)}
               >
                 Next
               </Button>

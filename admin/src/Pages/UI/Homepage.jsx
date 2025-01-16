@@ -4,10 +4,13 @@ import { ArrowPathIcon } from "@heroicons/react/24/solid";
 import { Button, CardBody, Typography, Input } from "@material-tailwind/react";
 import { toast } from "react-toastify";
 
+import Loader from "../../constant/Loader";
+
 const Homepage = () => {
   const [homepageData, setHomepageData] = useState([]);
   const [homepageId, setHomepageId] = useState("");
   const [formData, setFormData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const fetchHomepage = async () => {
     try {
@@ -42,6 +45,7 @@ const Homepage = () => {
     setFormData(newFormData);
   };
   const handleSaveChanges = async () => {
+    setLoading(true);
     try {
       const _id = homepageId;
       const formDataToSend = new FormData();
@@ -78,12 +82,16 @@ const Homepage = () => {
     } catch (error) {
       console.error(error);
       toast.error("Failed to save changes");
+    } finally {
+      setLoading(false);
     }
   };
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <section className='container w-full overflow-y-scroll p-4'>
-      <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[31rem]'>
+      <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[31rem] p-4 border-dashed hover:border-gray-400 transition-all duration-300 border-2 '>
         {/* todo 1st */}
         <div
           className='col-span-2 row-span-4 rounded-lg'
