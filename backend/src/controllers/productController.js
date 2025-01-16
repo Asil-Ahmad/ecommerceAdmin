@@ -184,8 +184,8 @@ const updateProduct = async (req, res) => {
 const singleProduct = async (req, res) => {
   try {
     const { _id } = req.body;
-    const itemInfo = await productModel.findOne({ _id });
-    res.status(200).json({ message: "success", data: itemInfo });
+    const productInfo = await productModel.findOne({ _id });
+    res.status(200).json({ message: "success", productInfo });
   } catch (error) {
     res.status(400).json({ message: "Product not found" });
     console.log(error);
