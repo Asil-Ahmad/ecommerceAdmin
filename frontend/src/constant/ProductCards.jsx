@@ -7,7 +7,7 @@ import {
   Typography,
   Button,
 } from "@material-tailwind/react";
-
+import ProductModel from "./ProductModel";
 
 const ProductCards = ({ product }) => {
   const { salePrice, saleStart, images, name, description, price } = product;
@@ -25,11 +25,11 @@ const ProductCards = ({ product }) => {
 
   return (
     <>
-      <Card className='w-[23rem] shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px]'>
+      <Card className='w-full'>
         <CardHeader
           shadow={false}
           floated={false}
-          className='h-[20rem] mx-0 mt-0 rounded-none relative group'
+          className='h-[16rem] mx-0 mt-0 rounded-none relative group'
         >
           <img
             src={images[0].url}
@@ -56,7 +56,7 @@ const ProductCards = ({ product }) => {
         </CardHeader>
         <CardBody>
           <div className='flex items-center justify-between mb-2'>
-            <Typography color='blue-gray' className='font-medium'>
+            <Typography color='blue-gray' variant="h6" className='font-medium truncate'>
               {name}
             </Typography>
             <div className='flex gap-2 items-center flex-row-reverse'>
@@ -94,39 +94,7 @@ const ProductCards = ({ product }) => {
           </Button>
         </CardFooter>
       </Card>
-      {open ? (
-        <div className='fixed inset-0 z-10'>
-          <div className='fixed inset-0 bg-black/70' onClick={() => setOpen(false)}></div>
-          <div className='fixed top-1/2 left-1/2 bg-white border shadow-2xl border-gray-300 z-10 w-[90%] h-[90%] p-4 transform -translate-x-1/2 -translate-y-1/2'>
-            <div className='flex justify-between items-center'>
-              <Typography variant='h5' color='blue-gray'>
-                Product Image
-              </Typography>
-              
-            </div>
-
-            <hr />
-
-            <div className='flex gap-2 border h-[80%] mt-5 justify-center items-center rounded-lg  bg-white w-full py-5 px-4'>
-              {1 < 2 ? (
-                <div className='w-full h-full grid grid-cols-3 grid-rows-1 gap-4 '>
-                  <div className='col-span-2 bg-gray-50 p-2 rounded-lg'>
-                    <img src={images[0].url} alt='Preview' className='w-52 h-52 object-contain' />
-                  </div>
-                </div>
-              ) : (
-                <div>
-                  <label htmlFor='image1'>
-                    <Button variant='outlined'>Select File</Button>
-                  </label>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      ) : (
-        ""
-      )}
+      {open ? <ProductModel product={product} open={open} setOpen={setOpen} /> : ""}
     </>
   );
 };

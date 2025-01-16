@@ -77,7 +77,7 @@ const Homepage = () => {
 
   return (
     <section className='container w-full overflow-y-scroll p-4'>
-      <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[60%] border-dashed border-2 border-gray-300 p-4'>
+      <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[70%] border-dashed border-2 border-gray-300 p-4'>
         {homepageData.map((data, idx) => (
           <div
             key={data._id}

@@ -19,7 +19,7 @@ const Shop = () => {
   }, []);
 
   return (
-    <div className=' flex items-start '>
+    <div className='container flex items-start max-w-[1440px]  '>
       <Sidebar />
       <div className='w-full flex flex-col px-4'>
         {/* todo Filter Function */}
@@ -57,7 +57,7 @@ const Shop = () => {
           </div>
         </div>
         {/* todo Products Card */}
-        <div className='grid grid-cols-3 grid-rows-1 gap-4 pt-5'>
+        <div className='grid grid-cols-3 grid-rows-1 gap-5  pt-5'>
           {products.map((product) => (
             <ProductCards key={product._id} product={product} />
           ))}

@@ -20,8 +20,8 @@ const Homepage = () => {
   }, []);
 
   return (
-    <section className='container w-full h-screen'>
-      <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[70%] '>
+    <section className='container w-full h-screen '>
+      <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[31rem] '>
         {/* todo 1st */}
         <div
           className='col-span-2 row-span-4 rounded-lg'
