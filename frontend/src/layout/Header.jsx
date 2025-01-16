@@ -21,8 +21,8 @@ const Header = () => {
   return (
     <header className='pb-5 '>
       {headerData && (
-        <nav className='container  flex justify-between items-center '>
-          <img src={headerData.logo} alt='' className='w-[150px] h-[70px] object-contain my-5' />
+        <nav className='container  flex justify-between items-center py-2 '>
+          <img src={headerData.logo} alt='' className='w-[150px] h-[70px] object-contain ' />
 
           <div className='flex gap-10'>
             {headerData?.links?.map(({ text, url }, index) => (
@@ -33,7 +33,7 @@ const Header = () => {
           </div>
         </nav>
       )}
-      <hr />
+      <hr   />
     </header>
   );
 };

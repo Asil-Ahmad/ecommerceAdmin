@@ -39,10 +39,10 @@ const ProductCards = ({ product }) => {
 
           {salePrice && (
             <div
-              className='absolute top-[1rem] right-[-9rem] bg-red-500 text-white px-4 w-full flex justify-center  py-1 shadow-md transform rotate-45
-                                                            group-hover:brightness-120 group-hover:pt-2  active:opacity-100 outline-none duration-300 '
+              className='absolute top-[1rem] right-[-7rem] bg-red-500 text-white px-4 w-full flex justify-center  py-1 shadow-md transform rotate-45
+                                                            group-hover:brightness-120 group-hover:py-2  active:opacity-100 outline-none duration-300 '
             >
-              <span className='font-semibold'>On Sale!</span>
+              <span className='font-semibold text-sm'>On Sale!</span>
             </div>
           )}
 
@@ -94,7 +94,7 @@ const ProductCards = ({ product }) => {
           </Button>
         </CardFooter>
       </Card>
-      {open ? <ProductModel product={product} open={open} setOpen={setOpen} /> : ""}
+      {open ? <ProductModel product={product} open={open} setOpen={setOpen} removeTags={removeTags} /> : ""}
     </>
   );
 };
