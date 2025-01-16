@@ -93,7 +93,8 @@ const ProductCards = ({ product }) => {
           <Button
             ripple={false}
             fullWidth={true}
-            className='bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100'
+            variant="outlined"
+            className='  text-blue-gray-900  shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100'
           >
             Add to Cart
           </Button>
