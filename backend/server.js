@@ -9,6 +9,7 @@ import { checkExpiredSalesMiddleware, startCronJob } from "./src/middleware/chec
 import categoryRouter from "./src/routes/categoryRoute.js";
 import headerRouter from "./src/routes/headerRoute.js";
 import homepageRouter from "./src/routes/homepageRoute.js";
+import carouselRouter from "./src/routes/carouselRoute.js";
 
 const app = express();
 
@@ -25,10 +26,14 @@ connectCloudinary();
 
 app.get("/", (req, res) => res.json({ message: "Connected to API " }));
 // app.use("/api/user", userRouter);
+
 app.use("/api/product", productRouter);
 app.use("/api/category", categoryRouter);
+
+//For layout only
 app.use("/api/layout", headerRouter);
 app.use("/api/layout", homepageRouter);
+app.use("/api/layout", carouselRouter);
 // app.use("/api/order", orderRouter);
 
 const port = process.env.PORT || 4000;
