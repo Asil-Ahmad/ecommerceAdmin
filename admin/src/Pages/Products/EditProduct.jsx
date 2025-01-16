@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import ProductData from "./Sidebar/ProductData";
 import Loader from "../../constant/Loader";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const EditProduct = () => {
   const { backendURL } = useContext(ShopContext);
@@ -299,6 +300,12 @@ const EditProduct = () => {
             <Typography variant='h5' color='blue-gray'>
               Edit Product
             </Typography>
+            <Link
+              to={`http://localhost:5173/product/${_id}`}
+              className='text-sm underline text-blue-600'
+            >
+              Product Live Link
+            </Link>
           </div>
         </CardHeader>
         <CardBody className='overflow-scroll '>
