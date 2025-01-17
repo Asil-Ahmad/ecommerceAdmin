@@ -80,6 +80,22 @@ export const getCarousel = async (req, res) => {
   }
 };
 
+export const singleCarousel = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const carousel = await carouselModel.findById(id);
+    console.log(carousel);
+    
+    if (!carousel) {
+      return res.status(404).json({ message: "Carousel not found" });
+    }
+    res.status(200).json({ carousel });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+    console.log(error);
+  }
+};
+
 export const deleteCarousel = async (req, res) => {
   try {
     const { id } = req.body;
