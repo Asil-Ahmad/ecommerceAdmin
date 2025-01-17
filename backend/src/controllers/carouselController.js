@@ -13,9 +13,10 @@ export const addCarousel = async (req, res) => {
 
     // If a file is uploaded, upload it to Cloudinary
     if (imageFile) {
-      const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
-        resource_type: "image",
-      });
+    const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
+      resource_type: "image",
+      folder: "carousel",
+    });
       imageUrl = imageUpload.secure_url;
     }
 
@@ -37,50 +38,36 @@ export const addCarousel = async (req, res) => {
 };
 
 export const updateCarousel = async (req, res) => {
-  try {
-    const { links } = req.body;
-    const files = req.files;
+    try {
+        const { id, link, name } = req.body;
+        const imageFile = req.file ? req.file : null;
 
-    if (!links || links.length !== files.length) {
-      return res.status(400).json({ message: "Links and files count mismatch" });
+        const carousel = await carouselModel.findById(id);
+
+        if (!carousel) {
+            return res.status(404).json({ message: "Carousel not found" });
+        }
+
+        let imageUrl = carousel.image;
+
+        if (imageFile) {
+            const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
+                resource_type: "image",
+                folder: "carousel",
+            });
+            imageUrl = imageUpload.secure_url;
+        }
+
+        carousel.link = link;
+        carousel.name = name
+        carousel.image = imageUrl;
+
+        await carousel.save();
+
+        res.status(200).json({ message: "Carousel updated successfully", carousel });
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error });
     }
-
-    const carousel = await carouselModel.findOne();
-
-    if (!carousel) {
-      return res.status(404).json({ message: "Carousel not found" });
-    }
-
-    const existingImages = carousel.images;
-    const newImages = [];
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const link = links[i];
-
-      const existingImage = existingImages.find((image) => image.link === link);
-
-      if (existingImage) {
-        newImages.push(existingImage);
-      } else {
-        const result = await cloudinary.uploader.upload(file.path, {
-          folder: "carousel",
-        });
-
-        newImages.push({
-          url: result.secure_url,
-          link: link,
-        });
-      }
-    }
-
-    carousel.images = newImages;
-    await carousel.save();
-
-    res.status(200).json({ message: "Carousel updated successfully", carousel });
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error });
-  }
 };
 
 export const getCarousel = async (req, res) => {

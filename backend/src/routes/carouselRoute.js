@@ -8,6 +8,6 @@ const carouselRouter = express.Router();
 
 carouselRouter.post("/add-carousel", upload.single("image"), addCarousel);
 carouselRouter.get("/get-carousel", getCarousel);
-carouselRouter.post("/update-carousel", upload.array("images"), updateCarousel);
+carouselRouter.post("/update-carousel", upload.single("image"), updateCarousel);
 
 export default carouselRouter;
