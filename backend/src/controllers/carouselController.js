@@ -39,6 +39,51 @@ export const addCarousel = async (req, res) => {
   }
 };
 
+export const updateCarousel = async (req, res) => {
+  try {
+    const { links } = req.body;
+    const files = req.files;
+
+    if (!files || files.length === 0) {
+      return res.status(400).json({ message: "No files uploaded" });
+    }
+
+    if (!links || links.length !== files.length) {
+      return res.status(400).json({ message: "Links and files count mismatch" });
+    }
+
+    const images = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const link = links[i];
+
+      const result = await cloudinary.uploader.upload(file.path, {
+        folder: "carousel",
+      });
+
+      images.push({
+        url: result.secure_url,
+        link: link,
+      });
+    }
+
+    const carousel = await carouselModel.findOneAndUpdate(
+      {}, // No filter (updates the first document found)
+      { images }, // Updates the images field
+      { new: true } // Returns the updated document
+    );
+
+    if (!carousel) {
+      return res.status(404).json({ message: "Carousel not found" });
+    }
+
+    res.status(200).json({ message: "Carousel updated successfully", carousel });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
 export const getCarousel = async (req, res) => {
   try {
     const carousel = await carouselModel.find();
