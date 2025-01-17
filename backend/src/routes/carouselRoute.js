@@ -6,7 +6,7 @@ import { addCarousel, getCarousel, updateCarousel } from "../controllers/carouse
 
 const carouselRouter = express.Router();
 
-carouselRouter.post("/add-carousel", upload.array("images"), addCarousel);
+carouselRouter.post("/add-carousel", upload.single("image"), addCarousel);
 carouselRouter.get("/get-carousel", getCarousel);
 carouselRouter.post("/update-carousel", upload.array("images"), updateCarousel);
 
