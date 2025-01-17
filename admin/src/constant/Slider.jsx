@@ -27,10 +27,9 @@ const Slider = ({ carouselImages }) => {
         className='mySwiper  max-w-[1060px] h-[250px]'
       >
         {carouselImages.map((img) => (
-          <SwiperSlide className="select-none">
-            <Link to={img.link} key={img._id}>
+          <SwiperSlide key={img._id} className='select-none'>
+            <Link to={img.link}>
               <img src={img.image} alt='' className='object-cover w-full' />
-              {console.log(img._id)}
             </Link>
           </SwiperSlide>
         ))}
