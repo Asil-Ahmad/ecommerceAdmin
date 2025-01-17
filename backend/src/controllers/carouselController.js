@@ -13,10 +13,10 @@ export const addCarousel = async (req, res) => {
 
     // If a file is uploaded, upload it to Cloudinary
     if (imageFile) {
-    const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
-      resource_type: "image",
-      folder: "carousel",
-    });
+      const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
+        resource_type: "image",
+        folder: "carousel",
+      });
       imageUrl = imageUpload.secure_url;
     }
 
@@ -38,36 +38,36 @@ export const addCarousel = async (req, res) => {
 };
 
 export const updateCarousel = async (req, res) => {
-    try {
-        const { id, link, name } = req.body;
-        const imageFile = req.file ? req.file : null;
+  try {
+    const { id, link, name } = req.body;
+    const imageFile = req.file ? req.file : null;
 
-        const carousel = await carouselModel.findById(id);
+    const carousel = await carouselModel.findById(id);
 
-        if (!carousel) {
-            return res.status(404).json({ message: "Carousel not found" });
-        }
-
-        let imageUrl = carousel.image;
-
-        if (imageFile) {
-            const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
-                resource_type: "image",
-                folder: "carousel",
-            });
-            imageUrl = imageUpload.secure_url;
-        }
-
-        carousel.link = link;
-        carousel.name = name
-        carousel.image = imageUrl;
-
-        await carousel.save();
-
-        res.status(200).json({ message: "Carousel updated successfully", carousel });
-    } catch (error) {
-        res.status(500).json({ message: "Server error", error });
+    if (!carousel) {
+      return res.status(404).json({ message: "Carousel not found" });
     }
+
+    let imageUrl = carousel.image;
+
+    if (imageFile) {
+      const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
+        resource_type: "image",
+        folder: "carousel",
+      });
+      imageUrl = imageUpload.secure_url;
+    }
+
+    carousel.link = link;
+    carousel.name = name;
+    carousel.image = imageUrl;
+
+    await carousel.save();
+
+    res.status(200).json({ message: "Carousel updated successfully", carousel });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
 };
 
 export const getCarousel = async (req, res) => {
@@ -77,5 +77,19 @@ export const getCarousel = async (req, res) => {
     res.status(200).json({ carousel });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
+  }
+};
+
+export const deleteCarousel = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const carousel = await carouselModel.findByIdAndDelete(id);
+    if (!carousel) {
+      return res.status(404).json({ message: "Carousel not found" });
+    }
+    res.status(200).json({ message: "Carousel deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+    console.log(error);
   }
 };
