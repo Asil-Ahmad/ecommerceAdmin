@@ -38,3 +38,13 @@ export const addCarousel = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+export const getCarousel = async (req, res) => {
+  try {
+    const carousel = await carouselModel.find();
+
+    res.status(200).json({ carousel });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};

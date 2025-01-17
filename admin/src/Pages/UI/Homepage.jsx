@@ -91,6 +91,7 @@ const Homepage = () => {
     <Loader />
   ) : (
     <section className='container w-full overflow-y-scroll '>
+      {/* todo Homepage UI Cards */}
       <div className='grid grid-cols-4 grid-rows-4 gap-2 h-[31rem] p-4 m-2 border-dashed hover:border-gray-400 transition-all duration-300 border-2 '>
         {/* todo 1st */}
         <div
@@ -182,7 +183,7 @@ const Homepage = () => {
         </div>
       </div>
 
-      {/* Edit Homepage */}
+      {/* todo Edit Homepage */}
       <div className='w-full flex justify-between items-start mt-5 bg-gray-50 p-2'>
         <CardBody className='w-[60%] rounded-l-lg'>
           <Typography variant='h6' color='blue-gray' className='mb-4'>
