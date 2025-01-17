@@ -66,7 +66,7 @@ const Carousel = () => {
       data.append("link", editFormData.link);
       data.append("image", editFormData.image);
       const response = await axios.post("http://localhost:4000/api/layout/update-carousel", data);
-      console.log(response);
+      toast.success(response.data.message);
       fetchCarousel();
     } catch (error) {
       console.log(error);
