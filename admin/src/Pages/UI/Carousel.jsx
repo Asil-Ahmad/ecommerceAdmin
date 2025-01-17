@@ -7,6 +7,7 @@ import { PlusIcon, XMarkIcon, PencilIcon } from "@heroicons/react/24/solid";
 const Carousel = () => {
   const [carouselImages, setCarouselImages] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     link: "",
@@ -99,13 +100,14 @@ const Carousel = () => {
                   alt='Carousel Image'
                   className='w-full h-24 object-cover object-top pt-8 '
                 />
+                {/* todo Edit Icons */}
                 <XMarkIcon
                   className='opacity-0 cursor-pointer group-hover:opacity-100 w-5 h-5 absolute top-1 right-1 bg-red-500 text-white rounded-full'
                   onClick={() => removeSlide(img._id)}
                 />
                 <PencilIcon
                   className='opacity-0 cursor-pointer group-hover:opacity-100 w-5 h-5 p-1 absolute top-1 left-1 bg-green-500 text-white rounded-full'
-                  onClick={() => updateSlide(img._id)}
+                  onClick={() => setEditModal(true)}
                 />
               </CardHeader>
               <CardBody className=''>
@@ -196,6 +198,72 @@ const Carousel = () => {
             )}
 
             {/* todo Update Modal */}
+            {editModal && (
+              <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
+                <div className='bg-white p-6 rounded-lg w-96'>
+                  <Typography variant='h6' color='blue-gray' className='mb-4'>
+                    Update Carousel Slide
+                  </Typography>
+                  <div className='space-y-4'>
+                    <div className='relative border-2 border-dashed rounded-lg p-4 hover:border-gray-400 transition-all duration-300'>
+                      <label htmlFor='image' className='block cursor-pointer'>
+                        {formData.image ? (
+                          <img
+                            src={URL.createObjectURL(formData.image)}
+                            alt='Product Image'
+                            className='w-full h-24 object-cover object-top'
+                          />
+                        ) : (
+                          <div className='text-center w-full h-24 content-center'>
+                            <p className='text-sm text-gray-500'>Click or drag image to upload</p>
+                          </div>
+                        )}
+                        <input
+                          type='file'
+                          accept='image/*'
+                          id='image'
+                          hidden
+                          required
+                          className='absolute inset-0 w-full h-full opacity-0 cursor-pointer'
+                          onChange={(e) => {
+                            const file = e.target.files[0];
+                            setFormData({ ...formData, image: file });
+                          }}
+                        />
+                      </label>
+                    </div>
+                    <Input
+                      type='text'
+                      label='Product Link'
+                      required
+                      value={formData.link}
+                      onChange={(e) => setFormData({ ...formData, link: e.target.value })}
+                    />
+                    <Input
+                      type='text'
+                      label='Product Name'
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    />
+                    <div className='flex justify-end gap-2'>
+                      <button
+                        onClick={() => setEditModal(false)}
+                        className='px-4 py-2 text-gray-500 hover:text-gray-700'
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={() => updateSlide()}
+                        className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600'
+                      >
+                        Update Slide
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
