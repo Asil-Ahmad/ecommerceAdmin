@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Slider from "../../constant/Slider";
-import { Typography, Input, Card, CardHeader, CardBody } from "@material-tailwind/react";
+import { Typography, Input, Card, CardHeader, CardBody, Button } from "@material-tailwind/react";
 import { PlusIcon, XMarkIcon, PencilIcon } from "@heroicons/react/24/solid";
+import Loader from "../../constant/Loader";
+import { toast } from "react-toastify";
 
 const Carousel = () => {
   const [carouselImages, setCarouselImages] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
+  const [editFormData, setEditFormData] = useState({
+    name: "",
+    link: "",
+    image: "",
+  });
   const [formData, setFormData] = useState({
     name: "",
     link: "",
@@ -28,36 +36,54 @@ const Carousel = () => {
 
   //todo Add carousel slide
   const addSlide = async () => {
+    setLoading(true);
     try {
       const data = new FormData();
       data.append("name", formData.name);
       data.append("link", formData.link);
       data.append("image", formData.image);
       const response = await axios.post("http://localhost:4000/api/layout/add-carousel", data);
-      console.log(response);
-      setOpenModal(false);
-      fetchCarousel();
+      if (response.data) {
+        toast.success(response.data.message);
+        setFormData({ name: "", link: "", image: "" });
+        setOpenModal(false);
+        fetchCarousel();
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   //todo Update carousel slide
   const updateSlide = async (id) => {
+    setLoading(true);
     try {
       const data = new FormData();
-      data.append("name", formData.name);
-      data.append("link", formData.link);
-      data.append("image", formData.image);
-      const response = await axios.post(
-        "http://localhost:4000/api/layout/update-carousel",
-        { id },
-        data
-      );
+      data.append("id", id);
+      data.append("name", editFormData.name);
+      data.append("link", editFormData.link);
+      data.append("image", editFormData.image);
+      const response = await axios.post("http://localhost:4000/api/layout/update-carousel", data);
       console.log(response);
       fetchCarousel();
     } catch (error) {
-      console.log;
+      console.log(error);
+    } finally {
+      setLoading(false);
+      setEditModal(false);
+    }
+  };
+
+  const getSlide = async (id) => {
+    try {
+      const response = await axios.post("http://localhost:4000/api/layout/single-carousel", { id });
+      const { carousel } = response.data;
+      console.log(carousel);
+      setEditFormData(carousel);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -76,7 +102,9 @@ const Carousel = () => {
     fetchCarousel();
   }, []);
 
-  return (
+  return loading ? (
+    <Loader />
+  ) : (
     <div className='container mx-auto'>
       <div className='p-4 m-2 border-dashed hover:border-gray-400 transition-all duration-300 border-2 sticky top-0 z-50 bg-white'>
         <Slider carouselImages={carouselImages} />
@@ -107,24 +135,17 @@ const Carousel = () => {
                 />
                 <PencilIcon
                   className='opacity-0 cursor-pointer group-hover:opacity-100 w-5 h-5 p-1 absolute top-1 left-1 bg-green-500 text-white rounded-full'
-                  onClick={() => setEditModal(true)}
+                  onClick={() => {
+                    setEditModal(true), getSlide(img._id);
+                  }}
                 />
               </CardHeader>
               <CardBody className=''>
-                <Input
-                  label='Product Link'
-                  value={img.link}
-                  onChange={(e) => {
-                    const newImages = carouselImages.map((image) =>
-                      image._id === img._id ? { ...image, link: e.target.value } : image
-                    );
-                    setCarouselImages(newImages);
-                  }}
-                />
+                <Input label='Product Link' value={img.link} readOnly />
               </CardBody>
             </Card>
           ))}
-          <div className='flex justify-center items-center border-dashed border-2 hover:bg-gray-50 border-gray-400 rounded-lg h-full'>
+          <div className='flex row-end-1 justify-center items-center border-dashed border-2 hover:bg-gray-50 border-gray-400 rounded-lg h-full'>
             <PlusIcon
               onClick={() => setOpenModal(!openModal)}
               className='w-10 h-10 bg-gray-200 hover:bg-gray-500 transition-all duration-200 hover:text-white rounded-lg p-2 cursor-pointer'
@@ -179,18 +200,10 @@ const Carousel = () => {
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     />
                     <div className='flex justify-end gap-2'>
-                      <button
-                        onClick={() => setOpenModal(false)}
-                        className='px-4 py-2 text-gray-500 hover:text-gray-700'
-                      >
+                      <Button variant='outlined' onClick={() => setOpenModal(false)}>
                         Cancel
-                      </button>
-                      <button
-                        onClick={addSlide}
-                        className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600'
-                      >
-                        Add Slide
-                      </button>
+                      </Button>
+                      <Button onClick={addSlide}>Add Slide</Button>
                     </div>
                   </div>
                 </div>
@@ -198,6 +211,7 @@ const Carousel = () => {
             )}
 
             {/* todo Update Modal */}
+
             {editModal && (
               <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
                 <div className='bg-white p-6 rounded-lg w-96'>
@@ -207,9 +221,13 @@ const Carousel = () => {
                   <div className='space-y-4'>
                     <div className='relative border-2 border-dashed rounded-lg p-4 hover:border-gray-400 transition-all duration-300'>
                       <label htmlFor='image' className='block cursor-pointer'>
-                        {formData.image ? (
+                        {editFormData.image ? (
                           <img
-                            src={URL.createObjectURL(formData.image)}
+                            src={
+                              typeof editFormData.image === "string"
+                                ? editFormData.image
+                                : URL.createObjectURL(editFormData.image)
+                            }
                             alt='Product Image'
                             className='w-full h-24 object-cover object-top'
                           />
@@ -227,7 +245,7 @@ const Carousel = () => {
                           className='absolute inset-0 w-full h-full opacity-0 cursor-pointer'
                           onChange={(e) => {
                             const file = e.target.files[0];
-                            setFormData({ ...formData, image: file });
+                            setEditFormData({ ...editFormData, image: file });
                           }}
                         />
                       </label>
@@ -236,29 +254,21 @@ const Carousel = () => {
                       type='text'
                       label='Product Link'
                       required
-                      value={formData.link}
-                      onChange={(e) => setFormData({ ...formData, link: e.target.value })}
+                      value={editFormData.link}
+                      onChange={(e) => setEditFormData({ ...editFormData, link: e.target.value })}
                     />
                     <Input
                       type='text'
                       label='Product Name'
                       required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      value={editFormData.name}
+                      onChange={(e) => setEditFormData({ ...editFormData, name: e.target.value })}
                     />
                     <div className='flex justify-end gap-2'>
-                      <button
-                        onClick={() => setEditModal(false)}
-                        className='px-4 py-2 text-gray-500 hover:text-gray-700'
-                      >
+                      <Button variant='outlined' onClick={() => setEditModal(false)}>
                         Cancel
-                      </button>
-                      <button
-                        onClick={() => updateSlide()}
-                        className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600'
-                      >
-                        Update Slide
-                      </button>
+                      </Button>
+                      <Button onClick={() => updateSlide(editFormData._id)}>Update Slide</Button>
                     </div>
                   </div>
                 </div>
