@@ -7,16 +7,16 @@ export const ShopContext = createContext();
 
 const ShopContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
-  const fetchProducts = async () => {
-    const response = await axios.get("http://localhost:4000/api/product/list-products");
-    const { products } = response.data;
-    setProducts(products); // Use setFilterProducts to update the state
-    console.log(products);
-  };
-  console.log(products);
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  // const fetchProducts = async () => {
+  //   const response = await axios.get("http://localhost:4000/api/product/list-products");
+  //   const { products } = response.data;
+  //   setProducts(products); // Use setFilterProducts to update the state
+  //   // console.log(products);
+  // };
+  // console.log(products);
+  // useEffect(() => {
+  //   fetchProducts();
+  // }, []);
 
   const navigate = useNavigate();
   const test = "Working";

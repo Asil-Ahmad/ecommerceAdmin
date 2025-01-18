@@ -5,9 +5,24 @@ import { ListBulletIcon, PhotoIcon } from "@heroicons/react/24/solid";
 import Sidebar from "./Sidebar";
 import ProductCards from "../constant/ProductCards";
 import { ShopContext } from "../context/ShopContext";
+import { useGetProductsQuery } from "../services/TMDB";
+
 
 const Shop = () => {
-  const { products } = useContext(ShopContext);
+  // const { products } = useContext(ShopContext);
+  const { data, error, isFetching } = useGetProductsQuery();
+  console.log("Redux data", data?.products);
+
+  if (isFetching) {
+    return (
+      <h1 className="text-4xl text-center m-auto h-screen font-thin content-center">Loading...</h1>
+    )
+  }
+
+  //for error
+  if (error) {
+    return "An error has occurred.";
+  }
 
   return (
     <div className='container flex items-start max-w-[1440px]  '>
@@ -49,7 +64,7 @@ const Shop = () => {
         </div>
         {/* todo Products Card */}
         <div className='grid grid-cols-3 grid-rows-1 gap-5  pt-5'>
-          {products.map((product) => (
+          {data?.products?.map((product) => (
             <ProductCards key={product._id} product={product} />
           ))}
         </div>
