@@ -1,6 +1,6 @@
 import upload from "../middleware/multer.js";
 import { v2 as cloudinary } from "cloudinary";
-import brandModel from "../models/UI/brandModel.js";
+import brandModel from "../models/brandModel.js";
 
 export const addBrand = async (req, res) => {
   const { name, link } = req.body;

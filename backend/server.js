@@ -10,6 +10,7 @@ import categoryRouter from "./src/routes/categoryRoute.js";
 import headerRouter from "./src/routes/headerRoute.js";
 import homepageRouter from "./src/routes/homepageRoute.js";
 import carouselRouter from "./src/routes/carouselRoute.js";
+import brandRouter from "./src/routes/brandRoute.js";
 
 const app = express();
 
@@ -34,6 +35,8 @@ app.use("/api/category", categoryRouter);
 app.use("/api/layout", headerRouter);
 app.use("/api/layout", homepageRouter);
 app.use("/api/layout", carouselRouter);
+app.use("/api/layout", brandRouter);
+
 // app.use("/api/order", orderRouter);
 
 const port = process.env.PORT || 4000;
