@@ -22,10 +22,12 @@ const ProductData = ({ productData, handleDimensionChange }) => {
     isSaleEnabled,
     setIsSaleEnabled,
     setDimensions,
+    featuredProduct,
+    setFeaturedProduct,
   } = productData;
   const [activeTab, setActiveTab] = useState("General");
 
-  console.log("productData", isSaleEnabled);
+  console.log("productData", featuredProduct);
 
   const [productDetails, setProductDetails] = useState({
     regularPrice: "",
@@ -103,6 +105,22 @@ const ProductData = ({ productData, handleDimensionChange }) => {
                   id='enableSale'
                   checked={isSaleEnabled}
                   onChange={(e) => setIsSaleEnabled(e.target.checked)}
+                  className='mr-2'
+                />
+              </div>
+              <div className='flex items-center mb-4'>
+                <label htmlFor='enableSale' className='w-full max-w-[7.5rem]'>
+                  Add to Featured
+                </label>
+                <input
+                  type='checkbox'
+                  id='enableSale'
+                  value={featuredProduct}
+                  checked={featuredProduct === true}
+                  onChange={() => {
+                    setFeaturedProduct(!featuredProduct),
+                      console.log("This is featuredProduct", featuredProduct);
+                  }}
                   className='mr-2'
                 />
               </div>

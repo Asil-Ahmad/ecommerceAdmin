@@ -21,6 +21,7 @@ const addProduct = async (req, res) => {
       saleEnd,
       weight,
       dimensions,
+      featuredProduct,
     } = req.body;
 
     const image1 = req.files.image1 && req.files.image1[0];
@@ -64,6 +65,7 @@ const addProduct = async (req, res) => {
             dheight: dimensions.dheight,
           }
         : { dlength: null, dwidth: null, dheight: null },
+      featuredProduct: featuredProduct === "true" ? true : false,
 
       // sizes: JSON.parse(sizes),
       // subCategory,
@@ -108,6 +110,7 @@ const updateProduct = async (req, res) => {
       saleStart,
       saleEnd,
       isSaleEnabled,
+      featuredProduct,
     } = req.body;
 
     if (!_id) {
@@ -160,6 +163,12 @@ const updateProduct = async (req, res) => {
           : existingProduct.isSaleEnabled,
       saleStart: saleStart || existingProduct.saleStart,
       saleEnd: saleEnd || existingProduct.saleEnd,
+      featuredProduct:
+        featuredProduct === "true"
+          ? true
+          : featuredProduct === "false"
+          ? false
+          : existingProduct.featuredProduct,
       updatedAt: Date.now(),
     };
 

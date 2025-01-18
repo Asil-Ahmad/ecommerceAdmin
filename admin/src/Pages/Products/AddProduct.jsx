@@ -55,6 +55,7 @@ const AddProduct = () => {
 
   const [category, setCategory] = useState("T-shirt");
   const [sizes, setSizes] = useState([]);
+  const [featuredProduct, setIsFeaturedProduct] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleDimensionChange = (e) => {
@@ -136,8 +137,10 @@ const AddProduct = () => {
 
     dimensions,
     setDimensions,
+    featuredProduct,
+    setIsFeaturedProduct,
   };
-  console.log(saleStart,saleEnd);
+  console.log("this is data", featuredProduct);
 
   // Add Product
   const handleAddProduct = async (e) => {
@@ -158,6 +161,7 @@ const AddProduct = () => {
       formData.append("sku", sku);
       formData.append("tags", tags);
       formData.append("weight", weight);
+      formData.append("featuredProduct", featuredProduct);
 
       if (dimensions.dheight || dimensions.dlength || dimensions.dwidth !== null) {
         formData.append("dimensions[dheight]", dimensions.dheight);

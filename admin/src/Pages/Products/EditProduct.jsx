@@ -54,6 +54,7 @@ const EditProduct = () => {
     dheight: "",
   });
   const [stock, setStock] = useState(2);
+  const [featuredProduct, setFeaturedProduct] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const fetchProduct = async () => {
@@ -62,7 +63,7 @@ const EditProduct = () => {
 
       const { updatedProduct } = response.data;
 
-      console.log("Update", updatedProduct.isSaleEnabled);
+      console.log("Edit Product", updatedProduct);
 
       setName(updatedProduct.name || "");
       setDescription(updatedProduct.description || "");
@@ -85,6 +86,7 @@ const EditProduct = () => {
       setIsSaleEnabled(updatedProduct.isSaleEnabled || false);
       setSaleStart(updatedProduct.saleStart || "");
       setSaleEnd(updatedProduct.saleEnd || "");
+      setFeaturedProduct(updatedProduct.featuredProduct || false);
     } catch (error) {
       console.log(error);
     }
@@ -162,6 +164,8 @@ const EditProduct = () => {
     setWeight,
     dimensions,
     setDimensions,
+    featuredProduct,
+    setFeaturedProduct,
   };
   // console.log("This", productData);
 
@@ -191,7 +195,6 @@ const EditProduct = () => {
 
     try {
       const formData = new FormData();
-
       // Append the product ID
       formData.append("_id", _id);
 
@@ -201,7 +204,6 @@ const EditProduct = () => {
       formData.append("short_description", short_Description || "");
       formData.append("price", price);
       formData.append("selectedCategories", JSON.stringify(selectedCategories)); // Serialize array
-
       formData.append("salePrice", salePrice);
 
       if (isSaleEnabled) {
@@ -217,10 +219,8 @@ const EditProduct = () => {
       // if (salePrice === true && isSaleEnabled === false) {
       //   alert("Sale Price is enabled but Sale is not enabled");
       // }
-
       formData.append("stock", stock);
       formData.append("sku", sku);
-
       // Append images
       if (image1) {
         formData.append("image1", image1);
@@ -238,11 +238,11 @@ const EditProduct = () => {
         formData.append("image4", image4);
         formData.append("altText4", altText4 || "");
       }
-
       formData.append("weight", weight || "");
       formData.append("dimensions[dheight]", dimensions.dheight || "");
       formData.append("dimensions[dlength]", dimensions.dlength || "");
       formData.append("dimensions[dwidth]", dimensions.dwidth || "");
+      formData.append("featuredProduct", featuredProduct);
 
       // Make API call
       const response = await axios.post("http://localhost:4000/api/product/update", formData, {

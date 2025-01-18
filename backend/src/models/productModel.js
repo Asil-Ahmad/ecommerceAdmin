@@ -25,6 +25,8 @@ const productSchema = new mongoose.Schema({
     dwidth: { type: Number, default: null },
     dheight: { type: Number, default: null },
   },
+  //featured product
+  featuredProduct: { type: Boolean, default: false },
 
   //images attributes,weight dimension status createdAtD,updatedAtD,slug
 });
