@@ -12,7 +12,6 @@ import homepageRouter from "./src/routes/homepageRoute.js";
 import carouselRouter from "./src/routes/carouselRoute.js";
 import brandRouter from "./src/routes/brandRoute.js";
 
-
 const app = express();
 
 app.use(express.json());
@@ -31,6 +30,7 @@ app.get("/", (req, res) => res.json({ message: "Connected to API " }));
 
 app.use("/api/product", productRouter);
 app.use("/api/category", categoryRouter);
+app.use("/api/brand", brandRouter);
 
 //For layout only
 app.use("/api/layout", headerRouter);

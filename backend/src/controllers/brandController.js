@@ -95,7 +95,7 @@ export const getBrands = async (req, res) => {
   }
 };
 
-export const removebrand = async (req, res) => {
+export const removeBrand = async (req, res) => {
   try {
     const { id } = req.body;
     await brandModel.findByIdAndDelete(id);

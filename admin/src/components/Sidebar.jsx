@@ -98,7 +98,7 @@ const Sidebar = () => {
             <List className='p-0'>
               <ListItem onClick={() => navigate("/all_products")}>All Products</ListItem>
               <ListItem onClick={() => navigate("/add_new_product")}>Add Product</ListItem>
-              <ListItem>Brands</ListItem>
+              <ListItem onClick={() => navigate("/brands")}>Brands</ListItem>
               <ListItem onClick={() => navigate("/categories")}>Categories</ListItem>
               <ListItem>Tags</ListItem>
             </List>
