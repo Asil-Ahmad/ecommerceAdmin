@@ -110,7 +110,7 @@ const ProductData = ({ productData, handleDimensionChange }) => {
               </div>
               <div className='flex items-center mb-4'>
                 <label htmlFor='enableSale' className='w-full max-w-[7.5rem]'>
-                  Add to Featured
+                  Featured
                 </label>
                 <input
                   type='checkbox'

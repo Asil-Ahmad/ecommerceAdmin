@@ -56,6 +56,7 @@ const AddProduct = () => {
   const [category, setCategory] = useState("T-shirt");
   const [sizes, setSizes] = useState([]);
   const [featuredProduct, setIsFeaturedProduct] = useState(false);
+  const [allBrands, setAllBrands] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleDimensionChange = (e) => {
@@ -72,14 +73,26 @@ const AddProduct = () => {
       const response = await axios.get(`${backendURL}/api/category/list-categories`);
       const { categories } = response.data;
       setAllCategories(categories);
-      console.log(categories);
+      // console.log(categories);
     } catch (error) {
       console.error("Failed to fetch categories", error);
     }
   };
 
+  const fetchBrands = async () => {
+    try {
+      const response = await axios.get(`${backendURL}/api/brand/list-brands`);
+      const { Brands } = response.data;
+      setAllBrands(Brands);
+      console.log(Brands);
+    } catch (error) {
+      console.error("Failed to fetch brands", error);
+    }
+  };
+
   useEffect(() => {
     fetchCategories();
+    fetchBrands();
   }, [backendURL]);
 
   //Passing All Props here
@@ -94,6 +107,8 @@ const AddProduct = () => {
     setIsSaleEnabled,
     allCategories,
     setAllCategories,
+    allBrands,
+    setAllBrands,
     subCategory,
     newCategory,
     setNewCategory,
@@ -257,6 +272,16 @@ const AddProduct = () => {
           : [...prev, category] // Add if not selected
     );
   };
+
+  // // Select Brand
+  // const handleBrandCheckboxChange = (brand) => {
+  //   setAllBrands(
+  //     (prev) =>
+  //       prev.includes(brand)
+  //         ? prev.filter((item) => item !== brand) // Remove if already selected
+  //         : [...prev, brand] // Add if not selected
+  //   );
+  // };
 
   return loading ? (
     <Loader />

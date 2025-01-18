@@ -641,7 +641,7 @@ const AddProductSidebar = ({
         </List> */}
 
         {/* todo Add BRANDS NEED TO MAKE CHANGES NOT YET FUNCTIONAL */}
-        {/* <List className='border border-black rounded-lg'>
+        <List className='border border-black rounded-lg'>
           <Accordion
             open={open.includes(4)}
             icon={
@@ -663,23 +663,21 @@ const AddProductSidebar = ({
             <AccordionBody className='py-1'>
               <List>
                 <div className='p-0'>
-                  {categories.length > 0 ? (
+                  {allCategories?.length > 0 ? (
                     <div className='flex flex-col gap-2 border p-1 rounded-lg'>
-                      {categories.map((category) => (
-                        <div key={category} className='flex items-center gap-2'>
+                      {allCategories?.map((category) => (
+                        <div key={category?._id} className='flex items-center gap-2'>
                           <input
                             type='checkbox'
-                            checked={selectedCategories.includes(category)}
-                            onChange={() => handleCheckboxChange(category)}
+                            checked={selectedCategories.includes(category?.name)}
+                            onChange={() => handleCheckboxChange(category?.name)}
                             className='cursor-pointer'
                           />
-                          <p className='text-black'>{category}</p>
+                          <p className='text-black'>{category?.name}</p>
                         </div>
                       ))}
                     </div>
-                  ) : (
-                    ""
-                  )}
+                  ) : null}
 
                   <div className='mt-4 w-full flex flex-col gap-2 '>
                     <input
@@ -697,16 +695,16 @@ const AddProductSidebar = ({
                     />
                     <button
                       onClick={handleAddCategory}
-                      className=' py-1 text-blue-500 font-semibold gap-2 underline text-sm flex items-center  cursor-pointer'
+                      className='py-1 text-blue-500 font-semibold gap-2 underline text-sm flex items-center cursor-pointer'
                     >
-                      <PlusIcon strokeWidth={2.5} className='w-4' /> Add Brands
+                      <PlusIcon strokeWidth={2.5} className='w-4' /> Add Category
                     </button>
                   </div>
                 </div>
               </List>
             </AccordionBody>
           </Accordion>
-        </List> */}
+        </List>
       </div>
     </Card>
   );
