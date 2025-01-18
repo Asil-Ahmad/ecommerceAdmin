@@ -55,7 +55,7 @@ const AddProduct = () => {
 
   const [category, setCategory] = useState("T-shirt");
   const [sizes, setSizes] = useState([]);
-  const [featuredProduct, setIsFeaturedProduct] = useState(false);
+  const [featuredProduct, setFeaturedProduct] = useState(false);
   const [allBrands, setAllBrands] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -153,7 +153,7 @@ const AddProduct = () => {
     dimensions,
     setDimensions,
     featuredProduct,
-    setIsFeaturedProduct,
+    setFeaturedProduct,
   };
   console.log("this is data", featuredProduct);
 

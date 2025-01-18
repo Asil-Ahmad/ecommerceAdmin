@@ -34,7 +34,7 @@ const ProductCards = ({ product }) => {
         >
           <Link to={`/product/${product._id}`}>
             <img
-              src={images[0].url}
+              src={images[0]?.url}
               alt='product'
               className=' object-cover object-center group-hover:scale-105 group transition-all duration-300 cursor-pointer'
             />

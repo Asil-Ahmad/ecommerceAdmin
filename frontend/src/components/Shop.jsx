@@ -1,22 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Button } from "@material-tailwind/react";
 import { ListBulletIcon, PhotoIcon } from "@heroicons/react/24/solid";
 import Sidebar from "./Sidebar";
 import ProductCards from "../constant/ProductCards";
+import { ShopContext } from "../context/ShopContext";
 
 const Shop = () => {
-  const [products, setProducts] = useState([]);
-
-  const fetchProducts = async () => {
-    const response = await axios.get("http://localhost:4000/api/product/list-products");
-    const { products } = response.data;
-    setProducts(products); // Use setFilterProducts to update the state
-    console.log(products);
-  };
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const { products } = useContext(ShopContext);
 
   return (
     <div className='container flex items-start max-w-[1440px]  '>
