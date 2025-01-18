@@ -250,20 +250,20 @@ const Brands = () => {
                           </td>
                           <td className='p-4'>
                             <div className='flex gap-2'>
-                              <Tooltip content='Edit Category'>
+                              <Tooltip content='Edit Brand'>
                                 <IconButton
                                   variant='text'
                                   color='blue-gray'
-                                  onClick={() => navigate(`/edit_category/${_id}`)}
+                                  onClick={() => navigate(`/edit_brand/${_id}`)}
                                 >
                                   <PencilIcon className='h-4 w-4' />
                                 </IconButton>
                               </Tooltip>
-                              <Tooltip content='Delete Category'>
+                              <Tooltip content='Delete Brand'>
                                 <IconButton
                                   variant='text'
                                   color='red'
-                                  onClick={() => removeCategory(_id)}
+                                  onClick={() => removeBrand(_id)}
                                 >
                                   <TrashIcon className='h-4 w-4' />
                                 </IconButton>
