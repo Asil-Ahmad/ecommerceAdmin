@@ -12,6 +12,7 @@ import homepageRouter from "./src/routes/homepageRoute.js";
 import carouselRouter from "./src/routes/carouselRoute.js";
 import brandRouter from "./src/routes/brandRoute.js";
 
+
 const app = express();
 
 app.use(express.json());
