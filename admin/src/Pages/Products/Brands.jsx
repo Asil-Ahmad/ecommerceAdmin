@@ -5,19 +5,17 @@ import {
   Typography,
   Button,
   CardBody,
-  Chip,
   CardFooter,
   IconButton,
   Tooltip,
   Input,
 } from "@material-tailwind/react";
-import { PencilIcon, TrashIcon, PlusIcon, PhotoIcon } from "@heroicons/react/24/solid";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { PencilIcon, TrashIcon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { ShopContext } from "../../context/ShopContext";
 import axios from "axios";
 import { toast } from "react-toastify";
-import CategoryData from "./Sidebar/CategoryData";
 import { LoaderSmall } from "../../constant/LoaderSmall";
+import BrandData from "./Sidebar/BrandData";
 
 const TABLE_HEAD = [
   "Thumbnail",
@@ -30,8 +28,8 @@ const TABLE_HEAD = [
 ];
 
 const Brands = () => {
-  const [categories, setCategories] = useState([]);
-  const { backendURL } = useContext(ShopContext);
+  const [brands, setBrands] = useState([]);
+  const { backendURL, navigate } = useContext(ShopContext);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -39,12 +37,12 @@ const Brands = () => {
     description: "",
     thumbnail: false,
   });
-  const { navigate } = useContext(ShopContext);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredCategories, setFilteredCategories] = useState([]);
+  const [filteredBrands, setFilteredBrands] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const categoriesPerPage = 6;
+  const brandsPerPage = 6;
 
+  // Helper to format timestamps
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
     const year = date.getFullYear();
@@ -57,31 +55,33 @@ const Brands = () => {
     return `${year}/${month}/${day} at ${hours}:${minutes} ${ampm}`;
   };
 
-  const fetchCategories = async () => {
+  // Fetch brands from the backend
+  const fetchBrands = async () => {
     try {
       const response = await axios.get(`${backendURL}/api/brand/list-brands`);
       const { Brands } = response.data;
-      console.log(Brands);
-      setCategories(Brands);
-      setFilteredCategories(categories);
+      setBrands(Brands);
+      setFilteredBrands(Brands); // Ensure filteredBrands is updated
     } catch (error) {
-      console.error("Failed to fetch categories", error);
+      console.error("Failed to fetch brands", error);
     }
   };
 
-  const removeCategory = async (id) => {
+  // Remove a brand
+  const removeBrand = async (id) => {
     try {
-      const response = await axios.post(`${backendURL}/api/brand/remove-category`, { id });
+      const response = await axios.post(`${backendURL}/api/brand/remove-brand`, { id });
       if (response.data) {
         toast.success(response.data.message);
-        await fetchCategories();
+        await fetchBrands();
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error removing brand", error);
     }
   };
 
-  const handleAddCategory = async () => {
+  // Add a new brand
+  const handleAddBrand = async () => {
     setLoading(true);
     try {
       const data = new FormData();
@@ -92,36 +92,39 @@ const Brands = () => {
         formData.description === "" ? "No description provided" : formData.description
       );
       data.append("thumbnail", formData.thumbnail);
-      const response = await axios.post(`${backendURL}/api/category/add-category`, data);
+
+      const response = await axios.post(`${backendURL}/api/brand/add-brand`, data);
       if (response.data) {
         toast.success(response.data.message);
-        await fetchCategories();
+        await fetchBrands();
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error adding brand", error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchCategories();
+    fetchBrands();
   }, [backendURL]);
 
+  // Search brands
   const handleSearch = () => {
-    const filtered = categories.filter((category) =>
-      category.name.toLowerCase().includes(searchQuery.toLowerCase())
+    const filtered = brands.filter((brand) =>
+      brand.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    setFilteredCategories(filtered);
+    setFilteredBrands(filtered);
     setCurrentPage(1);
   };
 
-  const indexOfLastCategory = currentPage * categoriesPerPage;
-  const indexOfFirstCategory = indexOfLastCategory - categoriesPerPage;
-  const currentCategories = filteredCategories?.slice(indexOfFirstCategory, indexOfLastCategory);
+  // Pagination logic
+  const indexOfLastBrand = currentPage * brandsPerPage;
+  const indexOfFirstBrand = indexOfLastBrand - brandsPerPage;
+  const currentBrands = filteredBrands?.slice(indexOfFirstBrand, indexOfLastBrand);
 
   const handleNextPage = () => {
-    if (currentPage < Math.ceil(filteredCategories.length / categoriesPerPage)) {
+    if (currentPage < Math.ceil(filteredBrands.length / brandsPerPage)) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -141,8 +144,8 @@ const Brands = () => {
               Product Categories
             </Typography>
           </div>
-          <div className='flex items-center justify-between w-full shrink-0 gap-2 md:w-max '>
-            <div className='w-full md:w-72 '>
+          <div className='flex items-center justify-between w-full shrink-0 gap-2 md:w-max'>
+            <div className='w-full md:w-72'>
               <Input
                 label='Search'
                 icon={<MagnifyingGlassIcon className='h-5 w-5' />}
@@ -160,10 +163,10 @@ const Brands = () => {
         </div>
       </CardHeader>
       <div className='flex'>
-        <CategoryData
+        <BrandData
           formData={formData}
           setFormData={setFormData}
-          handleAddCategory={handleAddCategory}
+          handleAddCategory={handleAddBrand}
         />
         <div className='w-[75%]'>
           {loading ? (
@@ -187,10 +190,14 @@ const Brands = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {1 > 0 ? (
-                    <h1 className='text-center w-full'>No category found</h1>
+                  {currentBrands.length === 0 ? (
+                    <tr>
+                      <td colSpan={7} className='text-center py-4'>
+                        No brands found
+                      </td>
+                    </tr>
                   ) : (
-                    currentCategories.map(
+                    currentBrands.map(
                       ({ _id, thumbnail, slug, name, description, createdAt, updatedAt }) => (
                         <tr key={_id} className='even:bg-blue-gray-50/50'>
                           <td className='p-4'>
@@ -271,9 +278,9 @@ const Brands = () => {
               </table>
             </CardBody>
           )}
-          <CardFooter className='flex items-center justify-between border-t border-blue-gray-50 p-4 '>
+          <CardFooter className='flex items-center justify-between border-t border-blue-gray-50 p-4'>
             <Typography variant='small' color='blue-gray' className='font-normal'>
-              {/* Page {currentPage} of {Math.ceil(filteredCategories.length / categoriesPerPage)} */}
+              Page {currentPage} of {Math.ceil(filteredBrands.length / brandsPerPage)}
             </Typography>
             <div className='flex gap-2'>
               <Button
@@ -290,7 +297,7 @@ const Brands = () => {
                 color='blue-gray'
                 size='sm'
                 onClick={handleNextPage}
-                // disabled={currentPage === Math.ceil(filteredCategories.length / categoriesPerPage)}
+                disabled={currentPage === Math.ceil(filteredBrands.length / brandsPerPage)}
               >
                 Next
               </Button>

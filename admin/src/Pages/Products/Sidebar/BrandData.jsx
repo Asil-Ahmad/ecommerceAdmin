@@ -18,43 +18,37 @@ const BrandData = ({ formData, setFormData, handleAddCategory }) => {
         />
         <Input
           label='Slug'
-          placeholder='Enter category slug'
+          placeholder='Enter slug'
           className='bg-white'
           value={formData.slug}
           onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
         />
         <Textarea
           label='Description'
+          
+          className='bg-white'
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
         />
-
-        <label
-          htmlFor='thumbnail'
-          className={`items-center flex justify-between border-2 ${
-            formData.thumbnail ? "border-black" : ""
-          } p-2 cursor-pointer rounded-lg`}
-        >
-          {formData.thumbnail ? (
-            <img
-              src={URL.createObjectURL(formData.thumbnail)}
-              alt={formData.name}
-              className='w-[100px] h-[100px] object-contain '
-            />
-          ) : (
-            <PhotoIcon width={100} />
-          )}
-          <span className='px-2 py-2 bg-gray-200 rounded-lg text-sm'>Upload image</span>
-        </label>
-        <input
-          label='Thumbnail'
-          type='file'
-          id='thumbnail'
-          accept='.jpg,.jpeg,.png'
-          hidden
-          onChange={(e) => setFormData({ ...formData, thumbnail: e.target.files[0] })}
-        />
-        <Button onClick={handleAddCategory}>Add New Brand</Button>
+        <div className='relative flex items-center justify-center w-full h-24 border border-dashed border-gray-300 rounded-lg'>
+          <label
+            htmlFor='thumbnail'
+            className='absolute inset-0 flex flex-col items-center justify-center cursor-pointer'
+          >
+            <PhotoIcon className='h-8 w-8 text-gray-400' />
+            <span className='text-sm text-gray-500'>Upload Thumbnail</span>
+          </label>
+          <input
+            type='file'
+            id='thumbnail'
+            className='hidden'
+            accept='image/*'
+            onChange={(e) => setFormData({ ...formData, thumbnail: e.target.files[0] })}
+          />
+        </div>
+        <Button onClick={handleAddCategory} fullWidth>
+          Add Category
+        </Button>
       </div>
     </CardBody>
   );
