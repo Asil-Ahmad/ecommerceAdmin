@@ -1,6 +1,7 @@
 import React from "react";
 import { useContext } from "react";
 import { ShopContext } from "../../context/ShopContext";
+import { Card, CardBody, Typography, Input, Textarea, Button } from "@material-tailwind/react";
 
 const AboutHero = () => {
   const { aboutData } = useContext(ShopContext);
@@ -32,6 +33,72 @@ const AboutHero = () => {
       </div>
 
       {/* todo Form Edit */}
+
+      <Card className='container mx-auto p-8'>
+        <CardBody className='p-6'>
+          <Typography variant='h2' className='text-2xl font-bold mb-6'>
+            Edit Hero Section
+          </Typography>
+          <form className='space-y-6'>
+            <Input
+              label='Heading Text'
+              type='text'
+              value={aboutData.text}
+              onChange={(e) => setAboutData({ ...aboutData, text: e.target.value })}
+              className=''
+            />
+
+            <Textarea
+              label='Paragraph'
+              value={aboutData.para}
+              onChange={(e) => setAboutData({ ...aboutData, para: e.target.value })}
+              rows={3}
+            />
+
+            <Input
+              label='Button Text'
+              type='text'
+              value={aboutData.buttonText}
+              onChange={(e) => setAboutData({ ...aboutData, buttonText: e.target.value })}
+            />
+
+            <div className='max-w-11'>
+              <Input
+                label='Background Color'
+                type='color'
+                value={aboutData.bgColor}
+                onChange={(e) => setAboutData({ ...aboutData, bgColor: e.target.value })}
+                
+              />
+            </div>
+
+            <div>
+              <label htmlFor='image' className=' flex flex-col gap-3'>
+                Select Image
+                <img
+                  src={aboutData.image}
+                  alt='Preview'
+                  className='w-32 h-32 object-cover rounded-lg'
+                />
+              </label>
+              <input
+                type='file'
+                label='Image'
+                id='image'
+                accept='image/*'
+                hidden
+                onChange={(e) =>
+                  setAboutData({ ...aboutData, image: URL.createObjectURL(e.target.files[0]) })
+                }
+              />
+            </div>
+
+            <Button type='submit' className='w-full'>
+              Save Changes
+            </Button>
+          </form>
+        </CardBody>
+      </Card>
     </>
   );
 };
