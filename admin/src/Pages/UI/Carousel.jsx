@@ -114,9 +114,12 @@ const Carousel = () => {
         <Typography variant='h6' color='blue-gray' className='mb-4'>
           Carousel Slides Preview ({carouselImages.length})
         </Typography>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-rows-2 gap-6 items-center '>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-rows-2 gap-6 items-center  '>
           {carouselImages.map((img) => (
-            <Card key={img._id} className='overflow-hidden relative group bg-gray-50'>
+            <Card
+              key={img._id}
+              className='overflow-hidden relative group bg-gray-50 hover:scale-105 transition-all duration-150 hover:border-black border-[.5px] border-transparent'
+            >
               <CardHeader
                 floated={false}
                 shadow={false}
