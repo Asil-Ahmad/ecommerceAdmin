@@ -141,7 +141,7 @@ const Brands = () => {
         <div className='mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center mt-2'>
           <div>
             <Typography variant='h5' color='blue-gray'>
-              Product Categories
+              Brands
             </Typography>
           </div>
           <div className='flex items-center justify-between w-full shrink-0 gap-2 md:w-max'>
