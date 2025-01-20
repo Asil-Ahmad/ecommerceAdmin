@@ -17,6 +17,7 @@ const App = () => {
         <Route path='/' element={<Home />} />
         <Route path='/shop' element={<Shop />} />
         <Route path='/product/:_id' element={<ProductPage />} />
+        <Route path='*' element={<Home />} /> // todo Add 404 page
       </Routes>
     </div>
   );
