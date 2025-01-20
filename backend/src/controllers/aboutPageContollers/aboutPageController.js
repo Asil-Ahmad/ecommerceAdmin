@@ -1,7 +1,9 @@
 import { v2 as cloudinary } from "cloudinary";
 
-import upload from "../middleware/multer.js";
-import aboutPageModel from "../models/aboutPageModel.js";
+import upload from "../../middleware/multer.js";
+import aboutPageModel from "../../models/aboutPageUI/aboutPageModel.js";
+
+
 
 export const addAboutPage = async (req, res) => {
   const { link, text, para, buttonText, bgColor } = req.body;

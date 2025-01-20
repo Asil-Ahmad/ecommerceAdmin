@@ -1,7 +1,8 @@
 import express from "express";
 import upload from "../middleware/multer.js";
 import adminAuth from "../middleware/adminAuth.js";
-import { addAboutPage, getAboutPage } from "../controllers/aboutPageController.js";
+import { addAboutPage, getAboutPage } from "../controllers/aboutPageContollers/aboutPageController.js";
+
 
 const aboutPageRouter = express.Router();
 
