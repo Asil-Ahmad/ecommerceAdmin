@@ -130,6 +130,7 @@ const Sidebar = () => {
               <ListItem onClick={() => navigate("/headers")}>Headers</ListItem>
               <ListItem onClick={() => navigate("/homepage")}>Homepage</ListItem>
               <ListItem onClick={() => navigate("/carousel")}>Carousel</ListItem>
+              <ListItem onClick={() => navigate("/about")}>About</ListItem>
             </List>
           </AccordionBody>
         </Accordion>
