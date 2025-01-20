@@ -1,11 +1,12 @@
 import { v2 as cloudinary } from "cloudinary";
-import albumModel from "../models/albumModel.js";
+
 import upload from "../middleware/multer.js";
+import aboutPageModel from "../models/aboutPageModel.js";
 
 export const addAboutPage = async (req, res) => {
   const { link, text, para, buttonText, bgColor } = req.body;
 
-  if (link === "" || text === "" || para === "" || buttonText === "" || bgColor === "") {
+  if (!link || !text || !para || !buttonText || !bgColor) {
     return res.status(400).json({ success: false, message: "Missing credentials" });
   }
   try {
@@ -21,11 +22,22 @@ export const addAboutPage = async (req, res) => {
       bgColor,
       image: imageUpload.secure_url,
     };
-    const aboutPage = addAboutPage(aboutPageData);
+    const aboutPage = aboutPageModel(aboutPageData);
     await aboutPage.save();
 
     res.status(200).json({ success: true, message: "About page added successfully", aboutPage });
   } catch (error) {
     res.status(400).json({ success: false, message: "Failed to add song", error: error.message });
+  }
+};
+
+export const getAboutPage = async (req, res) => {
+  try {
+    const aboutPage = await aboutPageModel.find();
+    res.status(200).json({ success: true, aboutPage });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ success: false, message: "Failed to fetch about page", error: error.message });
   }
 };

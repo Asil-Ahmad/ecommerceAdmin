@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const aboutPageSchema = new mongoose.Schema({
-  link: { type: String, required: true }, // URL for the link (e.g., "/home")
+  link: { type: String }, // URL for the link (e.g., "/home")
   text: { type: String, required: true },
   para: { type: String, required: true },
   buttonText: { type: String, required: true },

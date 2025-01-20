@@ -11,6 +11,7 @@ import headerRouter from "./src/routes/headerRoute.js";
 import homepageRouter from "./src/routes/homepageRoute.js";
 import carouselRouter from "./src/routes/carouselRoute.js";
 import brandRouter from "./src/routes/brandRoute.js";
+import aboutPageRouter from "./src/routes/aboutPageRoute.js";
 
 const app = express();
 
@@ -38,6 +39,8 @@ app.use("/api/layout", homepageRouter);
 app.use("/api/layout", carouselRouter);
 app.use("/api/layout", brandRouter);
 
+//For About Page
+ app.use("/api/aboutPage", aboutPageRouter);
 // app.use("/api/order", orderRouter);
 
 const port = process.env.PORT || 4000;
