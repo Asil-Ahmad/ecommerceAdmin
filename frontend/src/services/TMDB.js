@@ -20,7 +20,15 @@ export const tmdbApi = createApi({
         };
       },
     }),
+
+    // todo UI Routes
+    //*GET aboutPage
+    getAboutPage: builder.query({
+      query: () => {
+        return `aboutPage/get-aboutPage`;
+      },
+    }),
   }),
 });
 
-export const { useGetProductsQuery,useGetSingleProductQuery } = tmdbApi;
+export const { useGetProductsQuery, useGetSingleProductQuery,useGetAboutPageQuery } = tmdbApi;

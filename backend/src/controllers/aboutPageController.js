@@ -6,7 +6,7 @@ import aboutPageModel from "../models/aboutPageModel.js";
 export const addAboutPage = async (req, res) => {
   const { link, text, para, buttonText, bgColor } = req.body;
 
-  if (!link || !text || !para || !buttonText || !bgColor) {
+  if (!text || !para || !buttonText || !bgColor) {
     return res.status(400).json({ success: false, message: "Missing credentials" });
   }
   try {
