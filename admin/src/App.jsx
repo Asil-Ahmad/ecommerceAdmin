@@ -27,7 +27,7 @@ const App = () => {
   };
 
   return (
-    <div className={`flex ${darkMode ? "dark" : ""} `}>
+    <div className={`flex ${darkMode ? "dark" : ""} max-w-[1440px] m-auto `}>
       <ToastContainer position='bottom-left' />
 
       <Sidebar />

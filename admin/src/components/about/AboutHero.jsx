@@ -78,7 +78,7 @@ const AboutHero = () => {
                 <img
                   src={aboutData.image}
                   alt='Preview'
-                  className='w-32 h-32 object-cover rounded-lg'
+                  className='w-32 h-32 object-contain rounded-lg'
                 />
               </label>
               <input
