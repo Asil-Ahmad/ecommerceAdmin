@@ -70,7 +70,7 @@ const AboutHero = () => {
   return loading ? (
     <Loader />
   ) : (
-    <>
+    <div>
       <div
         key={aboutData._id}
         style={{
@@ -176,7 +176,7 @@ const AboutHero = () => {
           </form>
         </CardBody>
       </Card>
-    </>
+    </div>
   );
 };
 
