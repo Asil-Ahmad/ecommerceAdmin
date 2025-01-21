@@ -8,9 +8,14 @@ import { toast } from "react-toastify";
 
 const AboutHero = () => {
   const [aboutData, setAboutData] = useState({
-    text: "",
+    text1: "",
+    text1Color: "",
+    text2: "",
+    text2Color: "",
     para: "",
+    paraColor: "",
     buttonText: "",
+    buttonTextColor: "",
     bgColor: "",
     image: "",
   });
@@ -31,13 +36,17 @@ const AboutHero = () => {
     setLoading(true);
     try {
       const formData = new FormData();
-      formData.append("id", id); // Use 'id' instead of '_id'
-      formData.append("text", aboutData.text);
+      formData.append("id", id);
+      formData.append("text1", aboutData.text1);
+      formData.append("text1Color", aboutData.text1Color);
+      formData.append("text2", aboutData.text2);
+      formData.append("text2Color", aboutData.text2Color);
       formData.append("para", aboutData.para);
+      formData.append("paraColor", aboutData.paraColor);
       formData.append("buttonText", aboutData.buttonText);
+      formData.append("buttonTextColor", aboutData.buttonTextColor);
       formData.append("bgColor", aboutData.bgColor);
 
-      // Append image only if it exists and is a file (not a URL string)
       if (aboutData.image && typeof aboutData.image !== "string") {
         formData.append("image", aboutData.image);
       }
@@ -54,7 +63,7 @@ const AboutHero = () => {
 
       console.log("About Data Updated", response.data);
 
-      fetchAboutData(); // Refresh the data after successful update
+      fetchAboutData();
     } catch (error) {
       console.error("Error updating About data", error);
     } finally {
@@ -76,15 +85,22 @@ const AboutHero = () => {
         style={{
           background: `linear-gradient(to right, ${aboutData.bgColor}, black)`,
         }}
-        className='mx-auto sticky top-0 z-20  '
+        className='mx-auto sticky top-0 z-20'
       >
-        <div className='container mx-auto pt-10 px-20 flex justify-between gap-10 items-center'>
+        <div className='container mx-auto pt-10 px-10 flex justify-between gap-10 items-center'>
           <div className='flex flex-col w-1/2 items-start gap-7'>
             <h1 className='text-[38px] leading-[48px]'>
-              <span className='text-red-300'>{aboutData.text}</span>
+              <span style={{ color: aboutData.text1Color }}>{aboutData.text1}</span>
+             
+              <span style={{ color: aboutData.text2Color }}>{aboutData.text2}</span>
             </h1>
-            <p className='text-lg font-light text-white tracking-wider'>{aboutData.para}</p>
-            <button className='bg-red-300 text-white py-2 px-10 rounded-md'>
+            <p className={`text-md font-light tracking-wider`} style={{ color: aboutData.paraColor }}>
+              {aboutData.para}
+            </p>
+            <button
+              className='py-2 px-10 rounded-md text-white'
+              style={{ backgroundColor: aboutData.buttonTextColor }}
+            >
               {aboutData.buttonText}
             </button>
           </div>
@@ -102,7 +118,6 @@ const AboutHero = () => {
         </div>
       </div>
 
-      {/* todo Edit Form */}
       <Card className='container mx-auto p-8'>
         <CardBody className='p-6'>
           <Typography variant='h2' className='text-2xl font-bold mb-6'>
@@ -110,11 +125,17 @@ const AboutHero = () => {
           </Typography>
           <form className='space-y-6'>
             <Input
-              label='Heading Text'
+              label='Heading Text 1'
               type='text'
-              value={aboutData.text || ""}
-              onChange={(e) => setAboutData({ ...aboutData, text: e.target.value })}
-              className=''
+              value={aboutData.text1 || ""}
+              onChange={(e) => setAboutData({ ...aboutData, text1: e.target.value })}
+            />
+
+            <Input
+              label='Heading Text 2'
+              type='text'
+              value={aboutData.text2 || ""}
+              onChange={(e) => setAboutData({ ...aboutData, text2: e.target.value })}
             />
 
             <Textarea
@@ -131,21 +152,44 @@ const AboutHero = () => {
               onChange={(e) => setAboutData({ ...aboutData, buttonText: e.target.value })}
             />
 
-            <div className='max-w-11'>
+            <div className='grid grid-cols-5 grid-rows-1 w-full'>
+              <Input
+                label='Heading Text 1 Color'
+                type='color'
+                value={aboutData.text1Color || ""}
+                onChange={(e) => setAboutData({ ...aboutData, text1Color: e.target.value })}
+              />
+              <Input
+                label='Heading Text 2 Color'
+                type='color'
+                value={aboutData.text2Color || ""}
+                onChange={(e) => setAboutData({ ...aboutData, text2Color: e.target.value })}
+              />
+              <Input
+                label='Paragraph Color'
+                type='color'
+                value={aboutData.paraColor || ""}
+                onChange={(e) => {
+                  setAboutData({ ...aboutData, paraColor: e.target.value }),
+                    console.log(e.target.value);
+                }}
+              />
+              <Input
+                label='Button Text Color'
+                type='color'
+                value={aboutData.buttonTextColor || ""}
+                onChange={(e) => setAboutData({ ...aboutData, buttonTextColor: e.target.value })}
+              />
               <Input
                 label='Background Color'
                 type='color'
                 value={aboutData.bgColor || ""}
-                onChange={(e) => {
-                  setAboutData({ ...aboutData, bgColor: e.target.value }),
-                    console.log(e.target.value);
-                }}
+                onChange={(e) => setAboutData({ ...aboutData, bgColor: e.target.value })}
               />
             </div>
-
-            <div>
+            <div className="max-w-40 border-dashed border-2 border-gray-400 p-4 rounded-md">
               <label htmlFor='image' className='flex flex-col gap-3'>
-                Select Image
+              
                 <div className='flex gap-4'>
                   {aboutData.image && (
                     <img
@@ -169,7 +213,6 @@ const AboutHero = () => {
                 onChange={(e) => setAboutData({ ...aboutData, image: e.target.files[0] })}
               />
             </div>
-
             <Button type='button' className='w-full' onClick={() => updateAboutData(aboutData._id)}>
               Save Changes
             </Button>
