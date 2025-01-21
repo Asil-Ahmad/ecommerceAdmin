@@ -33,7 +33,7 @@ export const addAboutPage = async (req, res) => {
 
 export const getAboutPage = async (req, res) => {
   try {
-    const aboutPage = await aboutPageModel.find();
+    const aboutPage = await aboutPageModel.findOne();
     res.status(200).json({ success: true, aboutPage });
   } catch (error) {
     res
@@ -73,14 +73,19 @@ export const updateAboutPage = async (req, res) => {
       bgColor: bgColor || aboutPageExist.bgColor,
       image: imageUrl,
     };
+    console.log("About Page Data", typeof bgColor, bgColor);
 
     const updatedAboutPage = await aboutPageModel.findByIdAndUpdate(id, aboutPageData, {
       new: true,
     });
 
-    res.status(200).json({ success: true, message: "About page updated successfully", updatedAboutPage });
+    res
+      .status(200)
+      .json({ success: true, message: "About page updated successfully", updatedAboutPage });
   } catch (error) {
-    res.status(400).json({ success: false, message: "Failed to update about page", error: error.message });
+    res
+      .status(400)
+      .json({ success: false, message: "Failed to update about page", error: error.message });
     console.log(error);
   }
 };
