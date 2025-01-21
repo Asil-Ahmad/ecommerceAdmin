@@ -95,7 +95,7 @@ const AboutHero = () => {
               <span style={{ color: aboutData.text2Color }}>{aboutData.text2}</span>
             </h1>
             <p
-              className={`text-md font-light tracking-wider`}
+              className={`text-md font-light tracking-wider `}
               style={{ color: aboutData.paraColor }}
             >
               {aboutData.para}
