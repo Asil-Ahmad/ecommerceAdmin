@@ -13,15 +13,22 @@ const About = () => {
       style={{
         background: `linear-gradient(to right, ${aboutPage.bgColor}, black)`,
       }}
-      className=""
+      className=''
     >
       <div className='container w-full m-auto pt-10 px-20 flex justify-between gap-10 items-center'>
         <div className='flex flex-col w-1/2 items-start h-full gap-7'>
           <h1 className='text-[38px] leading-[48px]'>
-            <span className='text-red-300'>{aboutPage.text}</span>
+            <span style={{ color: aboutPage.text1Color }}>{aboutPage.text1}</span>
+
+            <span style={{ color: aboutPage.text2Color }}>{aboutPage.text2}</span>
           </h1>
-          <p className='text-lg font-light text-white tracking-wider'>{aboutPage.para}</p>
-          <button className='bg-red-300 text-white py-2 px-10 rounded-md'>
+          <p className={`text-lg font-light tracking-wider`} style={{ color: aboutPage.paraColor }}>
+            {aboutPage.para}
+          </p>
+          <button
+            className='py-3 px-10 rounded-md text-white'
+            style={{ backgroundColor: aboutPage.buttonTextColor }}
+          >
             {aboutPage.buttonText}
           </button>
         </div>

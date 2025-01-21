@@ -19,7 +19,7 @@ const Header = () => {
     getHeaders();
   }, []);
   return (
-    <header className='pb-5 '>
+    <header className=' '>
       {headerData && (
         <nav className='container  flex justify-between items-center py-2 '>
           <img src={headerData.logo} alt='' className='w-[150px] h-[70px] object-contain ' />

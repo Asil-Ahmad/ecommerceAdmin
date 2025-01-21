@@ -91,14 +91,17 @@ const AboutHero = () => {
           <div className='flex flex-col w-1/2 items-start gap-7'>
             <h1 className='text-[38px] leading-[48px]'>
               <span style={{ color: aboutData.text1Color }}>{aboutData.text1}</span>
-             
+
               <span style={{ color: aboutData.text2Color }}>{aboutData.text2}</span>
             </h1>
-            <p className={`text-md font-light tracking-wider`} style={{ color: aboutData.paraColor }}>
+            <p
+              className={`text-md font-light tracking-wider`}
+              style={{ color: aboutData.paraColor }}
+            >
               {aboutData.para}
             </p>
             <button
-              className='py-2 px-10 rounded-md text-white'
+              className='py-3 px-10 rounded-md text-white'
               style={{ backgroundColor: aboutData.buttonTextColor }}
             >
               {aboutData.buttonText}
@@ -187,9 +190,8 @@ const AboutHero = () => {
                 onChange={(e) => setAboutData({ ...aboutData, bgColor: e.target.value })}
               />
             </div>
-            <div className="max-w-40 border-dashed border-2 border-gray-400 p-4 rounded-md">
+            <div className='max-w-40 border-dashed border-2 border-gray-400 p-4 rounded-md'>
               <label htmlFor='image' className='flex flex-col gap-3'>
-              
                 <div className='flex gap-4'>
                   {aboutData.image && (
                     <img
@@ -204,6 +206,7 @@ const AboutHero = () => {
                   )}
                 </div>
               </label>
+
               <input
                 type='file'
                 label='Image'
@@ -213,6 +216,7 @@ const AboutHero = () => {
                 onChange={(e) => setAboutData({ ...aboutData, image: e.target.files[0] })}
               />
             </div>
+            <small className="text-red-600">Note* Your Image must be a 500x400</small>
             <Button type='button' className='w-full' onClick={() => updateAboutData(aboutData._id)}>
               Save Changes
             </Button>
