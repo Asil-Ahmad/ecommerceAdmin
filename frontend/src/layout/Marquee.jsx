@@ -20,17 +20,19 @@ const Marquee = () => {
   }, []);
   return (
     <div className='relative flex overflow-x-hidden border-y-2 border-black'>
-      <div className='py-5 animate-marquee whitespace-nowrap'>
+      <div className='py-5 animate-marquee whitespace-nowrap flex'>
         {brands.map(({ name, thumbnail, slug }) => (
-          <Link to={`/shop/${slug}`} className='mx-10 text-2xl font-light'>
+          <Link to={`/shop/${slug}`} className='mx-10 text-2xl font-light flex '>
+            <img src={thumbnail} alt='' className='w-7' />
             {name}
           </Link>
         ))}
       </div>
 
-      <div className='absolute top-0 py-5 animate-marquee2 whitespace-nowrap'>
-        {brands.map(({ name, thumbnail,slug }) => (
-          <Link to={`/shop/${slug}`} className='mx-10 text-2xl font-light'>
+      <div className='py-5 animate-marquee whitespace-nowrap flex'>
+        {brands.map(({ name, thumbnail, slug }) => (
+          <Link to={`/shop/${slug}`} className='mx-10 text-2xl font-light flex gap-2 '>
+            <img src={thumbnail} alt='' className='w-7' />
             {name}
           </Link>
         ))}
