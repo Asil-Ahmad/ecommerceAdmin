@@ -16,7 +16,7 @@ const AboutHero = () => {
         }}
         className='mx-auto'
       >
-        <div className='container mx-auto pt-10 px-20 flex justify-between gap-10 items-center h-[70vh]'>
+        <div className='container mx-auto pt-10 px-20 flex justify-between gap-10 items-center'>
           <div className='flex flex-col w-1/2 items-start gap-7'>
             <h1 className='text-[38px] leading-[48px]'>
               <span className='text-red-300'>{aboutData.text}</span>
