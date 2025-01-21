@@ -1,21 +1,18 @@
 import mongoose from "mongoose";
 
 const aboutPageFeatureSchema = new mongoose.Schema({
-  //  Hero Section
-  featureTitle: { type: String, required: true },
-  featureList: {
-    type: [
-      {
-        featurePara: { type: String, required: true },
-        featureDesc: { type: String, required: true },
-      },
-    ],
-    validate: [arrayLimit, "{PATH} exceeds the limit of 3"],
+  title1: { type: String, required: true },
+  title2: { type: String, required: true },
+  title2para: { type: String, required: true },
+  image1: { type: String, required: true },
+  image2: { type: String, required: true },
+  content: {
+    paraTitle: [{ type: String, required: true }],
+    paraContent: [{ type: String, required: true }],
   },
-  image1: { type: String, required: true, default: "" },
-  image2: { type: String, required: true, default: "" },
 });
 
-const aboutPageFeatureModel = mongoose.models.aboutPageFeature || mongoose.model("aboutPageFeature", aboutPageFeatureSchema);
+const aboutPageFeatureModel =
+  mongoose.models.aboutPageFeature || mongoose.model("aboutPageFeature", aboutPageFeatureSchema);
 
 export default aboutPageFeatureModel;
