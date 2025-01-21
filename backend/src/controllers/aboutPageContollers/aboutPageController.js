@@ -1,12 +1,11 @@
 import { v2 as cloudinary } from "cloudinary";
-
 import upload from "../../middleware/multer.js";
 import aboutPageModel from "../../models/aboutPageUI/aboutPageModel.js";
 
 export const addAboutPage = async (req, res) => {
-  const { link, text, para, buttonText, bgColor } = req.body;
+  const { link, text1, text1Color, text2, text2Color, para, paraColor, buttonText, buttonTextColor, bgColor } = req.body;
 
-  if (!text || !para || !buttonText || !bgColor) {
+  if (!text1 || !text1Color || !text2 || !text2Color || !para || !paraColor || !buttonText || !buttonTextColor || !bgColor) {
     return res.status(400).json({ success: false, message: "Missing credentials" });
   }
   try {
@@ -16,9 +15,14 @@ export const addAboutPage = async (req, res) => {
     });
     const aboutPageData = {
       link,
-      text,
+      text1,
+      text1Color,
+      text2,
+      text2Color,
       para,
+      paraColor,
       buttonText,
+      buttonTextColor,
       bgColor,
       image: imageUpload.secure_url,
     };
@@ -27,7 +31,7 @@ export const addAboutPage = async (req, res) => {
 
     res.status(200).json({ success: true, message: "About page added successfully", aboutPage });
   } catch (error) {
-    res.status(400).json({ success: false, message: "Failed to add song", error: error.message });
+    res.status(400).json({ success: false, message: "Failed to add about page", error: error.message });
   }
 };
 
@@ -36,15 +40,13 @@ export const getAboutPage = async (req, res) => {
     const aboutPage = await aboutPageModel.findOne();
     res.status(200).json({ success: true, aboutPage });
   } catch (error) {
-    res
-      .status(400)
-      .json({ success: false, message: "Failed to fetch about page", error: error.message });
+    res.status(400).json({ success: false, message: "Failed to fetch about page", error: error.message });
   }
 };
 
 export const updateAboutPage = async (req, res) => {
   try {
-    const { id, link, text, para, buttonText, bgColor } = req.body;
+    const { id, link, text1, text1Color, text2, text2Color, para, paraColor, buttonText, buttonTextColor, bgColor } = req.body;
 
     if (!id) {
       return res.status(400).json({ success: false, message: "About page ID is required!" });
@@ -67,25 +69,24 @@ export const updateAboutPage = async (req, res) => {
 
     const aboutPageData = {
       link: link || aboutPageExist.link,
-      text: text || aboutPageExist.text,
+      text1: text1 || aboutPageExist.text1,
+      text1Color: text1Color || aboutPageExist.text1Color,
+      text2: text2 || aboutPageExist.text2,
+      text2Color: text2Color || aboutPageExist.text2Color,
       para: para || aboutPageExist.para,
+      paraColor: paraColor || aboutPageExist.paraColor,
       buttonText: buttonText || aboutPageExist.buttonText,
+      buttonTextColor: buttonTextColor || aboutPageExist.buttonTextColor,
       bgColor: bgColor || aboutPageExist.bgColor,
       image: imageUrl,
     };
-    console.log("About Page Data", typeof bgColor, bgColor);
 
     const updatedAboutPage = await aboutPageModel.findByIdAndUpdate(id, aboutPageData, {
       new: true,
     });
 
-    res
-      .status(200)
-      .json({ success: true, message: "About page updated successfully", updatedAboutPage });
+    res.status(200).json({ success: true, message: "About page updated successfully", updatedAboutPage });
   } catch (error) {
-    res
-      .status(400)
-      .json({ success: false, message: "Failed to update about page", error: error.message });
-    console.log(error);
+    res.status(400).json({ success: false, message: "Failed to update about page", error: error.message });
   }
 };
