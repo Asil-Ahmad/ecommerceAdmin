@@ -1,41 +1,51 @@
 import React from "react";
 import { aboutPageSection_img, img2 } from "../assets/homepage";
+import { useGetAboutPageFeatureQuery } from "../services/TMDB";
 
 const AboutPageSection = () => {
+  const { data, loading, error } = useGetAboutPageFeatureQuery();
+  console.log(data);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
   return (
     <section className='container py-20'>
       {/* top section */}
       <div className='flex items-start gap-10'>
         <div className='w-1/2'>
-          <img src={aboutPageSection_img} alt='' />
+          <img src={data?.image1} alt='' />
         </div>
 
         <div className='py-10'>
-          <h1 className='text-[38px] leading-[48px]'> Lorem ipsum dolor sit amet consectetur.</h1>
+          <h1 className='text-[38px] leading-[48px]'>{data?.text1}</h1>
           <div className='flex flex-col gap-5 py-5 font-poppins'>
             <div>
               <h2 className='text-[20px] leading-[1.4em] text-red-300 tracking-wider'>
-                Fully controlled system
+                {data?.paraTitle1}
               </h2>
-              <p className='text-[20px] leading-[1.4em]'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.
-              </p>
+              <p className='text-[20px] leading-[1.4em]'>{data?.paraContent1}</p>
             </div>
+
             <div>
               <h2 className='text-[20px] leading-[1.4em] text-red-300 tracking-wider'>
-                Fully controlled system
+                {data?.paraTitle2}
               </h2>
-              <p className='text-[20px] leading-[1.4em]'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.
-              </p>
+              <p className='text-[20px] leading-[1.4em]'>{data?.paraContent2}</p>
             </div>
+
             <div>
               <h2 className='text-[20px] leading-[1.4em] text-red-300 tracking-wider'>
-                Fully controlled system
+                {data?.paraTitle3}
               </h2>
-              <p className='text-[20px] leading-[1.4em]'>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.
-              </p>
+              <p className='text-[20px] leading-[1.4em]'>{data?.paraContent3}</p>
+            </div>
+
+            <div>
+              <h2 className='text-[20px] leading-[1.4em] text-red-300 tracking-wider'>
+                {data?.paraTitle4}
+              </h2>
+              <p className='text-[20px] leading-[1.4em]'>{data?.paraContent4}</p>
             </div>
           </div>
         </div>
@@ -44,15 +54,13 @@ const AboutPageSection = () => {
       {/* bottom section */}
       <div className='flex items-center justify-between '>
         <div className='w-[45.35%]'>
-          <img src={img2} alt='' className='' />
+          <img src={data?.image2} alt='' className='' />
         </div>
 
         <div className='w-[51%] flex flex-col gap-6'>
-          <h1 className='text-[38px] leading-[48px]'> Mobile Application to work on the go</h1>
+          <h1 className='text-[38px] leading-[48px]'>{data?.text2}</h1>
           <p className='text-[20px] leading-[1.4em]'>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime nihil in, cupiditate, ex
-            amet suscipit nam harum nulla tempora obcaecati recusandae porro delectus libero
-            sapiente itaque, laudantium sint. Veniam, distinctio!
+          {data?.text2Content}
           </p>
         </div>
       </div>

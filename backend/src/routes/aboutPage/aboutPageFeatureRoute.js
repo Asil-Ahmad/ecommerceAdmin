@@ -9,7 +9,7 @@ import {
 const aboutPageFeatureRouter = express.Router();
 
 aboutPageFeatureRouter.post(
-  "/add-aboutFeatured",
+  "/add-aboutFeature",
   upload.fields([
     { name: "image1", maxCount: 1 },
     { name: "image2", maxCount: 1 },
@@ -18,7 +18,7 @@ aboutPageFeatureRouter.post(
 );
 
 aboutPageFeatureRouter.post(
-  "/update-aboutFeatured",
+  "/update-aboutFeature",
   upload.fields([
     { name: "image1", maxCount: 1 },
     { name: "image2", maxCount: 1 },
