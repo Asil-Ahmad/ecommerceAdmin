@@ -1,6 +1,5 @@
 import express from "express";
 import upload from "../../middleware/multer.js";
-import { v2 as cloudinary } from "cloudinary";
 import {
   createAboutPageFeature,
   getAboutPageFeature,
@@ -11,14 +10,22 @@ const aboutPageFeatureRouter = express.Router();
 
 aboutPageFeatureRouter.post(
   "/add-aboutFeatured",
-  upload.fields([{ name: "image1" }, { name: "image2" }]),
+  upload.fields([
+    { name: "image1", maxCount: 1 },
+    { name: "image2", maxCount: 1 },
+  ]),
   createAboutPageFeature
 );
+
 aboutPageFeatureRouter.put(
-  "/update-aboutFeatured",
-  upload.fields([{ name: "image1" }, { name: "image2" }]),
+  "/update-aboutFeatured/:id",
+  upload.fields([
+    { name: "image1", maxCount: 1 },
+    { name: "image2", maxCount: 1 },
+  ]),
   updateAboutPageFeature
 );
+
 aboutPageFeatureRouter.get("/get-aboutFeature", getAboutPageFeature);
 
 export default aboutPageFeatureRouter;

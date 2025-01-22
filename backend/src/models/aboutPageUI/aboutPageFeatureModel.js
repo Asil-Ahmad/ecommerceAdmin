@@ -1,15 +1,20 @@
 import mongoose from "mongoose";
 
 const aboutPageFeatureSchema = new mongoose.Schema({
-  title1: { type: String, required: true },
-  title2: { type: String, required: true },
-  title2para: { type: String, required: true },
-  image1: { type: String, required: true },
-  image2: { type: String, required: true },
-  content: {
-    paraTitle: [{ type: String, required: true }],
-    paraContent: [{ type: String, required: true }],
-  },
+  text1: { type: String, required: true },
+  text2: { type: String, required: true },
+  paraTitle1: { type: String, required: true },
+  paraTitle2: { type: String, required: true },
+  paraTitle3: { type: String, required: true },
+  paraTitle4: { type: String, required: true },
+  paraContent1: { type: String, required: true },
+  paraContent2: { type: String, required: true },
+  paraContent3: { type: String, required: true },
+  paraContent4: { type: String, required: true },
+  text2Content: { type: String, required: true },
+
+   image1: { type: String, required: true, default: "" },
+   image2: { type: String, required: true, default: "" },
 });
 
 const aboutPageFeatureModel =

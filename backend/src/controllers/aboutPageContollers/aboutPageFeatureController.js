@@ -4,24 +4,46 @@ import aboutPageFeatureModel from "../../models/aboutPageUI/aboutPageFeatureMode
 
 // Create a new about page feature
 export const createAboutPageFeature = async (req, res) => {
+  const {
+    text1,
+    text2,
+    paraTitle1,
+    paraTitle2,
+    paraTitle3,
+    paraTitle4,
+    paraContent1,
+    paraContent2,
+    paraContent3,
+    paraContent4,
+    text2Content,
+  } = req.body;
+  const imageFile1 = req.files?.image1?.[0];
+  const imageFile2 = req.files?.image2?.[0];
+
+  if (
+    !text1 ||
+    !text2 ||
+    !paraTitle1 ||
+    !paraTitle2 ||
+    !paraTitle3 ||
+    !paraTitle4 ||
+    !paraContent1 ||
+    !paraContent2 ||
+    !paraContent3 ||
+    !paraContent4 ||
+    !text2Content
+  ) {
+    return res.status(400).json({ message: "Missing credentials" });
+  }
   try {
-    const { title1, title2, title2para, content } = req.body;
-
-    if (!title1 || !title2 || !title2para || !content) {
-      return res.status(400).json({ message: "Missing credentials" });
-    }
-
-    const imageFile1 = req.files?.image1;
-    const imageFile2 = req.files?.image2;
-
     let image1Url = "";
     let image2Url = "";
 
     if (imageFile1) {
-      const imageUpload1 = await cloudinary.uploader.upload(imageFile1.path, {
+      const imageUpload = await cloudinary.uploader.upload(imageFile1.path, {
         resource_type: "image",
       });
-      image1Url = imageUpload1.secure_url;
+      image1Url = imageUpload.secure_url;
     }
 
     if (imageFile2) {
@@ -32,21 +54,27 @@ export const createAboutPageFeature = async (req, res) => {
     }
 
     const newFeature = new aboutPageFeatureModel({
-      title1,
-      title2,
-      title2para,
+      text1,
+      text2,
+      paraTitle1,
+      paraTitle2,
+      paraTitle3,
+      paraTitle4,
+      paraContent1,
+      paraContent2,
+      paraContent3,
+      paraContent4,
+      text2Content,
       image1: image1Url,
       image2: image2Url,
-      content,
     });
-
-    // console.log(newFeature);
+    console.log(newFeature);
 
     await newFeature.save();
     res.status(201).json(newFeature);
   } catch (error) {
     console.log(error);
-    
+
     res.status(500).json({ message: error.message });
   }
 };
@@ -55,7 +83,23 @@ export const createAboutPageFeature = async (req, res) => {
 export const updateAboutPageFeature = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title1, title2, title2para, content } = req.body;
+    const {
+      title1,
+      title2,
+      title2para,
+      content,
+      text1,
+      text2,
+      paraTitle1,
+      paraTitle2,
+      paraTitle3,
+      paraTitle4,
+      paraContent1,
+      paraContent2,
+      paraContent3,
+      paraContent4,
+      text2Content,
+    } = req.body;
 
     const featureExist = await aboutPageFeatureModel.findById(id);
     if (!featureExist) {
@@ -91,6 +135,17 @@ export const updateAboutPageFeature = async (req, res) => {
         image1: image1Url,
         image2: image2Url,
         content: content || featureExist.content,
+        text1: text1 || featureExist.text1,
+        text2: text2 || featureExist.text2,
+        paraTitle1: paraTitle1 || featureExist.paraTitle1,
+        paraTitle2: paraTitle2 || featureExist.paraTitle2,
+        paraTitle3: paraTitle3 || featureExist.paraTitle3,
+        paraTitle4: paraTitle4 || featureExist.paraTitle4,
+        paraContent1: paraContent1 || featureExist.paraContent1,
+        paraContent2: paraContent2 || featureExist.paraContent2,
+        paraContent3: paraContent3 || featureExist.paraContent3,
+        paraContent4: paraContent4 || featureExist.paraContent4,
+        text2Content: text2Content || featureExist.text2Content,
       },
       { new: true }
     );
