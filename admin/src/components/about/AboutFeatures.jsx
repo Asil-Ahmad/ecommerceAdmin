@@ -60,7 +60,7 @@ const AboutFeatures = () => {
       );
 
       console.log("About Data Updated", response.data);
-
+      toast.success("About Features Updated");
       fetchAboutFeature();
     } catch (error) {
       console.log("Error updating About data", error);
@@ -76,7 +76,11 @@ const AboutFeatures = () => {
         {/* todo Section #1 */}
         <div className='flex items-start gap-10   '>
           <div className='w-1/2'>
-            <img src={data?.image1} alt='' />
+            <img  src={
+                typeof data.image1 === "string"
+                  ? data.image1
+                  : URL.createObjectURL(data.image1)
+              } alt='' />
           </div>
 
           <div className='py-10'>
@@ -116,7 +120,11 @@ const AboutFeatures = () => {
         {/* todo Section #2 */}
         <div className='flex items-center justify-between '>
           <div className='w-[45.35%]'>
-            <img src={data?.image2} alt='' className='' />
+            <img src={
+                typeof data.image2 === "string"
+                  ? data.image2
+                  : URL.createObjectURL(data.image2)
+              } alt='' className='' />
           </div>
 
           <div className='w-[51%] flex flex-col gap-6'>
@@ -125,7 +133,7 @@ const AboutFeatures = () => {
           </div>
         </div>
 
-        <Card className='container mx-auto p-8 ' >
+        <Card className='container mx-auto p-8 '>
           <CardBody className='p-6'>
             <Typography variant='h2' className='text-2xl font-bold mb-6'>
               Edit About Features Section
