@@ -82,12 +82,8 @@ export const createAboutPageFeature = async (req, res) => {
 // Update an existing about page feature
 export const updateAboutPageFeature = async (req, res) => {
   try {
-    const { id } = req.params;
     const {
-      title1,
-      title2,
-      title2para,
-      content,
+      id,
       text1,
       text2,
       paraTitle1,
@@ -106,8 +102,8 @@ export const updateAboutPageFeature = async (req, res) => {
       return res.status(404).json({ message: "Feature not found" });
     }
 
-    const imageFile1 = req.files?.image1;
-    const imageFile2 = req.files?.image2;
+    const imageFile1 = req.files?.image1?.[0];
+    const imageFile2 = req.files?.image2?.[0];
 
     let image1Url = featureExist.image1;
     let image2Url = featureExist.image2;
@@ -129,12 +125,8 @@ export const updateAboutPageFeature = async (req, res) => {
     const updatedFeature = await aboutPageFeatureModel.findByIdAndUpdate(
       id,
       {
-        title1: title1 || featureExist.title1,
-        title2: title2 || featureExist.title2,
-        title2para: title2para || featureExist.title2para,
         image1: image1Url,
         image2: image2Url,
-        content: content || featureExist.content,
         text1: text1 || featureExist.text1,
         text2: text2 || featureExist.text2,
         paraTitle1: paraTitle1 || featureExist.paraTitle1,
@@ -153,6 +145,7 @@ export const updateAboutPageFeature = async (req, res) => {
     res.status(200).json(updatedFeature);
   } catch (error) {
     res.status(500).json({ message: error.message });
+    console.log(error);
   }
 };
 

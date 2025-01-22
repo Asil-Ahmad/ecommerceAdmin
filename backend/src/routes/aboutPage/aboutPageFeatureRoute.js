@@ -17,8 +17,8 @@ aboutPageFeatureRouter.post(
   createAboutPageFeature
 );
 
-aboutPageFeatureRouter.put(
-  "/update-aboutFeatured/:id",
+aboutPageFeatureRouter.post(
+  "/update-aboutFeatured",
   upload.fields([
     { name: "image1", maxCount: 1 },
     { name: "image2", maxCount: 1 },
