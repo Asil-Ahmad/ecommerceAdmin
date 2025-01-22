@@ -25,7 +25,7 @@ const AboutHero = () => {
     try {
       const response = await axios.get("http://localhost:4000/api/aboutPage/get-aboutPage");
       const { aboutPage } = response.data;
-      console.log("About Data", aboutPage);
+      // console.log("About Data", aboutPage);
       setAboutData(aboutPage);
     } catch (error) {
       console.log("Error fetching About data", error);
@@ -173,8 +173,7 @@ const AboutHero = () => {
                 type='color'
                 value={aboutData.paraColor || ""}
                 onChange={(e) => {
-                  setAboutData({ ...aboutData, paraColor: e.target.value }),
-                    console.log(e.target.value);
+                  setAboutData({ ...aboutData, paraColor: e.target.value });
                 }}
               />
               <Input
@@ -216,7 +215,7 @@ const AboutHero = () => {
                 onChange={(e) => setAboutData({ ...aboutData, image: e.target.files[0] })}
               />
             </div>
-            <small className="text-red-600">Note* Your Image must be a 500x400</small>
+            <small className='text-red-600'>Note* Your Image must be a 500x400</small>
             <Button type='button' className='w-full' onClick={() => updateAboutData(aboutData._id)}>
               Save Changes
             </Button>
