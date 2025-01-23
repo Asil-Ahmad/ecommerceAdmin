@@ -76,11 +76,11 @@ const AboutFeatures = () => {
         {/* todo Section #1 */}
         <div className='flex items-start gap-10   '>
           <div className='w-1/2'>
-            <img  src={
-                typeof data.image1 === "string"
-                  ? data.image1
-                  : URL.createObjectURL(data.image1)
-              } alt='' />
+            <img
+              src={typeof data.image1 === "string" ? data.image1 : URL.createObjectURL(data.image1)}
+              alt=''
+              className='w-[572px] h-[500px] object-cover'
+            />
           </div>
 
           <div className='py-10'>
@@ -120,11 +120,11 @@ const AboutFeatures = () => {
         {/* todo Section #2 */}
         <div className='flex items-center justify-between '>
           <div className='w-[45.35%]'>
-            <img src={
-                typeof data.image2 === "string"
-                  ? data.image2
-                  : URL.createObjectURL(data.image2)
-              } alt='' className='' />
+            <img
+              src={typeof data.image2 === "string" ? data.image2 : URL.createObjectURL(data.image2)}
+              alt=''
+              className='w-[572px] h-[500px] object-cover'
+            />
           </div>
 
           <div className='w-[51%] flex flex-col gap-6'>
@@ -211,56 +211,58 @@ const AboutFeatures = () => {
                 />
               </div>
 
-              <div className='max-w-40 border-dashed border-2 border-gray-400 p-4 rounded-md'>
-                <label htmlFor='image1' className='flex flex-col gap-3'>
-                  <div className='flex gap-4'>
-                    {data.image1 && (
-                      <img
-                        src={
-                          typeof data.image1 === "string"
-                            ? data.image1
-                            : URL.createObjectURL(data.image1)
-                        }
-                        alt='Image 1'
-                        className='w-[150px] h-[70px] object-contain'
-                      />
-                    )}
-                  </div>
-                </label>
-                <input
-                  type='file'
-                  label='Image 1'
-                  id='image1'
-                  accept='image/*'
-                  hidden
-                  onChange={(e) => setData({ ...data, image1: e.target.files[0] })}
-                />
-              </div>
+              <div className="flex gap-5">
+                <div className='max-w-40 border-dashed border-2 border-gray-400 p-4 rounded-md'>
+                  <label htmlFor='image1' className='flex flex-col gap-3'>
+                    <div className='flex gap-4'>
+                      {data.image1 && (
+                        <img
+                          src={
+                            typeof data.image1 === "string"
+                              ? data.image1
+                              : URL.createObjectURL(data.image1)
+                          }
+                          alt='Image 1'
+                          className='w-[150px] h-[70px] object-contain'
+                        />
+                      )}
+                    </div>
+                  </label>
+                  <input
+                    type='file'
+                    label='Image 1'
+                    id='image1'
+                    accept='image/*'
+                    hidden
+                    onChange={(e) => setData({ ...data, image1: e.target.files[0] })}
+                  />
+                </div>
 
-              <div className='max-w-40 border-dashed border-2 border-gray-400 p-4 rounded-md'>
-                <label htmlFor='image2' className='flex flex-col gap-3'>
-                  <div className='flex gap-4'>
-                    {data.image2 && (
-                      <img
-                        src={
-                          typeof data.image2 === "string"
-                            ? data.image2
-                            : URL.createObjectURL(data.image2)
-                        }
-                        alt='Image 2'
-                        className='w-[150px] h-[70px] object-contain'
-                      />
-                    )}
-                  </div>
-                </label>
-                <input
-                  type='file'
-                  label='Image 2'
-                  id='image2'
-                  accept='image/*'
-                  hidden
-                  onChange={(e) => setData({ ...data, image2: e.target.files[0] })}
-                />
+                <div className='max-w-40 border-dashed border-2 border-gray-400 p-4 rounded-md'>
+                  <label htmlFor='image2' className='flex flex-col gap-3'>
+                    <div className='flex gap-4'>
+                      {data.image2 && (
+                        <img
+                          src={
+                            typeof data.image2 === "string"
+                              ? data.image2
+                              : URL.createObjectURL(data.image2)
+                          }
+                          alt='Image 2'
+                          className='w-[150px] h-[70px] object-contain'
+                        />
+                      )}
+                    </div>
+                  </label>
+                  <input
+                    type='file'
+                    label='Image 2'
+                    id='image2'
+                    accept='image/*'
+                    hidden
+                    onChange={(e) => setData({ ...data, image2: e.target.files[0] })}
+                  />
+                </div>
               </div>
 
               <Button type='button' className='w-full' onClick={() => updateAboutFeature(data._id)}>

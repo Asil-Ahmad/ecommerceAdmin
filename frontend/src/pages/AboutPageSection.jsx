@@ -14,7 +14,7 @@ const AboutPageSection = () => {
       {/* top section */}
       <div className='flex items-start gap-10'>
         <div className='w-1/2'>
-          <img src={data?.image1} alt='' />
+          <img src={data?.image1} alt='' className="w-[572px] h-[500px] object-cover" />
         </div>
 
         <div className='py-10'>
@@ -54,7 +54,7 @@ const AboutPageSection = () => {
       {/* bottom section */}
       <div className='flex items-center justify-between '>
         <div className='w-[45.35%]'>
-          <img src={data?.image2} alt='' className='' />
+          <img src={data?.image2} alt='' className="w-[572px] h-[500px] object-cover" />
         </div>
 
         <div className='w-[51%] flex flex-col gap-6'>
