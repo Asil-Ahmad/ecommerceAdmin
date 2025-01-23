@@ -71,8 +71,8 @@ const AboutFeatures = () => {
     fetchAboutFeature();
   }, []);
   return (
-    <section className='container py-20 scale-95'>
-      <div>
+    <section className='container scale-95'>
+      <div >
         {/* todo Section #1 */}
         <div className='flex items-center gap-10   '>
           <div className='w-1/2'>
