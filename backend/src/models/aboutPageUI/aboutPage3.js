@@ -12,6 +12,7 @@ const aboutPage3Schema = new mongoose.Schema({
   image: { type: String, required: true, default: "" },
   num1: { type: Number, required: true },
   num2: { type: Number, required: true },
+  bgColor: { type: String, required: true },
 });
 
 const aboutPage3Model = mongoose.models.aboutPage3 || mongoose.model("aboutPage3", aboutPage3Schema);

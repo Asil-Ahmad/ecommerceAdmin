@@ -2,10 +2,10 @@ import { v2 as cloudinary } from "cloudinary";
 import upload from "../../middleware/multer.js";
 import aboutPage3Model from "../../models/aboutPageUI/aboutPage3Model.js";
 
-export const addAboutPage = async (req, res) => {
-    const { text1, text1Color, text2, text2Color, para1, para1Color, para2, para2Color, num1, num2 } = req.body;
+export const addAboutPage3 = async (req, res) => {
+    const { text1, text1Color, text2, text2Color, para1, para1Color, para2, para2Color, num1, num2, bgColor } = req.body;
 
-    if (!text1 || !text1Color || !text2 || !text2Color || !para1 || !para1Color || !para2 || !para2Color || !num1 || !num2) {
+    if (!text1 || !text1Color || !text2 || !text2Color || !para1 || !para1Color || !para2 || !para2Color || !num1 || !num2 || !bgColor) {
         return res.status(400).json({ success: false, message: "Missing credentials" });
     }
     try {
@@ -24,6 +24,7 @@ export const addAboutPage = async (req, res) => {
             para2Color,
             num1,
             num2,
+            bgColor,
             image: imageUpload.secure_url,
         };
         const aboutPage = new aboutPage3Model(aboutPageData);
@@ -35,7 +36,7 @@ export const addAboutPage = async (req, res) => {
     }
 };
 
-export const getAboutPage = async (req, res) => {
+export const getAboutPage3 = async (req, res) => {
     try {
         const aboutPage = await aboutPage3Model.findOne();
         res.status(200).json({ success: true, aboutPage });
@@ -44,9 +45,9 @@ export const getAboutPage = async (req, res) => {
     }
 };
 
-export const updateAboutPage = async (req, res) => {
+export const updateAboutPage3 = async (req, res) => {
     try {
-        const { id, text1, text1Color, text2, text2Color, para1, para1Color, para2, para2Color, num1, num2 } = req.body;
+        const { id, text1, text1Color, text2, text2Color, para1, para1Color, para2, para2Color, num1, num2, bgColor } = req.body;
 
         if (!id) {
             return res.status(400).json({ success: false, message: "About page ID is required!" });
@@ -78,6 +79,7 @@ export const updateAboutPage = async (req, res) => {
             para2Color: para2Color || aboutPageExist.para2Color,
             num1: num1 || aboutPageExist.num1,
             num2: num2 || aboutPageExist.num2,
+            bgColor: bgColor || aboutPageExist.bgColor,
             image: imageUrl,
         };
 
