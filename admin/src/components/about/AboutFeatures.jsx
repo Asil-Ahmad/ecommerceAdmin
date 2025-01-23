@@ -74,7 +74,7 @@ const AboutFeatures = () => {
     <section className='container py-20 scale-95'>
       <div>
         {/* todo Section #1 */}
-        <div className='flex items-start gap-10   '>
+        <div className='flex items-center gap-10   '>
           <div className='w-1/2'>
             <img
               src={typeof data.image1 === "string" ? data.image1 : URL.createObjectURL(data.image1)}
@@ -83,7 +83,7 @@ const AboutFeatures = () => {
             />
           </div>
 
-          <div className='py-10'>
+          <div className='py-10 w-1/2'>
             <h1 className='text-[38px] leading-[48px]'>{data?.text1}</h1>
             <div className='flex flex-col gap-5 py-5 font-poppins'>
               <div>
@@ -211,7 +211,7 @@ const AboutFeatures = () => {
                 />
               </div>
 
-              <div className="flex gap-5">
+              <div className='flex gap-5'>
                 <div className='max-w-40 border-dashed border-2 border-gray-400 p-4 rounded-md'>
                   <label htmlFor='image1' className='flex flex-col gap-3'>
                     <div className='flex gap-4'>
