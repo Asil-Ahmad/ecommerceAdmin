@@ -1,25 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const AboutPage3 = () => {
   const [aboutData, setAboutData] = useState({
+    bgColor: "",
+    image: "",
+    num1: "",
+    num2: "",
+    para1: "",
+    para1Color: "",
+    para2: "",
+    para2Color: "",
     text1: "",
     text1Color: "",
     text2: "",
     text2Color: "",
-    para: "",
-    paraColor: "",
-    buttonText: "",
-    buttonTextColor: "",
-    bgColor: "",
-    image: "",
   });
   const [loading, setLoading] = useState(false);
 
   const fetchAboutData = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/api/aboutPage/get-aboutPage");
+      const response = await axios.get("http://localhost:4000/api/aboutPage3/get-aboutPage3");
       const { aboutPage } = response.data;
-      // console.log("About Data", aboutPage);
+      console.log("About Data 3", aboutPage);
       setAboutData(aboutPage);
     } catch (error) {
       console.log("Error fetching About data", error);

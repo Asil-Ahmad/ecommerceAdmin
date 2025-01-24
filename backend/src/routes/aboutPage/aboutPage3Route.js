@@ -7,7 +7,7 @@ import { addAboutPage3, getAboutPage3, updateAboutPage3 } from "../../controller
 const aboutPage3Router = Router();
 
 aboutPage3Router.post("/add-aboutPage3", upload.single("image"), addAboutPage3);
-aboutPage3Router.get("/", getAboutPage3);
+aboutPage3Router.get("/get-aboutPage3", getAboutPage3);
 aboutPage3Router.post("/update", upload.single("image"), updateAboutPage3);
 
 export default aboutPage3Router;
