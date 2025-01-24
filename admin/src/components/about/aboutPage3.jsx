@@ -1,5 +1,5 @@
 import React from "react";
-import { aboutPage3, companies, happyclients } from "../assets/homepage";
+
 
 const AboutPage3 = () => {
   return (
@@ -29,7 +29,7 @@ const AboutPage3 = () => {
           <div className='mt-10 flex justify-between'>
             {/* left num */}
             <div className='flex items-center gap-5'>
-              <img src={companies} alt='' className='w-12' />
+              <img src="" alt='' className='w-12' />
               <div className='flex flex-col items-center'>
                 <h1 className='text-5xl font-bold'>100%</h1>
                 <p>Inventory Accuracy</p>
@@ -37,7 +37,7 @@ const AboutPage3 = () => {
             </div>
             {/* right num */}
             <div className='flex items-center gap-5'>
-              <img src={happyclients} alt='' className='w-12' />
+              <img src="" alt='' className='w-12' />
               <div className='flex flex-col items-center'>
                 <h1 className='text-5xl font-bold'>100%</h1>
                 <p className='text-lg  tracking-wider'>Inventory Accuracy</p>
@@ -47,7 +47,7 @@ const AboutPage3 = () => {
         </div>
         {/* todo right section */}
         <div className='w-1/2'>
-          <img src={aboutPage3} alt='aboutPage3' />
+          <img src="" alt='aboutPage3' />
         </div>
       </div>
     </section>
