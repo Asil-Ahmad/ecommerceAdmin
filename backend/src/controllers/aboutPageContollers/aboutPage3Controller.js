@@ -13,12 +13,8 @@ export const addAboutPage3 = async (req, res) => {
     para2,
     para2Color,
     num1,
-    num1Text,
     num2,
-    num2Text,
     bgColor,
-    thumbnail1,
-    thumbnail2,
   } = req.body;
 
   if (
@@ -31,18 +27,13 @@ export const addAboutPage3 = async (req, res) => {
     !para2 ||
     !para2Color ||
     !num1 ||
-    !num1Text ||
     !num2 ||
-    !num2Text ||
     !bgColor
   ) {
     return res.status(400).json({ success: false, message: "Missing credentials" });
   }
   try {
-    const image = req.files.image1 && req.files.image1[0];
-    const thumbnail1 = req.files.thumbnail1 && req.files.image2[0];
-    const thumbnail = req.files.thumbnail2 && req.files.image3[0];
-    const image4 = req.files.image1 && req.files.image4[0];
+    const imageFile = req.file;
     const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
       resource_type: "image",
     });

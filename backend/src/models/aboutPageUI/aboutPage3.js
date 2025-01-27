@@ -11,11 +11,11 @@ const aboutPage3Schema = new mongoose.Schema({
   para2Color: { type: String, required: true },
   image: { type: String, required: true, default: "" },
   num1: { type: Number, required: true },
-  num1Text: { type: String, required: true },
+  // num1Text: { type: String, required: true },
   num2: { type: Number, required: true },
-  num2Text: { type: String, required: true },
-  thumnail1: { type: String, required: true },
-  thumnail2: { type: String, required: true },
+  // num2Text: { type: String, required: true },
+  // thumnail1: { type: String, required: true },
+  // thumnail2: { type: String, required: true },
   bgColor: { type: String, required: true },
 });
 
