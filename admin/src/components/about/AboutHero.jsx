@@ -60,11 +60,12 @@ const AboutHero = () => {
           },
         }
       );
-
+      toast.success("About data updated successfully");
       console.log("About Data Updated", response.data);
 
       fetchAboutData();
     } catch (error) {
+      toast.error("Error updating About data");
       console.error("Error updating About data", error);
     } finally {
       setLoading(false);
@@ -89,7 +90,7 @@ const AboutHero = () => {
       >
         <div className='container mx-auto pt-10 px-10 flex justify-between gap-10 items-center'>
           <div className='flex flex-col w-1/2 items-start gap-7'>
-            <h1 className='text-[38px] leading-[48px]'>
+            <h1 className='text-[34px] leading-[48px]'>
               <span style={{ color: aboutData.text1Color }}>{aboutData.text1}</span>
 
               <span style={{ color: aboutData.text2Color }}>{aboutData.text2}</span>
